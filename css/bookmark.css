@@ -19,4 +19,12 @@ margin-top:100px;margin-bottom:100px; }
 
 .grid #bookmarks ul ul ul >li:hover{background:#ddd; }
 
-.grid.zoom4 #bookmarks ul ul ul >li{width:25%;}
+body.grid.zoom2 #bookmarks ul ul ul >li{width:50%;}
+body.grid.zoom3 #bookmarks ul ul ul >li{width:33%;}
+body.grid.zoom4 #bookmarks ul ul ul >li{width:25%;}
+body.grid.zoom5 #bookmarks ul ul ul >li{width:20%;}
+body.grid.zoom6 #bookmarks ul ul ul >li{width:16.6%;}
+body.grid.zoom7 #bookmarks ul ul ul >li{width:24%;}
+body.grid.zoom8 #bookmarks ul ul ul >li{width:12.5%;}
+body.grid.zoom9 #bookmarks ul ul ul >li{width:11.1%;}
+body.grid.zoom10 #bookmarks ul ul ul >li{width:10%;}

@@ -41,7 +41,7 @@ function wireShits(){
 		var val = $(this).val();
 		console.log('zoom now set to:'+val);
 		var className = 'zoom' + val;
-		$('body').removeClass('zoom1 zoom2 zoom3 zoom4 zoom5 zoom6 zoom7')
+		$('body').removeClass('zoom1 zoom2 zoom3 zoom4 zoom5 zoom6 zoom7 zoom8 zoom9 zoom10 zoom11 zoom12')
 		$('body').addClass(className);
 		sammy.cookie.set('zoom_level', val); //TODO: use native or jqeury cookie??
 	});
