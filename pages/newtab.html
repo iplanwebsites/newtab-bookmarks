@@ -1,11 +1,12 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" media="all" href="../css/bootstrap.css">  
-<link rel="stylesheet" type="text/css" media="all" href="../css/bookmarks.css">  
+<link rel="stylesheet" type="text/css" media="all" href="../css/bookmark.css">  
 
 <script src="../lib/underscore.js"></script>
 <script src="../lib/jquery-1.8.2.min.js"></script>
 <script src="../lib/bootstrap.min.js"></script>
+<script src="../app/utils.js"></script>
 <script src="../app/app.js"></script>
 
 </head>
@@ -26,14 +27,49 @@
   </div>
   
   
+
   
 <div>
   
+   
 </div>
 <div id="bookmarks"></div>
 <div id="editdialog"></div>
 <div id="deletedialog"></div>
 <div id="adddialog"></div>
+
+
+<div class="navbar navbar-fixed-bottom">
+  <div class="navbar-inner">
+    <!-- 
+    <a class="brand" href="#">Bookmarks</a>
+    <input id="search" placeholder="Search Bookmarks">-->
+    
+    
+    
+    <img class="star" src="../img/black/28-star@2x.png" />
+    <ul class="nav pull-right">
+     
+      <li>
+      <div class="btn-group viewmode" data-toggle="buttons-radio">
+        <button type="button" class="btn active"><i class="icon-th-list"></i>List</button>
+        <button type="button" class="btn"><i class="icon-th-large"></i>Grid</button>
+      </div>
+      </li>
+      <!-- 
+      <li class="active"><a href="#">Popular</a></li>
+      <li><a href="#">Favourites</a></li>
+      <li><a href="#">Recent</a></li>-->
+       <li><input type="range"  min="2" max="10" id="zoom_level" value="4" /></li>
+       
+    </ul>
+  </div>
+</div>
+
+
+
+
+
 </body>
 </html>
 

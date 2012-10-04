@@ -7,13 +7,50 @@
 var bkg = chrome.extension.getBackgroundPage();
 //log = bkg.console.log;
 
-
 $(function() {
+  initView();
+  wireShits();
+  
+});
+
+
+function initView(){
+  //var zoom = sammy.cookie.get('zoom_level'); //TODO: use alternative cookie setter/getter
+  var zoom= "3";
+	if(zoom != undefined){
+		$('#zoom_level').val(zoom);
+		$('body').addClass('zoom'+zoom);
+	}
+}
+
+function wireShits(){
+  
+  //wire .viewmode buttons
+  $('.viewmode .btn').click(function(ev){
+    $('body').toggleClass('grid'); //TODO: refactor properly
+  })
+  
+  //wire search
   $('#search').change(function() {
      $('#bookmarks').empty();
      dumpBookmarks($('#search').val());
   });
-});
+  
+  //wire zoom slider
+  $('#zoom_level').change(function(){
+		var val = $(this).val();
+		console.log('zoom now set to:'+val);
+		var className = 'zoom' + val;
+		$('body').removeClass('zoom1 zoom2 zoom3 zoom4 zoom5 zoom6 zoom7')
+		$('body').addClass(className);
+		sammy.cookie.set('zoom_level', val); //TODO: use native or jqeury cookie??
+	});
+  
+}
+
+
+
+
 // Traverse the bookmark tree, and print the folder and nodes.
 function dumpBookmarks(query) {
   var bookmarkTreeNodes = chrome.bookmarks.getTree(
