@@ -1,27 +1,12 @@
-
-
 <html>
 <head>
-
 <link rel="stylesheet" type="text/css" media="all" href="../css/bootstrap.css">  
 <link rel="stylesheet" type="text/css" media="all" href="../css/bookmarks.css">  
-<style>
-div, td, th { color: black; }
-body{background:  url('../img/brillant.png');
-margin-top:100px; }
-
-.star{height:30px; margin-top:5px; float:right; margin-right:30px;}
-.navbar a.brand{margin-left:30px; /*font-weight:bold; color:#ccc; font-size:30px;*/}
-#search{margin-top:7px; opacity:0.3; width:150px; -webkit-transition:all 0.2s; }
-#search:hover{opacity:0.5; }
-#search:focus{opacity:1; width:200px; }
-</style>
 
 <script src="../lib/underscore.js"></script>
-
 <script src="../lib/jquery-1.8.2.min.js"></script>
 <script src="../lib/bootstrap.min.js"></script>
-<script src="../app/popup.js"></script>
+<script src="../app/app.js"></script>
 
 </head>
 <body >
@@ -29,20 +14,14 @@ margin-top:100px; }
   
   <div class="navbar  navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
-      
       <a class="brand" href="#">Bookmarks</a>
-      
       <input id="search" placeholder="Search Bookmarks">
-     
-      
       <img class="star" src="../img/white/28-star@2x.png" />
       <ul class="nav pull-right">
         <li class="active"><a href="#">Popular</a></li>
         <li><a href="#">Favourites</a></li>
         <li><a href="#">Recent</a></li>
-        
       </ul>
-      
     </div>
   </div>
   

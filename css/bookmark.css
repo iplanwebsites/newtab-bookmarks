@@ -1,0 +1,9 @@
+div, td, th { color: black; }
+body{background:  url('../img/brillant.png');
+margin-top:100px; }
+
+.star{height:30px; margin-top:5px; float:right; margin-right:30px;}
+.navbar a.brand{margin-left:30px; /*font-weight:bold; color:#ccc; font-size:30px;*/}
+#search{margin-top:7px; opacity:0.3; width:150px; -webkit-transition:all 0.2s; }
+#search:hover{opacity:0.5; }
+#search:focus{opacity:1; width:200px; }
