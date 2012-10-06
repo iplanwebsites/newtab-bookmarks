@@ -12,9 +12,9 @@
 <script src="../lib/domparser.js"></script>
 <script src="../lib/jquery-1.8.2.min.js"></script>
 <script src="../lib/backbone.min.js"></script>
-<!-- 
-<script src="../lib/backbone.localStorage.js"></script>-->
-<script src="../lib/backbone-websql.js"></script>
+
+<script src="../lib/backbone.localStorage.js"></script>
+<!-- <script src="../lib/backbone-websql.js"></script>-->
 <script src="../lib/bootstrap.min.js"></script>
 <script src="../lib/quantize.js"></script>
 <script src="../lib/color-thief.js"></script>
@@ -27,6 +27,9 @@
 </head>
 <body >
   
+  <div id="cache" class="hide">
+    
+  </div>
   
   <div class="navbar  navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
@@ -76,7 +79,16 @@
     <a class="brand" href="#">Bookmarks</a>
     <input id="search" placeholder="Search Bookmarks">-->
     
+    <div class="alert alert-info html-download span5 pull-left hide">
+      Indexing bookmarks for full text search ~ <strong>count</strong>
+      <button type="button" class="close stop" >×</a>
+    </div>
     
+     <div class="alert alert-success html-download-complete span5 pull-left hide">
+        <strong>count</strong> pages indexed!
+       <button type="button" class="close" data-dismiss="alert">×</button>
+      </div>
+      
     
     <img class="star" src="../img/black/28-star@2x.png" />
     <ul class="nav pull-right">

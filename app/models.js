@@ -1,5 +1,5 @@
 
-var db = openDatabase("todos", "", "Backbone-websql example", 1024*1024);
+//var db = openDatabase("todos", "", "Backbone-websql example", 1024*1024);
 
 
 
@@ -9,7 +9,7 @@ var Bookmark = Backbone.Model.extend({
    hasHtml: false
  },
  //store: new WebSQLStore(db, "todos"),
-  //localStorage : new Backbone.LocalStorage('settingsStore'),
+  localStorage : new Backbone.LocalStorage('settingsStore3'),
   promptColor: function() {
     var cssColor = prompt("Please enter a CSS color:");
     this.set({color: cssColor});
@@ -34,7 +34,7 @@ var Bookmark = Backbone.Model.extend({
     console.log(this.get('url'));
     $.get(this.get('url'), {},
       function(data, textStatus, jqXHR){
-        that.set('html',data);
+        //that.set('html',data);
         that.set('hasHtml',true);
         var dom = new DOMParser().parseFromString(data, 'text/html');
         var body = dom.body;
@@ -59,7 +59,8 @@ var Bookmark = Backbone.Model.extend({
           console.log(keywords);*/
          // console.log(ms_end - ms_start);
         console.log(keywords.length+' keywords found for '+that.get('url'));
-        //that.save();
+        that.set('keywords',keywords);
+        that.save();
       }).error(function() { 
         console.log('error found!')
         that.set('html','');
@@ -73,8 +74,8 @@ var Bookmark = Backbone.Model.extend({
 
 var BookmarkCollection = Backbone.Collection.extend({
   model: Bookmark,
-  //localStorage : new Backbone.LocalStorage('settingsStore'),
-  store: new WebSQLStore(db, "todos"),
+  localStorage : new Backbone.LocalStorage('settingsStore3'),
+  //store: new WebSQLStore(db, "todos"),
   saveAll: function(){
     _.each(this.models, function(m){
       m.save();
@@ -88,18 +89,37 @@ var BookmarkCollection = Backbone.Collection.extend({
       var todo = that.where({hasHtml: false});
       if(todo.length >1){
         
-        var remaining = todo.length - that.length
+        var remaining = (todo.length - that.length)*-1;
+        console.log(remaining/that.length*100);
+        var pcnt = Math.floor( (remaining/that.length)*100);
+        
         console.log('('+remaining+'/'+that.length+')');
-      //  var model = todo[Math.floor(Math.random()*todo.length)]; //pick a random one...
-        var model = todo[0];
+        that.show_html_download_notice(pcnt+'% ('+remaining+'/'+that.length+')')
+       var model = todo[Math.floor(Math.random()*todo.length-1)]; //pick a random one...
+       //  var model = todo[0];
         model.downloadHTML();
       }else{
         console.log('download complete!...')
-        window.clearInterval(that.htmlInterval); // window.clearInterval(app.collection.htmlInterval) /works
+         that.stopDownload();// window.clearInterval(app.collection.htmlInterval) /works
+         that.show_html_download_complete();
       }
       /// call your function here
     }, 1000);
   },
+  stopDownload: function(){
+    window.clearInterval(this.htmlInterval); 
+    $('.html-download').hide();
+  },
+  show_html_download_notice: function(count){ //VIEW
+    $('.html-download').show();
+    $('.html-download strong').html(count);
+   },
+   show_html_download_complete: function(count){ //VIEW
+     $('.html-download-complete').show();
+     $('.html-download-complete strong').html(count || this.length);
+    },
+   
+   
   
     //////////////////////////////////////////
    //   meta data
@@ -121,16 +141,25 @@ var BookmarkCollection = Backbone.Collection.extend({
   //populate the view!!
   var html = '';
   _.each(this.domains, function(d){
-    console.log(d);
+      //console.log(d);
     if(d.value > 1){
-      html += '<li data-domain="'+d.key+'"><a>'+d.key+'('+d.value+')'+'</a></li>'
+      html += '<li data-domain="'+d.key+'"><a>'+d.key+' ('+d.value+')'+'</a></li>'
     }
   })
   $('.favourites_sites .sites').html(html);
   
-  
   return sorted;
-  
+  },
+  computeKeywords: function(){
+    
+    var models    = _.pluck(this.models, 'attributes');
+   // console.log(models);
+    //console.log(_.pluck(models, 'keywords'));
+    var keywords    = _.flatten(_.pluck(models, 'keywords'));
+    var keywords_uniq    = _.uniq(keywords);
+    console.log(keywords.length);
+    console.log(keywords_uniq.length);
+    //return keywords;
   },
   //////////////////////////////////////////
  //   CHROME IMPORTER
@@ -175,12 +204,12 @@ var BookmarkCollection = Backbone.Collection.extend({
     var urls = _.pluck(this.models, 'attributes');//returns the naked models
     _.each(urls, function(u) {
       
-      html += '<li data-id="'+u.id+'">';
+      html += '<li data-id="'+u.id+'" data-url="'+u.url+'">';
       html += '<div class="meta">';
       html += '<img src="chrome://favicon/'+ u.url +'" class="favicon" />';
       html += '<a href="'+ u.url +'">'+ u.title +'</a>';
       html +=' ~ <em class="domain">'+u.domain + '</em>';
-      html += '</div">';
+      html += '</div>';
        html += '<img src="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" />'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
       
       html +='</li>';
@@ -191,17 +220,20 @@ var BookmarkCollection = Backbone.Collection.extend({
     })
     
   },
-  setBgColors: function(){
+  setBgColors: function(){ //get or analyse the dominant color of this favion img...
     var that = this;
     $('img.favicon').each(function(me){
-      var color = getDominantColor($(this)) 
-      //console.log('color', color);
-      
-      $(this).parent().parent().css('background-color', "rgb("+color[0]+"," + color[1] + "," + color[2] + ")");
-      
       var model = app.collection.get( $(this).parent().parent().attr('data-id') );
-      model.set('dominantColor',color);
-      //TODO: save color into the model...
+      if(model.get('dominantColor')){
+        var color = model.get('dominantColor'); //get saved color.
+       // console.log('cached color...', color);
+      }else{
+        console.log('COMPUTE COLOR2');
+         var color = getDominantColor($(this));
+         model.set('dominantColor',color);/// save color into the model...
+         model.save();
+      }
+      $(this).parent().parent().css('background-color', "rgb("+color[0]+"," + color[1] + "," + color[2] + ")");
     })
   }
   

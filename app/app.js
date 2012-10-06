@@ -7,7 +7,7 @@ var log = console.log;
 var bkg = chrome.extension.getBackgroundPage();
 var app = {};
 app.collection = new BookmarkCollection();
-
+var c = app.collection;
 /*
 Backbone.sync = function Sync() {
     Backbone.ajaxSync.apply(this, arguments);
@@ -18,28 +18,62 @@ Backbone.sync = function Sync() {
 //log = bkg.console.log;
 
 $(function() {
-  initData();
+  initData(function(){
+    initView();
+    wireShits();
+    
+    _.delay(function(){
+      app.collection.scheduleHtmlDownload(); //will start fetching HTML content, and indexing it...
+    },10000)
+    
+  });
 
-  initView();
-  wireShits();
+  
   
   
 });
 
-function initData(){
-  app.collection.importChromeBookmarks();
+function initData(cb){
+  app.collection.fetch({
+    success:function(collection, response){
+      if(collection.length < 1){
+        console.log('Empty local Collection, fetch Chrome books: ',response);
+        app.collection.importChromeBookmarks();
+        cb();
+      }else{
+        console.log('Loading bookmarkss from Localstorage cache: '+ collection.length);
+        app.collection.render();
+        cb();
+      }
+    },
+    error:function(collection, response){
+      console.log('Error in fetching Collection: ',response);
+      app.collection.importChromeBookmarks();
+      cb();
+    }
+  });
+  
+  //app.collection.importChromeBookmarks();
   
   /*OLd*/
  // dumpBookmarks();
 }
 function initView(){
   //var zoom = sammy.cookie.get('zoom_level'); //TODO: use alternative cookie setter/getter
-  var zoom= "6";
+  var zoom= "4";
 	if(zoom != undefined){
 		$('#zoom_level').val(zoom);
 		$('body').addClass('zoom'+zoom);
 	}
 }
+
+function getUrl(u){
+  $('#cache').show();
+  window.location=u;
+  //TODO: do NOT populate the history stack (so we dont show a back BT)
+  
+}
+
 
 function wireShits(){
   
@@ -63,6 +97,14 @@ function wireShits(){
 		$('body').addClass(className);
 		sammy.cookie.set('zoom_level', val); //TODO: use native or jqeury cookie??
 	});
+ 
+ 
+ $('.html-download .stop').click(function(ev){
+   app.collection.stopDownload();
+ })
+  $('#bookmarks li').click(function(ev){
+     getUrl($(this).attr('data-url'));
+   })
   
 }
 
