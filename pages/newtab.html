@@ -8,12 +8,18 @@
 
 <!--<script src="../lib/zepto.min.js"></script>-->
 <script src="../lib/underscore.js"></script>
+<script src="../lib/underscore.string.js"></script>
+<script src="../lib/domparser.js"></script>
 <script src="../lib/jquery-1.8.2.min.js"></script>
 <script src="../lib/backbone.min.js"></script>
 <!-- 
 <script src="../lib/backbone.localStorage.js"></script>-->
 <script src="../lib/backbone-websql.js"></script>
 <script src="../lib/bootstrap.min.js"></script>
+<script src="../lib/quantize.js"></script>
+<script src="../lib/color-thief.js"></script>
+
+
 <script src="../app/utils.js"></script>
 <script src="../app/models.js"></script>
 <script src="../app/app.js"></script>
@@ -31,6 +37,22 @@
         <li class="active"><a href="#">Popular</a></li>
         <li><a href="#">Favourites</a></li>
         <li><a href="#">Recent</a></li>
+        
+           <li>
+            <div class="btn-group favourites_sites">
+              <a class="btn dropdown-toggle dropup" data-toggle="dropdown" href="#">
+                <i class="icon-folder-close"></i>
+                Sites
+                <span class="caret"></span>
+              </a>
+              <ul class="dropdown-menu sites">
+                <!-- dropdown menu links -->
+              </ul>
+            </div>
+           </li>
+        
+        
+        
       </ul>
     </div>
   </div>
@@ -58,6 +80,8 @@
     
     <img class="star" src="../img/black/28-star@2x.png" />
     <ul class="nav pull-right">
+     
+  
      
       <li>
       <div class="btn-group viewmode" data-toggle="buttons-radio">

@@ -4,7 +4,25 @@
 ///////////////////////////////////////////////*/
 
 
+/// OBJ manipulation
 
+function sortObject(obj) {
+    var arr = [];
+    for (var prop in obj) {
+        if (obj.hasOwnProperty(prop)) {
+            arr.push({
+                'key': prop,
+                'value': obj[prop]
+            });
+        }
+    }
+    arr.sort(function(a, b) { return a.value - b.value; });
+    return arr; // returns array
+}
+
+
+
+/////// STR MANIPULATIONS
 function cleanDomain(u){
     s = u;
     s = s.replace('https://www.', '');
@@ -32,3 +50,31 @@ function getDomain(url) {
 return url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/)[2];
 }
 
+
+
+
+//////// DOM MANIPUATIONS
+
+function getTextNodesIn(node, includeWhitespaceNodes) {
+    var textNodes = [], whitespace = /^\s*$/;
+
+    function getTextNodes(node) {
+     // console.log(node.nodeName);
+        if (node.nodeType == 3) {
+            if (includeWhitespaceNodes || !whitespace.test(node.nodeValue)) {
+                  textNodes.push(node);
+            }
+        } else {
+           if((node.nodeName != '#comment') && (node.nodeName != 'SCRIPT') && (node.nodeName != 'STYLE')){ //don't parse special node's 
+              for (var i = 0, len = node.childNodes.length; i < len; ++i) {
+                getTextNodes(node.childNodes[i]);
+              }
+            }else{
+              //console.log('bad node: '+node.nodeName)
+            }
+        }
+    }
+
+    getTextNodes(node);
+    return textNodes;
+}

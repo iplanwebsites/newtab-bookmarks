@@ -14,10 +14,12 @@ margin-top:100px;margin-bottom:100px; }
 .btn i{margin-right:7px;}
 .viewmode{margin-right:20px;}
 
-
-.grid ul#bookmarks >li{float:left; height:200px; width:20%; background:#ccc; margin:3px; }
+.grid ul#bookmarks{margin:0;}
+.grid ul#bookmarks >li{float:left; position:relative; max-height:500px; width:20%; background:#ccc;  list-style:none;}
 
 .grid ul#bookmarks >li:hover{background:#ddd; }
+.grid ul#bookmarks >li img{ opacity:0.3; }
+.grid ul#bookmarks >li:hover img.thumb{opacity:1; }
 
 body.grid.zoom2 ul#bookmarks >li{width:50%;}
 body.grid.zoom3 ul#bookmarks >li{width:33%;}
@@ -28,3 +30,15 @@ body.grid.zoom7 ul#bookmarks >li{width:24%;}
 body.grid.zoom8 ul#bookmarks >li{width:12.5%;}
 body.grid.zoom9 ul#bookmarks >li{width:11.1%;}
 body.grid.zoom10 ul#bookmarks >li{width:10%;}
+
+ul#bookmarks >li img.thumb{display:none;}
+body.grid ul#bookmarks >li img.thumb{display:block;}
+
+ul#bookmarks >li .meta{display:inline;}
+
+.grid ul#bookmarks >li{position:relative; height:300px;}
+
+.grid ul#bookmarks >li .meta{display:block;  width:100%; height:60px; background:#000; color:#fff; }
+
+/**/
+

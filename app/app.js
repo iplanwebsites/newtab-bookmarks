@@ -19,6 +19,7 @@ Backbone.sync = function Sync() {
 
 $(function() {
   initData();
+
   initView();
   wireShits();
   
