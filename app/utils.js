@@ -27,3 +27,8 @@ function isUrl(s) {
 		return false;
 	}
 }
+
+function getDomain(url) {
+return url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/)[2];
+}
+

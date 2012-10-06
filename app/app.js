@@ -3,20 +3,37 @@
 // found in the LICENSE file.
 
 // Search the bookmarks when entering the search keyword.
-
+var log = console.log;
 var bkg = chrome.extension.getBackgroundPage();
+var app = {};
+app.collection = new BookmarkCollection();
+
+/*
+Backbone.sync = function Sync() {
+    Backbone.ajaxSync.apply(this, arguments);
+    return Backbone.localSync.apply(this, arguments);
+};*/
+
+
 //log = bkg.console.log;
 
 $(function() {
+  initData();
   initView();
   wireShits();
   
+  
 });
 
-
+function initData(){
+  app.collection.importChromeBookmarks();
+  
+  /*OLd*/
+ // dumpBookmarks();
+}
 function initView(){
   //var zoom = sammy.cookie.get('zoom_level'); //TODO: use alternative cookie setter/getter
-  var zoom= "3";
+  var zoom= "6";
 	if(zoom != undefined){
 		$('#zoom_level').val(zoom);
 		$('body').addClass('zoom'+zoom);
@@ -51,6 +68,7 @@ function wireShits(){
 
 
 
+/*
 // Traverse the bookmark tree, and print the folder and nodes.
 function dumpBookmarks(query) {
   var bookmarkTreeNodes = chrome.bookmarks.getTree(
@@ -83,9 +101,10 @@ function dumpNode(bookmarkNode, query) {
      * When clicking on a bookmark in the extension, a new tab is fired with
      * the bookmark url.
      */
-    anchor.click(function() {
+   /* anchor.click(function() {
       chrome.tabs.create({url: bookmarkNode.url});
-    });
+    });*/
+    /*
     var span = $('<span>');
     var options = bookmarkNode.children ?
       $('<span>[<a href="#" id="addlink">Add</a>]</span>') :
@@ -166,8 +185,8 @@ function dumpNode(bookmarkNode, query) {
     li.append(dumpTreeNodes(bookmarkNode.children, query));
   }
   return li;
-}
-
+}*/
+/*
 document.addEventListener('DOMContentLoaded', function () {
-  dumpBookmarks();
-});
+  
+});*/
