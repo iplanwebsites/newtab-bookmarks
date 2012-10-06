@@ -1,9 +1,15 @@
+
+var db = openDatabase("todos", "", "Backbone-websql example", 1024*1024);
+
+
+
 var Bookmark = Backbone.Model.extend({
  // url: '/bookmarks',
  defaults:{
    hasHtml: false
  },
-  localStorage : new Backbone.LocalStorage('settingsStore'),
+ //store: new WebSQLStore(db, "todos"),
+  //localStorage : new Backbone.LocalStorage('settingsStore'),
   promptColor: function() {
     var cssColor = prompt("Please enter a CSS color:");
     this.set({color: cssColor});
@@ -46,7 +52,8 @@ var Bookmark = Backbone.Model.extend({
 
 var BookmarkCollection = Backbone.Collection.extend({
   model: Bookmark,
-  localStorage : new Backbone.LocalStorage('settingsStore'),
+  //localStorage : new Backbone.LocalStorage('settingsStore'),
+  store: new WebSQLStore(db, "todos"),
   saveAll: function(){
     _.each(this.models, function(m){
       m.save();
@@ -107,6 +114,7 @@ var BookmarkCollection = Backbone.Collection.extend({
 //////////////////////////////////////////  
 
   render: function(){
+    
     var html = "";
     var urls = _.pluck(this.models, 'attributes');//returns the naked models
     _.each(urls, function(u) {
@@ -114,7 +122,7 @@ var BookmarkCollection = Backbone.Collection.extend({
       html += '<li>';
       html += '<img src="chrome://favicon/'+ u.url +'" class="favicon" />';
       html += '<a href="'+ u.url +'">'+ u.title +'</a>';
-      
+       html += '<img src="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" />'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
       html +=' ~ <em class="domain">'+u.domain + '</em>';
       html +='</li>';
     });
