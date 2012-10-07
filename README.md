@@ -10,7 +10,7 @@ Features (done)
 - Use a bookmark model (OOP)
 - Persist the bookmark collection locally (localStorage)
 - Website thumbnail: Integrate an ugly API service (easy solution)
-- Better search function: (case insensitive search in url + title + body)
+- search function: (case insensitive search in url + title + body)
 - Add domain filters (See all links from a given site)
 - properly handle the search field events (keyup, focus, blur)
 - compile a favicon main colors (based on domain names)
@@ -25,4 +25,7 @@ TODO
 - Import from delicious user feed (importer)
 - add a x icon to the search
 - Import URls from Freebase database
-
+- use main UI object to handle properly the interface controls
+- Decent list/grid design (it's ugly)
+- Thumbnail server (to replace the crappy APIs?)
+- Backend (auth, sync, import favs from github, facebook, etc)
