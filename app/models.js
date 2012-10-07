@@ -7,7 +7,7 @@ var Bookmark = Backbone.Model.extend({
    hasHtml: false
  },
  //store: new WebSQLStore(db, "todos"),
-  localStorage : new Backbone.LocalStorage('whatever'),
+  localStorage : new Backbone.LocalStorage('whatever2'),
   promptColor: function() {
     var cssColor = prompt("Please enter a CSS color:");
     this.set({color: cssColor});
@@ -63,7 +63,7 @@ var Bookmark = Backbone.Model.extend({
           console.log(keywords);*/
          // console.log(ms_end - ms_start);
         console.log(keywords.length+' keywords found for '+that.get('url'));
-        that.set('keywords',keywords);
+        that.set('keywords',keywords.join(','));
         that.set('hasKeywords', true);
         that.save();
       }).error(function() { 
@@ -79,7 +79,7 @@ var Bookmark = Backbone.Model.extend({
 
 var BookmarkCollection = Backbone.Collection.extend({
   model: Bookmark,
-  localStorage : new Backbone.LocalStorage('whatever'),
+  localStorage : new Backbone.LocalStorage('whatever2'),
   //store: new WebSQLStore(db, "todos"),
   saveAll: function(){
     _.each(this.models, function(m){
@@ -201,6 +201,40 @@ var BookmarkCollection = Backbone.Collection.extend({
     this.add({title: tree.title, url:tree.url, id:tree.id, type:'chrome', dateAdded: tree.dateAdded }); //add to collection
     //alert(m);
   },
+
+   //////////////////////////////////////////
+  //   delicious
+ //////////////////////////////////////////
+  addDelicious: function(u){
+    var that = this;
+    var delicious_url = 'http://feeds.delicious.com/v2/json';
+    var del_count = '?count=9999';
+    var deliciousUser = 'ayudantegrafico';//'sigamani7977'; //TEST
+    var url = delicious_url+'/'+deliciousUser+del_count;
+    console.log(url);
+    $.getJSON(url, function(data) {
+     // console.log('addDelicious', data);
+      _.each(data, function(d) {
+       // console.log(d);
+        //what do we do for ID??
+        var dateAdded = d.dt;
+        var m = that.add({title: d.d, url:d.u , type:'delicious', dateAdded: d.dt, keywords: d.t.join(',')+',delicious' }); //add to collection
+        console.log(m);
+      });
+      that.render();//refresh the collection, so these new elements appears!...
+    });
+    //"#{delicious_url}/popular#{@count}"
+
+    //#{delicious_url}/#{username}/#{tags.split.join '+'}#{@count}"
+    //    result = get_json "#{delicious_url}/recent#{@count}"
+    
+    
+    //alert(m);
+  },
+   //////////////////////////////////////////
+  //   tools
+ //////////////////////////////////////////
+  
   comparator: function(m){
      return m.get(this.sortOrder) *-1;
    },

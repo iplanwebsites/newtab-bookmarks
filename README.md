@@ -19,8 +19,8 @@ Features (done)
 
 TODO
 =========================
-
-- Sync the bookmarks to a server (so we know how many users has bookmarked the same sites)
+- Lazy load thumb images 
+- Save UI preference in a persistent model (zoom, counts, viewMode)
 - Url classifications (ie. a person website, a media, an open source-projet)
 - Import from delicious user feed (importer)
 - add a x icon to the search
@@ -28,4 +28,5 @@ TODO
 - use main UI object to handle properly the interface controls
 - Decent list/grid design (it's ugly)
 - Thumbnail server (to replace the crappy APIs?)
+- Sync the bookmarks to a server (so we know how many users has bookmarked the same sites)
 - Backend (auth, sync, import favs from github, facebook, etc)

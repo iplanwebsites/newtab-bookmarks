@@ -20,7 +20,7 @@ Backbone.sync = function Sync() {
 $(function() {
   
   
-    $('.brand').html('books v8');
+    $('.brand').html('VVVVVV 4');
   
   
   initData(function(){
@@ -155,13 +155,7 @@ function wireShits(){
 
 /// DELICious
 
-delicious_url = 'http://feeds.delicious.com/v2/json';
 
-//"#{delicious_url}/popular#{@count}"
-
-//#{delicious_url}/#{username}/#{tags.split.join '+'}#{@count}"
-//    result = get_json "#{delicious_url}/recent#{@count}"
-// 
 // 
 // 
 

@@ -55,7 +55,7 @@ var UiView = Backbone.View.extend({
            return true
          }else{
            if(a.keywords){
-             if(matchKeywords(search, a.keywords.join(','))){
+             if(matchKeywords(search, a.keywords)){
                m.v.setRank(2);
                 m.v.$el.show();
                 return true

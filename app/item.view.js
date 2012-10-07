@@ -31,12 +31,13 @@ var ItemView = Backbone.View.extend({
     },
     initialize: function() {
      //  this.$el.append(this.container);
-     this.render();// generate the html in the node
-     this.attach();
+     
+     //this.attach();
      this.model.bind('remove', this.remove); //inherit destroy
       
     },
     attach: function(){
+      this.render();// generate the html in the node
       $('#bookmarks').append(this.el);
     },
     destroy: function(){
