@@ -153,6 +153,9 @@ var BookmarkCollection = Backbone.Collection.extend({
   })
   $('.favourites_sites .sites').html(html);
   
+  
+   
+   
   return sorted;
   },
   computeKeywords: function(){

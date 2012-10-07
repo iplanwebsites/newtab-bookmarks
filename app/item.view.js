@@ -24,7 +24,7 @@ var ItemView = Backbone.View.extend({
     
     
     
-     this.$el.html(html).attr('data-id', u.id).attr('data-url', u.id);
+     this.$el.html(html).attr('data-id', u.id).attr('data-url', u.url);
     
     
       return this;

@@ -36,7 +36,7 @@ $(function() {
         });*/
     
     
-      $('.brand').html('books v9');
+      $('.brand').html('books v8');
     
     
     
@@ -73,31 +73,25 @@ function initData(cb){
  // dumpBookmarks();
 }
 function initView(){
-  //var zoom = sammy.cookie.get('zoom_level'); //TODO: use alternative cookie setter/getter
-  var zoom= "4";
-	if(zoom != undefined){
-		$('#zoom_level').val(zoom);
-		$('body').addClass('zoom'+zoom);
-	}
-}
-
-function getUrl(u){
-  $('#cache').show();
-  window.location=u;
-  //TODO: do NOT populate the history stack (so we dont show a back BT)
+  
+  app.ui = new UiView({el: $("body")});
+  
   
 }
 
 
-function matchKeywords(search, content){
+
+
+function matchKeywords(s, content){
+  
   
   content = ','+content;
   //All terms have to be there
-  search = search.replace(',', ' ');
-  search = search.replace('+', ' ');
-  search = search.replace('   ', ' ');
-  search = search.replace('  ', ' ');
-  var terms = search.split(' ');
+  s = s.replace(',', ' ');
+  s = s.replace('+', ' ');
+  s = s.replace('   ', ' ');
+  s = s.replace('  ', ' ');
+  var terms = s.split(' ');
   
   var results = true;
   _.each(terms, function(t){
@@ -120,64 +114,10 @@ function wireShits(){
   
   //wire search
   $('#search').bind('keyup change', _.throttle(function(ev) {
-    /*
-     $('#bookmarks').empty();
-     dumpBookmarks($('#search').val());
-     */
-     var search = $('#search').val();
-     search = search.toLowerCase();
-     console.log('2search: '+search);
-     
-     var models = app.collection.models//, 'attributes');
-     //console.log(models.length);
-     
-     //if search is empty: show all
-     if(search ==''){_.each(models, function(m){
-       m.v.$el.show();
-     })}
-     
-     
-     var matchesTitle = _.filter(models, function(m){
-       var a = m.attributes;
-       var content = ','+a.url+','+a.domain+','+a.title.toLowerCase().split(' ').join(',');//m.keyword.join(',');
-       
-       if(matchKeywords(search, content)){
-         m.v.setRank(1);
-         m.v.$el.show();
-         return true
-       }else{
-         if(a.keywords){
-           if(matchKeywords(search, a.keywords.join(','))){
-             m.v.setRank(2);
-              m.v.$el.show();
-              return true
-           }
-         }
-         m.v.$el.hide();
-         return false
-       }
-     });
-     
-     
-     /*
-     var indexedModels = app.collection.where({hasKeywords: true});
-    
-    
-      var matchesKeywords = _.filter(indexedModels, function(m){
-        var a = m.attributes;
-        var content = ','+a.keywords.join(',');//m.keyword.join(',');
-        if(content.indexOf(','+search) > -1){
-          return true
-        }else{
-          return false
-        }
-      })
-      */
-      
-      /*
-      console.log(matchesTitle.length) 
-      console.log(matchesKeywords.length)*/
-     
+     var s = $('#search').val();
+     s = s.toLowerCase();
+     console.log(s);
+     app.ui.search(s);
   }, 100)); //100: throttle the input search
   
   //wire zoom slider
@@ -194,9 +134,9 @@ function wireShits(){
  $('.html-download .stop').click(function(ev){
    app.collection.stopDownload();
  })
-  $('#bookmarks li').click(function(ev){
-     getUrl($(this).attr('data-url'));
-   })
+ 
+ 
+  
   
 }
 
