@@ -18,7 +18,7 @@ var ItemView = Backbone.View.extend({
     html += '<img src="chrome://favicon/'+ u.url +'" class="favicon" />';
     html += '<a href="'+ u.url +'">'+ u.title +'</a>';
     html +=' ~ <em class="domain">'+u.domain + '</em>';
-    html +=' ~ <button class="btn delete">'+ 'delete' + '</button>';
+    html +=' ~ <button class="btn delete hide">'+ 'delete' + '</button>';
     html += '</div>';
      html += '<img src="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" />'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     

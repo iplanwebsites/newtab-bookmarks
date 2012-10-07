@@ -217,8 +217,8 @@ var BookmarkCollection = Backbone.Collection.extend({
       _.each(data, function(d) {
        // console.log(d);
         //what do we do for ID??
-        var dateAdded = d.dt;
-        var m = that.add({title: d.d, url:d.u , type:'delicious', dateAdded: d.dt, keywords: d.t.join(',')+',delicious' }); //add to collection
+        var dateAdded = new Date(d.dt).getTime();
+        var m = that.add({title: d.d, url:d.u , type:'delicious', dateAdded: dateAdded, keywords: d.t.join(',')+',delicious' }); //add to collection
         console.log(m);
       });
       that.render();//refresh the collection, so these new elements appears!...
