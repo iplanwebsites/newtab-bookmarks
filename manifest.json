@@ -5,6 +5,8 @@
   "permissions": [
     "bookmarks", 
     "tabs",
+    "history",
+    "storage",
     "unlimitedStorage",
     "chrome://favicon/",
     "http://*/*",

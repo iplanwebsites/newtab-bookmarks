@@ -18,6 +18,11 @@ Backbone.sync = function Sync() {
 //log = bkg.console.log;
 
 $(function() {
+  
+  
+    $('.brand').html('books v8');
+  
+  
   initData(function(){
     initView();
     wireShits();
@@ -36,8 +41,14 @@ $(function() {
         });*/
     
     
-      $('.brand').html('books v8');
     
+    
+    chrome.history.search({text: ''}, function(items){
+     //  console.log('HISTORY');
+     //  console.log(items);
+      //http://developer.chrome.com/extensions/history.html
+      //TODO: sort bookmarks that are recent or highlight them?
+    })
     
     
   });
@@ -142,6 +153,17 @@ function wireShits(){
 
 
 
+/// DELICious
+
+delicious_url = 'http://feeds.delicious.com/v2/json';
+
+//"#{delicious_url}/popular#{@count}"
+
+//#{delicious_url}/#{username}/#{tags.split.join '+'}#{@count}"
+//    result = get_json "#{delicious_url}/recent#{@count}"
+// 
+// 
+// 
 
 /*
 // Traverse the bookmark tree, and print the folder and nodes.

@@ -7,7 +7,7 @@ var Bookmark = Backbone.Model.extend({
    hasHtml: false
  },
  //store: new WebSQLStore(db, "todos"),
-  localStorage : new Backbone.LocalStorage('settingsStore4'),
+  localStorage : new Backbone.LocalStorage('whatever'),
   promptColor: function() {
     var cssColor = prompt("Please enter a CSS color:");
     this.set({color: cssColor});
@@ -79,7 +79,7 @@ var Bookmark = Backbone.Model.extend({
 
 var BookmarkCollection = Backbone.Collection.extend({
   model: Bookmark,
-  localStorage : new Backbone.LocalStorage('settingsStore4'),
+  localStorage : new Backbone.LocalStorage('whatever'),
   //store: new WebSQLStore(db, "todos"),
   saveAll: function(){
     _.each(this.models, function(m){
@@ -195,11 +195,19 @@ var BookmarkCollection = Backbone.Collection.extend({
   addChromeBookmark: function(tree){
     //TODO: cleanup the garbage in this object...
     //TODO: only add if it doesn't exists...
-    this.add({title: tree.title, url:tree.url, dateAdded:tree.dateAdded, id:tree.id}); //add to collection
+    console.log(tree);
+   /* var lastVisit = tree.lastVisitTime;
+    console.log('lastVisit', lastVisit);*/
+    this.add({title: tree.title, url:tree.url, id:tree.id, type:'chrome', dateAdded: tree.dateAdded }); //add to collection
     //alert(m);
   },
+  comparator: function(m){
+     return m.get(this.sortOrder) *-1;
+   },
   
-  
+  all: function(prop){ //return all props
+    return _.uniq(_.pluck(_.pluck(c.models, 'attributes'), prop))
+  },
   //////////////////////////////////////////
  //   DISPLAY
 //////////////////////////////////////////  
@@ -210,9 +218,25 @@ var BookmarkCollection = Backbone.Collection.extend({
 
     _.defer(function(){
       that.setBgColors();
+    });
+    $('#bookmarks').html('');
+    var items = _.sortBy(this.models, function(m){ 
+     // console.log('sort: ' + m.get(this.sortOrder));
+     var s = m.get(that.sortOrder);
+     if(that.sortOrder == 'dateAdded'){
+      return s*-1; 
+      }else{
+        return s;
+      }
+    });
+    
+    //_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
+    _.each(items, function(m){
+      m.v.attach(); //re-attach the items.
     })
     
   },
+  sortOrder:'dateAdded',
   setBgColors: function(){ //get or analyse the dominant color of this favion img...
     var that = this;
     $('img.favicon').each(function(me){

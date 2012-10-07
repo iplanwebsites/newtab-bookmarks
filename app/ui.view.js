@@ -7,19 +7,17 @@ var UiView = Backbone.View.extend({
      // "click .icon":          "open",
     //  "click .button.edit":   "openEditDialog",
      "click .favourites_sites .sites a": "favourites_sites",
-     'click .clearSearch':      'clearSearch'
+     'click .clearSearch':      'clearSearch',
+     'click #bookmarks li':      'click_item'
     },
   render: function() {
-    //wire the action...
-    $('#bookmarks li').click(function(ev){
+      return this;
+    },
+    click_item: function(ev) {
       ev.preventDefault();
-      var u = $(this).attr('data-url');
+      var u = $(ev['currentTarget']).attr('data-url');
        app.ui.getUrl(u);
        return false;
-     });
-     
-     
-      return this;
     },
     initialize: function() {
      this.render();
