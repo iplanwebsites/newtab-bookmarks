@@ -26,6 +26,20 @@ $(function() {
       app.collection.scheduleHtmlDownload(); //will start fetching HTML content, and indexing it...
     },10000)
     
+    
+    chrome.omnibox.onInputChanged.addListener( function(str) {
+      alert(str);
+      });
+      /*
+      chrome.omnibox.onInputStarted.addListener( function(str) {
+        alert(str);
+        });*/
+    
+    
+      $('.brand').html('books v9');
+    
+    
+    
   });
 
   
@@ -75,6 +89,26 @@ function getUrl(u){
 }
 
 
+function matchKeywords(search, content){
+  
+  content = ','+content;
+  //All terms have to be there
+  search = search.replace(',', ' ');
+  search = search.replace('+', ' ');
+  search = search.replace('   ', ' ');
+  search = search.replace('  ', ' ');
+  var terms = search.split(' ');
+  
+  var results = true;
+  _.each(terms, function(t){
+    if(content.indexOf(','+t) == -1){ //keyword is not there
+      results = false;
+    }
+  });
+  return results;
+}
+
+
 function wireShits(){
   
   //wire .viewmode buttons
@@ -85,7 +119,7 @@ function wireShits(){
   })
   
   //wire search
-  $('#search').bind('keyup change', function(ev) {
+  $('#search').bind('keyup change', _.throttle(function(ev) {
     /*
      $('#bookmarks').empty();
      dumpBookmarks($('#search').val());
@@ -96,20 +130,39 @@ function wireShits(){
      
      var models = app.collection.models//, 'attributes');
      //console.log(models.length);
+     
+     //if search is empty: show all
+     if(search ==''){_.each(models, function(m){
+       m.v.$el.show();
+     })}
+     
+     
      var matchesTitle = _.filter(models, function(m){
        var a = m.attributes;
        var content = ','+a.url+','+a.domain+','+a.title.toLowerCase().split(' ').join(',');//m.keyword.join(',');
-       if(content.indexOf(','+search) > -1){
+       
+       if(matchKeywords(search, content)){
+         m.v.setRank(1);
+         m.v.$el.show();
          return true
        }else{
+         if(a.keywords){
+           if(matchKeywords(search, a.keywords.join(','))){
+             m.v.setRank(2);
+              m.v.$el.show();
+              return true
+           }
+         }
+         m.v.$el.hide();
          return false
        }
      });
      
+     
+     /*
      var indexedModels = app.collection.where({hasKeywords: true});
     
-    // var models = _.pluck(indexedModels, 'attributes');
-     //TODO: loop through all keywords, point system
+    
       var matchesKeywords = _.filter(indexedModels, function(m){
         var a = m.attributes;
         var content = ','+a.keywords.join(',');//m.keyword.join(',');
@@ -119,11 +172,13 @@ function wireShits(){
           return false
         }
       })
+      */
       
+      /*
       console.log(matchesTitle.length) 
-      console.log(matchesKeywords.length)
+      console.log(matchesKeywords.length)*/
      
-  });
+  }, 100)); //100: throttle the input search
   
   //wire zoom slider
   $('#zoom_level').change(function(){

@@ -1,8 +1,6 @@
 
 //var db = openDatabase("todos", "", "Backbone-websql example", 1024*1024);
 
-console.log('v1');
-
 var Bookmark = Backbone.Model.extend({
  // url: '/bookmarks',
  defaults:{
@@ -23,7 +21,7 @@ var Bookmark = Backbone.Model.extend({
     }else{
       //this can be a bookmarklet, a FTP, or special page bookmark...
     }
-    console.log('init model');
+    //console.log('init model');
     //attach the corresponding view
     this.v = new ItemView({
       model: this,
@@ -206,23 +204,7 @@ var BookmarkCollection = Backbone.Collection.extend({
   render: function(){
     var that =this;
     this.computeDomainCounts(); //populate the dropdown for sites list
-    
-    // POPULATE THE LIST
-    var html = "";
-    var urls = _.pluck(this.models, 'attributes');//returns the naked models
-    _.each(urls, function(u) {
-      
-      html += '<li data-id="'+u.id+'" data-url="'+u.url+'">';
-      html += '<div class="meta">';
-      html += '<img src="chrome://favicon/'+ u.url +'" class="favicon" />';
-      html += '<a href="'+ u.url +'">'+ u.title +'</a>';
-      html +=' ~ <em class="domain">'+u.domain + '</em>';
-      html += '</div>';
-       html += '<img src="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" />'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
-      
-      html +='</li>';
-    });
-    $('#bookmarks').html(html);
+
     _.defer(function(){
       that.setBgColors();
     })
