@@ -79,13 +79,50 @@ function wireShits(){
   
   //wire .viewmode buttons
   $('.viewmode .btn').click(function(ev){
-    $('body').toggleClass('grid'); //TODO: refactor properly
+    $('body').toggleClass('grid'); 
+    //TODO: refactor properly
+    //TODO: scroll to TOP
   })
   
   //wire search
-  $('#search').change(function() {
+  $('#search').bind('keyup change', function(ev) {
+    /*
      $('#bookmarks').empty();
      dumpBookmarks($('#search').val());
+     */
+     var search = $('#search').val();
+     search = search.toLowerCase();
+     console.log('2search: '+search);
+     
+     var models = app.collection.models//, 'attributes');
+     //console.log(models.length);
+     var matchesTitle = _.filter(models, function(m){
+       var a = m.attributes;
+       var content = ','+a.url+','+a.domain+','+a.title.toLowerCase().split(' ').join(',');//m.keyword.join(',');
+       if(content.indexOf(','+search) > -1){
+         return true
+       }else{
+         return false
+       }
+     });
+     
+     var indexedModels = app.collection.where({hasKeywords: true});
+    
+    // var models = _.pluck(indexedModels, 'attributes');
+     //TODO: loop through all keywords, point system
+      var matchesKeywords = _.filter(indexedModels, function(m){
+        var a = m.attributes;
+        var content = ','+a.keywords.join(',');//m.keyword.join(',');
+        if(content.indexOf(','+search) > -1){
+          return true
+        }else{
+          return false
+        }
+      })
+      
+      console.log(matchesTitle.length) 
+      console.log(matchesKeywords.length)
+     
   });
   
   //wire zoom slider

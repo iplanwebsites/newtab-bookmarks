@@ -1,7 +1,7 @@
 
 //var db = openDatabase("todos", "", "Backbone-websql example", 1024*1024);
 
-
+console.log('v1');
 
 var Bookmark = Backbone.Model.extend({
  // url: '/bookmarks',
@@ -9,7 +9,7 @@ var Bookmark = Backbone.Model.extend({
    hasHtml: false
  },
  //store: new WebSQLStore(db, "todos"),
-  localStorage : new Backbone.LocalStorage('settingsStore3'),
+  localStorage : new Backbone.LocalStorage('settingsStore4'),
   promptColor: function() {
     var cssColor = prompt("Please enter a CSS color:");
     this.set({color: cssColor});
@@ -23,9 +23,15 @@ var Bookmark = Backbone.Model.extend({
     }else{
       //this can be a bookmarklet, a FTP, or special page bookmark...
     }
+    console.log('init model');
+    //attach the corresponding view
+    this.v = new ItemView({
+      model: this,
+      id: "item-" + this.id
+    });
     
     //if there's no title, set the domain name or URL?
-    
+    this.save();//save it to LocalStorage right away.
     
   },
   downloadHTML: function(cb){
@@ -60,6 +66,7 @@ var Bookmark = Backbone.Model.extend({
          // console.log(ms_end - ms_start);
         console.log(keywords.length+' keywords found for '+that.get('url'));
         that.set('keywords',keywords);
+        that.set('hasKeywords', true);
         that.save();
       }).error(function() { 
         console.log('error found!')
@@ -74,7 +81,7 @@ var Bookmark = Backbone.Model.extend({
 
 var BookmarkCollection = Backbone.Collection.extend({
   model: Bookmark,
-  localStorage : new Backbone.LocalStorage('settingsStore3'),
+  localStorage : new Backbone.LocalStorage('settingsStore4'),
   //store: new WebSQLStore(db, "todos"),
   saveAll: function(){
     _.each(this.models, function(m){
@@ -188,6 +195,7 @@ var BookmarkCollection = Backbone.Collection.extend({
     //TODO: cleanup the garbage in this object...
     //TODO: only add if it doesn't exists...
     this.add({title: tree.title, url:tree.url, dateAdded:tree.dateAdded, id:tree.id}); //add to collection
+    //alert(m);
   },
   
   
