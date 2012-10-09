@@ -172,36 +172,47 @@ var BookmarkCollection = Backbone.Collection.extend({
   //////////////////////////////////////////
  //   CHROME IMPORTER
 //////////////////////////////////////////
+
+
   importChromeBookmarks: function(){
     var that = this;
    
     var bookmarkTreeNodes = chrome.bookmarks.getTree(
       function(bookmarkTreeNodes) {
          console.log(bookmarkTreeNodes);
-        that.parseChromeBookmarkTree(bookmarkTreeNodes); //start the recursive process
+        that.parseChromeBookmarkTree(bookmarkTreeNodes, new Array()); //start the recursive process
         that.render();
       });
   },
-  parseChromeBookmarkTree: function(tree){
+  parseChromeBookmarkTree: function(tree, folder){ //recursive function
     var that= this
+    console.log(folder.join('>'));
+    console.log('tree',tree)
     _.each(tree, function(n){
     if (n.children && n.children.length > 0) {//it's a folder
-      that.parseChromeBookmarkTree(n.children);
+      var path = _.uniq(folder);
+      if(n.title) path.push(n.title); //add the folder name to the list 
+      that.parseChromeBookmarkTree(n.children, path);
     }else{ //it's a URL
-        that.addChromeBookmark(n);
+        that.addChromeBookmark(n, folder);
     }
     })//eo each
   },
-  addChromeBookmark: function(tree){
+  addChromeBookmark: function(tree, folder){
     //TODO: cleanup the garbage in this object...
     //TODO: only add if it doesn't exists...
     console.log(tree);
    /* var lastVisit = tree.lastVisitTime;
     console.log('lastVisit', lastVisit);*/
-    this.add({title: tree.title, url:tree.url, id:tree.id, type:'chrome', dateAdded: tree.dateAdded }); //add to collection
+    this.add({title: tree.title, url:tree.url, id:tree.id, type:'chrome', dateAdded: tree.dateAdded, folder: folder }); //add to collection
     //alert(m);
   },
-
+  
+  importNewChromeBookmarks: function() { //a collection is present, we check if the counts match...
+    var alreadyThere = this.where({type: "chrome"});
+    console.log(alreadyThere.length+' chrome bookmarks already there...');
+    
+  },
    //////////////////////////////////////////
   //   delicious
  //////////////////////////////////////////
@@ -284,7 +295,12 @@ var BookmarkCollection = Backbone.Collection.extend({
          model.set('dominantColor',color);/// save color into the model...
          model.save();
       }
-      $(this).parent().parent().css('background-color', "rgb("+color[0]+"," + color[1] + "," + color[2] + ")");
+      if((color[0] =148 )&&(color[1] ==148 )&&(color[2] ==148 )){
+        //this is the default chrome icon... problem...
+      }else{
+        $(this).parent().parent().find('.thumb_wrap').css('background-color', "rgb("+color[0]+"," + color[1] + "," + color[2] + ")");
+      }
+      
     })
   }
   

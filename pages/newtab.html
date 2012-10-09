@@ -26,12 +26,39 @@
 <script src="../app/item.view.js"></script>
 <script src="../app/app.js"></script>
 
+
+
+
 </head>
 <body id="body">
   
   <div id="cache" class="hide">
+  
     
   </div>
+  
+  <div id="fb-root"></div>
+  <script src="https://connect.facebook.net/en_US/all.js"></script>
+  <script>
+   // window.fbAsyncInit = function() {
+      FB.init({
+        appId  : '315929978515082',
+        status : true, // check login status
+        cookie : true, // enable cookies to allow the server to access the session
+        xfbml  : true  // parse XFBML
+      });
+   // };
+/*
+    (function() {
+      var e = document.createElement('script');
+      e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+      e.async = true;
+      document.getElementById('fb-root').appendChild(e);
+    }());*/
+  </script>
+  
+  
+  
   
   <div class="navbar  navbar-inverse navbar-fixed-top">
     <div class="navbar-inner">
@@ -92,23 +119,25 @@
       </div>
       
     
-    <img class="star clearSearch" src="../img/black/28-star@2x.png" />
+    <!--<img class="star clearSearch" src="../img/black/28-star@2x.png" /> -->
     <ul class="nav pull-right">
      
   
-     
-      <li>
-      <div class="btn-group viewmode" data-toggle="buttons-radio">
-        <button type="button" class="btn active"><i class="icon-th-list"></i>List</button>
-        <button type="button" class="btn"><i class="icon-th-large"></i>Grid</button>
-      </div>
-      </li>
+    
       <!-- 
       <li class="active"><a href="#">Popular</a></li>
       <li><a href="#">Favourites</a></li>
       <li><a href="#">Recent</a></li>-->
-       <li><input type="range"  min="2" max="10" id="zoom_level" value="4" /></li>
+       <li><input type="range"  min="0" max="100" id="zoom_level" value="50" /></li>
        
+       
+         <li>
+         <div class="btn-group viewmode" data-toggle="buttons-radio">
+           <button type="button" class="btn active list"><i class="icon-th-list"></i>List</button>
+           <button type="button" class="btn grid"><i class="icon-th-large"></i>Grid</button>
+         </div>
+         </li>
+         
     </ul>
   </div>
 </div>

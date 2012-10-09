@@ -19,6 +19,7 @@ Features (done)
 
 TODO
 =========================
+- check the count of Chrome bookmarks (or delicious), to make sure we got em all on file. If not, import/delete the ones that aren't there already.
 - Lazy load thumb images 
 - Save UI preference in a persistent model (zoom, counts, viewMode)
 - Url classifications (ie. a person website, a media, an open source-projet)

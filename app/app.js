@@ -8,6 +8,11 @@ var bkg = chrome.extension.getBackgroundPage();
 var app = {};
 app.collection = new BookmarkCollection();
 var c = app.collection;
+
+
+app.setting = new Setting();
+
+
 /*
 Backbone.sync = function Sync() {
     Backbone.ajaxSync.apply(this, arguments);
@@ -20,11 +25,28 @@ Backbone.sync = function Sync() {
 $(function() {
   
   
-    $('.brand').html('VVVVVV 4');
+    $('.brand').html('VVVVVV 6');
+  initView();
   
-  
+    app.setting.fetch({
+      success:function(model, response){
+        console.log('setting2 model fetched!', model);
+        var mode = app.setting.get('viewmode') || 'list';
+        app.ui.set_viewmode(mode);
+        $('.viewmode .btn').removeClass('active');
+        $('.viewmode .btn.'+mode ).addClass('active');
+        
+        var zoomVal= app.setting.get('zoomVal') || 50;//"50";
+       	$('#zoom_level').val(zoomVal);
+       	app.ui.set_zoom(zoomVal);
+
+        //todo: do the same for zoom...
+      }});
+      
+      
+      
   initData(function(){
-    initView();
+    
     wireShits();
     
     _.delay(function(){
@@ -68,6 +90,7 @@ function initData(cb){
       }else{
         console.log('Loading bookmarkss from Localstorage cache: '+ collection.length);
         app.collection.render();
+        app.collection.importNewChromeBookmarks(); //check if new bookmarks have been added
         cb();
       }
     },
@@ -117,11 +140,11 @@ function matchKeywords(s, content){
 function wireShits(){
   
   //wire .viewmode buttons
-  $('.viewmode .btn').click(function(ev){
+ /* $('.viewmode .btn').click(function(ev){
     $('body').toggleClass('grid'); 
     //TODO: refactor properly
     //TODO: scroll to TOP
-  })
+  })*/
   
   //wire search
   $('#search').bind('keyup change', _.throttle(function(ev) {
@@ -131,15 +154,7 @@ function wireShits(){
      app.ui.search(s);
   }, 100)); //100: throttle the input search
   
-  //wire zoom slider
-  $('#zoom_level').change(function(){
-		var val = $(this).val();
-		console.log('zoom now set to:'+val);
-		var className = 'zoom' + val;
-		$('body').removeClass('zoom1 zoom2 zoom3 zoom4 zoom5 zoom6 zoom7 zoom8 zoom9 zoom10 zoom11 zoom12')
-		$('body').addClass(className);
-		sammy.cookie.set('zoom_level', val); //TODO: use native or jqeury cookie??
-	});
+  
  
  
  $('.html-download .stop').click(function(ev){
