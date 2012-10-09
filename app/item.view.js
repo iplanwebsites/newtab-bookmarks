@@ -20,7 +20,7 @@ var ItemView = Backbone.View.extend({
     html +=' ~ <em class="domain">'+u.domain + '</em>';
     html +=' ~ <button class="btn delete hide">'+ 'delete' + '</button>';
     html += '</div>';
-     html += '<div class="thumb_wrap"><img src="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+     html += '<div class="thumb_wrap"><img src="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     
      
     

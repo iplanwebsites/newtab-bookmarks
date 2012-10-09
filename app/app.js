@@ -25,7 +25,7 @@ Backbone.sync = function Sync() {
 $(function() {
   
   
-    $('.brand').html('VVVVVV 6');
+    $('.brand').html('VVVVVV 7');
   initView();
   
     app.setting.fetch({

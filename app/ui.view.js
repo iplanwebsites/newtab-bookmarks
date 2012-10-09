@@ -30,11 +30,15 @@ var UiView = Backbone.View.extend({
       }
     },
     set_viewmode: function(mode){
+      this.top();
       if(mode =='grid'){
          $('body').addClass('grid').removeClass('list');
       }else{
         $('body').removeClass('grid').addClass('list'); 
       }
+    },
+    top: function(){
+      $(window).scrollTop(0)
     },
     click_item: function(ev) {
       ev.preventDefault();
@@ -46,13 +50,9 @@ var UiView = Backbone.View.extend({
       var that = this;
      this.render();
      //var zoom = sammy.cookie.get('zoom_level'); //TODO: use alternative cookie setter/getter
-     var zoomVal= app.setting.get('zoomVal') || 50;//"50";
-     console.log('init zoom: '+zoomVal);
-   	 if(zoomVal != undefined){
-   		  $('#zoom_level').val(zoomVal);
-   		 this.set_zoom(zoomVal);
+     
    		 //$('body').addClass('zoom'+zoom);
-   	  }
+   	 
       
       //wire zoom slider
       $('#zoom_level').change(function(){
@@ -75,6 +75,7 @@ var UiView = Backbone.View.extend({
   		//val = 8-val; //reverse slider...
   	//	console.log('zoom now set to:'+zoom);
   		if(zoom != this.zoomLevel){//if we face a new number of col!
+  		  this.top();
   		  var className = 'zoom' + zoom;
     		$('body').removeClass('zoom1 zoom2 zoom3 zoom4 zoom5 zoom6 zoom7 zoom8 zoom9 zoom10 zoom11 zoom12')
     		$('body').addClass(className);
@@ -85,7 +86,7 @@ var UiView = Backbone.View.extend({
     },
     
     favourites_sites: function(ev){
-      console.log('ok');
+      //console.log('ok');
       ev.preventDefault();
       var domain = $(ev['currentTarget']).parent().attr('data-domain');
       $('#search').val(domain);
@@ -93,7 +94,8 @@ var UiView = Backbone.View.extend({
       console.log('favourites_sites', domain)
     },
     search: function(search){
-       console.log('search: '+search, search);
+       //console.log('search: '+search, search);
+       this.top();
        var models = app.collection.models//, 'attributes');
        //if search is empty: show all
        if(search ==''){_.each(models, function(m){
