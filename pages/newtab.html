@@ -21,6 +21,7 @@
 
 
 <script src="../app/utils.js"></script>
+<script src="../app/router.js"></script>
 <script src="../app/models.js"></script>
 <script src="../app/ui.view.js"></script>
 <script src="../app/item.view.js"></script>
@@ -66,9 +67,13 @@
       <input id="search" type="search" placeholder="Search Bookmarks" data-provide="typeahead">
       <img class="star clearSearch" src="../img/white/28-star@2x.png" />
       <ul class="nav pull-right">
+        
+        <li class="active"><a href="#option">options</a></li>
+        
+        <!-- STILL IN development
         <li class="active"><a href="#">Bookmarks</a></li>
         <li><a href="#">History</a></li>
-        <li><a href="#">Delicious</a></li>
+        <li><a href="#">Delicious</a></li> -->
         
            <li>
             <div class="btn-group favourites_sites">
@@ -97,6 +102,60 @@
    
 </div>
 <ul id="bookmarks"></ul>
+
+<section id="options">
+  <div class="container">
+  
+  <br><br>
+  
+  
+  <div class="well totals span12">
+    
+    <h1><strong>258</strong> sites and articles</h1>
+    <p>Add Tweeted articles and websites</p>
+   
+  </div>
+  
+  
+  <div class="alert alert-info service chrome span7">
+    <img src="http://2.bp.blogspot.com/-RDu9U2NP24Q/T4unv6w70BI/AAAAAAAAAQQ/smh2cpVImwE/s1600/chrome+logo.png" class="logo pull-left span1" />
+    <h4>Chrome</h4>
+ 
+      <p><strong class="count">222</strong> browser bookmarks indexed</p>
+      <button class="btn btn-mini refresh"><i class="icon-refresh  "></i>Refresh</button>
+     
+  </div>
+  
+  
+  <div class="alert alert-info service twitter span7">
+    <img src="http://twitter.com/images/resources/twitter-bird-light-bgs.png" class="logo pull-left span1" />
+    <h4>Twitter</h4>
+    <p>Add Tweeted articles and websites</p>
+    <form class="form-search">
+    <input type="text" class="input-medium input search-query" placeholder="@you">
+    <button class="btn btn-info add"><i class="icon-plus icon-white"></i>Add Twitter</button>
+    </form>
+  </div>
+  
+  
+  <div class="alert alert-success service delicious span7">
+    <img src="http://upload.wikimedia.org/wikipedia/commons/2/29/Del.icio.us_logo.png" class="logo pull-left span1" />
+    <h4>Delicious</h4>
+    <form class="form-search">
+      <p>Include your public Delicious bookmarks</p>
+      <input type="text" class="input-medium input search-query" placeholder="userlicious">
+      <button class="btn btn-success add"><i class="icon-plus icon-white"></i>Add it</button>
+    </form>
+    <div class="connected">
+      <p><strong class="count">222</strong> Delicious bookmarks indexed</p>
+      <button class="btn btn-mini btn-danger remove"><i class="icon-trash icon-white"></i>Remove</button>
+    </div>
+  </div>
+  
+  
+  </div>
+</section>
+
 <div id="editdialog"></div>
 <div id="deletedialog"></div>
 <div id="adddialog"></div>

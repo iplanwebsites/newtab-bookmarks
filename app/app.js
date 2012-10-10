@@ -11,6 +11,7 @@ var c = app.collection;
 
 
 app.setting = new Setting();
+app.router = new Router();
 
 
 /*
@@ -23,9 +24,9 @@ Backbone.sync = function Sync() {
 //log = bkg.console.log;
 
 $(function() {
-  
-  
-    $('.brand').html('VVVVVV 7');
+  //alert('1')
+  //
+   // $('.brand').html('VVVVVV 7');
   initView();
   
     app.setting.fetch({
@@ -47,8 +48,9 @@ $(function() {
       
   initData(function(){
     
-    wireShits();
     
+    wireShits();
+    Backbone.history.start();//sh
     _.delay(function(){
       app.collection.scheduleHtmlDownload(); //will start fetching HTML content, and indexing it...
     },10000)

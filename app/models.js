@@ -14,12 +14,14 @@ var Bookmark = Backbone.Model.extend({
   },
   initialize: function(){
     //console.log(this.attributes.url);
-    var url = this.attributes.url;
+    var url = this.get('url') || '';
     
     if(isUrl(url)){
-      this.set('domain', getDomain(url))
+      this.set('domain', getDomain(url));
     }else{
       //this can be a bookmarklet, a FTP, or special page bookmark...
+      this.set('domain', false);
+      console.log('not a URL:', url);
     }
     //console.log('init model');
     //attach the corresponding view
@@ -27,6 +29,16 @@ var Bookmark = Backbone.Model.extend({
       model: this,
       id: "item-" + this.id
     });
+    
+    //set the main category
+    if(url.indexOf('.pdf') != -1){
+      this.set('filetype', 'pdf');
+      
+    }else if((url.indexOf('.jpg') != -1) || (url.indexOf('.jpeg') != -1) || (url.indexOf('.png') != -1) || (url.indexOf('.gif') != -1)){
+      this.set('filetype', 'image');
+    }else{
+      
+    }
     
     //if there's no title, set the domain name or URL?
     this.save();//save it to LocalStorage right away.

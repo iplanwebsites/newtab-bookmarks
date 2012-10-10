@@ -17,14 +17,22 @@ var UiView = Backbone.View.extend({
   render: function() {
       return this;
     },
+    render_options:function(){
+      console.log('opt');
+      $('#options .totals h1 strong').html(app.collection.length);
+      $('#options .chrome .count').html(app.collection.where({type: "chrome"}).length);
+      
+    },
     viewmode: function(ev) {
       el = ev['currentTarget'];
       if($(el).hasClass('grid')){
-         this.set_viewmode('grid')
+         this.set_viewmode('grid');
+         $('#zoom_level').show();
          app.setting.set('viewmode', 'grid');
          app.setting.save();
       }else{
         this.set_viewmode('list');
+        $('#zoom_level').hide();
         app.setting.set('viewmode', 'list');
         app.setting.save();
       }
@@ -64,6 +72,9 @@ var UiView = Backbone.View.extend({
       
     },
     set_zoom: function(val){ //receive a val between 0-100
+      
+      
+      quadraticVal = Math.sqrt(val) * Math.sqrt(100); //we change the progress ratio, so it reflect the real box sizes
       
   		var min_cols = 2;
   		var max_cols = 10;
@@ -127,7 +138,7 @@ var UiView = Backbone.View.extend({
       this.$el.attr('data-rank', r); //for sorting purpose (isotope)
     },
     clearSearch: function(ev){
-      ev.preventDefault();
+      //ev.preventDefault();
       $('#search').val('');
       this.search(''); //for sorting purpose (isotope)
     },
