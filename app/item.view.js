@@ -34,7 +34,7 @@ var ItemView = Backbone.View.extend({
      //  this.$el.append(this.container);
      
      //this.attach();
-     this.model.bind('remove', this.remove); //inherit destroy
+     //this.model.bind('remove', this.remove); //inherit destroy
       
     },
     attach: function(){

@@ -228,22 +228,37 @@ var BookmarkCollection = Backbone.Collection.extend({
    //////////////////////////////////////////
   //   delicious
  //////////////////////////////////////////
-  addDelicious: function(u){
+  addDelicious: function(deliciousUser, cb){
     var that = this;
+    
+    app.setting.set('delicious_user', deliciousUser);
     var delicious_url = 'http://feeds.delicious.com/v2/json';
-    var del_count = '?count=9999';
-    var deliciousUser = 'ayudantegrafico';//'sigamani7977'; //TEST
+    var del_count = '?count=9999'; //TODO: there's a maximum of 100 entries...
+    //var deliciousUser = 'ayudantegrafico';//'sigamani7977'; //TEST
     var url = delicious_url+'/'+deliciousUser+del_count;
-    console.log(url);
+   console.log(url);
     $.getJSON(url, function(data) {
      // console.log('addDelicious', data);
       _.each(data, function(d) {
        // console.log(d);
         //what do we do for ID??
+        
+        
+       if(app.collection.where({url: d.u}).length ==0) {//Make sure the URL is NOT already indexed... avoid duplicates...
         var dateAdded = new Date(d.dt).getTime();
-        var m = that.add({title: d.d, url:d.u , type:'delicious', dateAdded: dateAdded, keywords: d.t.join(',')+',delicious' }); //add to collection
-        console.log(m);
+        var keywords = d.t;
+        if((typeof keywords === 'string') || (!keywords)){ //if it's an array, and not an empty str...
+          keywords = keywords+',delicious';//it's already a string..
+        }else{
+        //  console.log(keywords);
+          keywords = keywords.join(',')+',delicious';
+        }
+        var m = that.add({title: d.d, url:d.u , type:'delicious', dateAdded: dateAdded, keywords: keywords }); //add to collection
+       }else{//end if
+        console.log('not importing duplicate:',d.u);
+       }
       });
+      cb();
       that.render();//refresh the collection, so these new elements appears!...
     });
     //"#{delicious_url}/popular#{@count}"

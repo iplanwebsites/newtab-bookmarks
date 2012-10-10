@@ -12,7 +12,46 @@ var UiView = Backbone.View.extend({
      "click .favourites_sites .sites a": "favourites_sites",
      'click .clearSearch':      'clearSearch',
      'click #bookmarks li':      'click_item',
-     'click .viewmode .btn':      'viewmode'
+     'click .viewmode .btn':      'viewmode',
+     'click  #options .delicious .btn.add':      'add_delicious',
+     'click  #options .delicious .btn.remove':      'remove_delicious'
+    },
+    add_delicious: function(ev){
+      ev.preventDefault();
+      
+      var that = this;
+      var handle = $('#options .delicious .input').val();
+      if(handle == ''){
+        alert('please enter your delicious username here');
+        }else{
+          console.log('importing delicious user: '+handle); //ayudantegrafico
+          $(ev['currentTarget']).button('loading');
+          app.collection.addDelicious(handle, function(){
+            $(ev['currentTarget']).button('reset');
+            that.render_options();
+            $('#options .delicious .input').val('');
+          });
+         
+        }
+      
+    },
+    remove_delicious: function(ev){
+      ev.preventDefault();
+      var that= this;
+      var delicious = app.collection.where({type: "delicious"});
+      console.log('rm',delicious);
+      _.each(delicious, function(m){
+        console.log('destroy delicious model1:',m)
+        m.destroy({wait: true});
+      });
+      app.setting.set('delicious_user', false);
+      _.delay(function(){//refresh the page...
+        that.render_options();
+        app.collection.render();
+        $('#options .delicious .input').val('');
+      },200)
+      
+      
     },
   render: function() {
       return this;
@@ -21,6 +60,16 @@ var UiView = Backbone.View.extend({
       console.log('opt');
       $('#options .totals h1 strong').html(app.collection.length);
       $('#options .chrome .count').html(app.collection.where({type: "chrome"}).length);
+      var delicious = app.collection.where({type: "delicious"}).length;
+      if(delicious){
+        $('#options .delicious .count').html(delicious);
+        $('#options .delicious .start').hide();
+        $('#options .delicious .connected').show();
+      }else{
+        $('#options .delicious .start').show();
+        $('#options .delicious .connected').hide();
+      }
+      
       
     },
     viewmode: function(ev) {
