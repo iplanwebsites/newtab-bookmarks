@@ -126,6 +126,7 @@ var UiView = Backbone.View.extend({
     },
     initialize: function() {
       var that = this;
+      this.position3d();
      this.render();
      //var zoom = sammy.cookie.get('zoom_level'); //TODO: use alternative cookie setter/getter
      
@@ -139,8 +140,38 @@ var UiView = Backbone.View.extend({
     		app.setting.set('zoomVal', val);
          app.setting.save();
     	});
+    	
+    	$(window).scroll(function(ev){
+    	  app.ui.position3d();
+    	});
+    	 this.position3d_t= _.throttle(that.position3d, 10);
       
     },
+    position3d:function(ev){
+      if($('body').hasClass('3dfx')){
+      var DEGREE = 2;
+  	  var doc_h = $(document).height();
+  	  var viewport_h = $(window).height();
+  	  var range = doc_h - viewport_h;
+  	  //console.log('range', range);
+  	  var ratio = $(window).scrollTop() / range;
+  	  
+  	  var variation = DEGREE * ratio;
+  	  variation = DEGREE- variation; //reverted...
+  	  //var r = ((360-(DEGREE/2))+variation) % 360; //reutn 358 - 2 degree
+  	   var r = ((360-DEGREE+1)+variation) % 360; //reutn 358 - 2 degree
+  	  console.log(r);
+  	  transform = 'rotateX('+ r +'deg) rotateY(0deg) rotateZ(0deg)';
+           /* logo.style.MozTransform = logo.style.WebkitTransform = 
+            logo.style.oTransform = logo.style.MsTransform =
+            logo.style.transform = transform;*/
+            
+  	  $('#bookmarks').css('WebkitTransform', transform);
+  	  $('#bookmarks').css('transform', transform);
+  	  }
+    },
+   
+    
     set_zoom: function(val){ //receive a val between 0-100
       
       

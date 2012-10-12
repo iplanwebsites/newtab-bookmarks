@@ -31,7 +31,7 @@
 
 
 </head>
-<body id="body">
+<body id="body" class="3dfx">
   <style id="write_custom_css">
   /*genereted in JS*/
   </style>
@@ -74,7 +74,7 @@
        <ul class="nav pull-left">
       <li class="">
         <div class="input-append search_form">
-          <input id="search2"  type="search" placeholder="Search Bookmarks" data-provide="typeahead">
+          <input id="search"  type="search" placeholder="Search Bookmarks" data-provide="typeahead">
           <button class="btn btn-danger" type="button"><i class="icon-search icon-white"></i></button>
         </div>
         
@@ -157,7 +157,67 @@
   
    
 </div>
-<ul id="bookmarks"></ul>
+
+
+
+
+<!-- 
+<section id="stage">
+    <div id="logo" class="" style="-webkit-transform: rotateX(251deg) rotateY(0deg) rotateZ(0deg); ">
+      <img src="html5.png" alt="HTML5 logo">
+    </div>
+  </section>-->
+  
+  <style>/*
+  footer,section,header{display:block;}
+   body { 
+     padding: 2em
+   }
+   #stage {
+     width: 300px;
+     height: 300px;
+     float: left;
+   }
+   h1{
+     font-family: futura,sans-serif;
+     text-transform: uppercase;
+     font-weight: normal;
+     color: #666;
+     font-size: 32px;
+   }
+   form{
+     width: 300px;
+     float: left;
+     background: #ccc;
+     padding: 10px;
+     margin-top: 1em;
+   }
+   form p{
+     padding: 0.5em 0;
+   }
+   button{
+     padding: 5px 10px;
+   }
+   label, span{
+     font-weight: bold;
+     padding: 0 0.5em;
+   }
+   fieldset{
+     border:none;
+   }
+   #logo img{
+     width:240px;
+     padding:20px;
+     display:block;
+   }
+   footer{clear:both;}*/
+  </style>
+
+
+
+<div id="stage">
+  <ul id="bookmarks"></ul>
+</div>
 
 <section id="options">
   <div class="container">
@@ -210,6 +270,8 @@
     </div>
   </div>
   
+  
+  config: toggle class "3dfx" on body to disable crazy 3d FX
   
   </div>
 </section>

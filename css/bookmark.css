@@ -20,10 +20,12 @@ padding-right:11%;
   text-align:center; 
   background-image: url('../img/pat/triangles4.gif'); 
   background-repeat: repeat;
-  -webkit-box-shadow: inset 0 -3px 15px #282828;
+  -webkit-box-shadow: inset 0 -3px 15px #333;
   border-bottom:1px solid #bbb;
   height:47px;
   }
+  
+  
 .navbar.top li{text-align:left;}
 
  .dropdown-toggle >i {opacity:0.5}
@@ -35,8 +37,8 @@ li:hover .dropdown-toggle >i {opacity:1}
 .navbar .starlogo img{margin-bottom:-30px;}
 .search_form{margin-top:7px; margin-left:30px;}
 .search_form i{margin-right:0px;}
-#search{width:150px; /*margin-top:7px; margin-left:20px;*/ opacity:0.3;  -webkit-transition:all 0.2s; }
-#search:hover{/*opacity:0.5; */}
+#search{width:150px; /*margin-top:7px; margin-left:20px;*/ opacity:0.9;  -webkit-transition:all 0.2s; }
+#search:hover{opacity:1; }
 #search:focus{opacity:1; width:200px; }
 
 
@@ -56,13 +58,33 @@ li:hover .dropdown-toggle >i {opacity:1}
 /* grid style*/
 
 
-.grid ul#bookmarks{margin:0; padding:5px;}
+.grid ul#bookmarks{margin:0; padding:5px;
+
+}
+
+  /*3d crazyness*/  
+ #options,  #bookmarks{
+  -webkit-transform: rotateX(361deg) rotateY(0deg) rotateZ(0deg); 
+  -webkit-transform-style: preserve-3d;
+ /* -webkit-transition:all 0.2s;*/
+  position: relative;
+}
+ #stage{ 
+width:100%; margin:auto;
+  -webkit-perspective: 300px;
+  -webkit-transform-style: preserve-3d;
+}
+
+
 .grid ul#bookmarks >li{float:left; position:relative; 
    width:20%;   list-style:none; /*-webkit-transition:opacity 0.4s ease-out, margin-top 0s, margin-bottom 0s;*/ 
   list-style:none;
   padding:5px;
   
   
+}
+.grid ul#bookmarks >li:hover {
+background:#fff;
 }
 .grid ul#bookmarks >li .thumb_wrap{
 z-index: 60;
