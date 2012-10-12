@@ -70,8 +70,17 @@
       <a class="branding clearSearch" href="#">Everymarks</a>-->
       
        <a href="#" class="clearSearch starlogo"><img src="../img/logo2.png" ></a>
+       
+       <ul class="nav pull-left">
+      <li class="">
+        <div class="input-append search_form">
+          <input id="search2"  type="search" placeholder="Search Bookmarks" data-provide="typeahead">
+          <button class="btn btn-danger" type="button"><i class="icon-search icon-white"></i></button>
+        </div>
+        
       
-      <input id="search" class="left" type="search" placeholder="Search Bookmarks" data-provide="typeahead">
+      </li>
+      </ul>
      <!--  <img class="star clearSearch" src="../img/white/28-star@2x.png" />-->
       <ul class="nav pull-right">
         
@@ -83,9 +92,8 @@
         
         <li class="dropdown">
             <a class="dropdown-toggle"
-               data-toggle="dropdown"
-               href="#">
-                All bookmarks
+               data-toggle="dropdown"   href="#">
+                <i class="icon-folder-close icon-white"></i>Categories
                 <b class="caret"></b>
               </a>
               <ul class="dropdown-menu category">
@@ -223,12 +231,13 @@
       </div>
     
     <div class="alert alert-info html-download span5 pull-left hide">
+       <i class="icon-time"></i>
       Indexing bookmarks for full text search ~ <strong>count</strong>
       <button type="button" class="close stop" >×</a>
     </div>
     
      <div class="alert alert-success html-download-complete span5 pull-left hide">
-        <strong>count</strong> pages indexed!
+        <i class="icon-ok"></i><strong>count</strong> pages indexed!
        <button type="button" class="close" data-dismiss="alert">×</button>
       </div>
       

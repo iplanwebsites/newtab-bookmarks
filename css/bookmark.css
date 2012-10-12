@@ -3,15 +3,15 @@
 #cache{position:fixed; width:100%; height:100%; background:#fff; z-index:9999; top:0; left:0px; }
 .left{float:left}
 .right{float:right}
-.btn i, li i{margin-right:7px;}
+.btn i, li i,  .alert i{margin-right:7px;}
 div, td, th { color: black; }
 body{
   background:  url('../img/brillant.png');
   background: url('../img/pat/light_noise_diagonal.png');
 padding-top:97px;
 padding-bottom:150px; 
-padding-left:100px;
-padding-right:100px;
+padding-left:11%;
+padding-right:11%;
 }
 
 .star{height:30px; margin-top:5px; float:right; margin-right:30px;}
@@ -22,16 +22,21 @@ padding-right:100px;
   background-repeat: repeat;
   -webkit-box-shadow: inset 0 -3px 15px #282828;
   border-bottom:1px solid #bbb;
-  
+  height:47px;
   }
 .navbar.top li{text-align:left;}
+
+ .dropdown-toggle >i {opacity:0.5}
+li:hover .dropdown-toggle >i {opacity:1}
+
 .navbar .cog{height:30px; margin-top:-6px; margin-bottom:-10px; margin-right:10px; margin-left:20px; opacity:0.8; }
 .navbar .cog:hover{opacity:1;}
 
 .navbar .starlogo img{margin-bottom:-30px;}
-
-#search{margin-top:7px; margin-left:20px; opacity:0.3; width:150px; -webkit-transition:all 0.2s; }
-#search:hover{opacity:0.5; }
+.search_form{margin-top:7px; margin-left:30px;}
+.search_form i{margin-right:0px;}
+#search{width:150px; /*margin-top:7px; margin-left:20px;*/ opacity:0.3;  -webkit-transition:all 0.2s; }
+#search:hover{/*opacity:0.5; */}
 #search:focus{opacity:1; width:200px; }
 
 
