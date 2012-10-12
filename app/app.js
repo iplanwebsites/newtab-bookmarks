@@ -32,7 +32,7 @@ $(function() {
     app.setting.fetch({
       success:function(model, response){
         console.log('setting2 model fetched!', model);
-        var mode = app.setting.get('viewmode') || 'list';
+        var mode = app.setting.get('viewmode') || 'grid';
         app.ui.set_viewmode(mode);
         $('.viewmode .btn').removeClass('active');
         $('.viewmode .btn.'+mode ).addClass('active');

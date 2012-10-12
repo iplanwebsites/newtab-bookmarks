@@ -9,12 +9,32 @@ var UiView = Backbone.View.extend({
   events: {
      // "click .icon":          "open",
     //  "click .button.edit":   "openEditDialog",
-     "click .favourites_sites .sites a": "favourites_sites",
+    // "click .favourites_sites .sites a": "favourites_sites",
+     "click .category .sites a": "favourites_sites",
      'click .clearSearch':      'clearSearch',
      'click #bookmarks li':      'click_item',
      'click .viewmode .btn':      'viewmode',
      'click  #options .delicious .btn.add':      'add_delicious',
-     'click  #options .delicious .btn.remove':      'remove_delicious'
+     'click  #options .delicious .btn.remove':      'remove_delicious',
+     'click .footer .copyright':   'bt_copyright'
+    },
+    bt_copyright: function(ev){
+      //window.location = ;
+      console.log('copyright');
+      this.getUrl('http://iplanwebsites.com');
+    },
+    write_custom_css: function(numCol){
+      var RATIO_GRID = 1; //1:1
+      console.log('write_custom_css')
+     // var grid_w = $('#bookmarks >li').first().width(); //TODO: deduce it with the number of col instead... to avoid UI repaind twice...
+     // console.log(grid_w);
+       var grid_w = Math.floor( $('#bookmarks').first().innerWidth() / this.zoomLevel);
+     // console.log(grid_w);
+      var css = '';
+      
+     // css +="div {border: 2px solid black; background-color: blue;} ";
+      css += '.grid #bookmarks >li{height:'+grid_w+'px;}';
+      $('#write_custom_css').html(css);
     },
     add_delicious: function(ev){
       ev.preventDefault();
@@ -89,6 +109,7 @@ var UiView = Backbone.View.extend({
     set_viewmode: function(mode){
       this.top();
       if(mode =='grid'){
+         this.write_custom_css();//write the css rule for item height
          $('body').addClass('grid').removeClass('list');
       }else{
         $('body').removeClass('grid').addClass('list'); 
@@ -136,10 +157,12 @@ var UiView = Backbone.View.extend({
   	//	console.log('zoom now set to:'+zoom);
   		if(zoom != this.zoomLevel){//if we face a new number of col!
   		  this.top();
+  		  
   		  var className = 'zoom' + zoom;
     		$('body').removeClass('zoom1 zoom2 zoom3 zoom4 zoom5 zoom6 zoom7 zoom8 zoom9 zoom10 zoom11 zoom12')
     		$('body').addClass(className);
     		this.zoomLevel = zoom; //save itl
+    		app.ui.write_custom_css(); //we set the height of the grid rules...
   		}
   		
   		//sammy.cookie.set('zoom_level', val); //TODO: use native or jqeury cookie??

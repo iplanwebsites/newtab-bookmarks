@@ -44,6 +44,8 @@ var Bookmark = Backbone.Model.extend({
     this.save();//save it to LocalStorage right away.
     
   },
+
+
   downloadHTML: function(cb){
     var that = this;
     if(!cb)var cb = function(){};
@@ -157,19 +159,68 @@ var BookmarkCollection = Backbone.Collection.extend({
   
   //populate the view!!
   var html = '';
-  _.each(this.domains, function(d){
+  _.each(_.first(this.domains, 5), function(d){
       //console.log(d);
     if(d.value > 1){
-      html += '<li data-domain="'+d.key+'"><a>'+d.key+' ('+d.value+')'+'</a></li>'
+      html += '<li data-domain="'+d.key+'"><a><i class="icon-globe"></i>'+d.key+' <em>('+d.value+')'+'</em></a></li>'
     }
   })
-  $('.favourites_sites .sites').html(html);
+  $('.category .sites').html(html);
   
-  
-   
-   
   return sorted;
   },
+  
+  computeFolders: function(){
+    var foldersArray = this.all('folder');
+   var stringnified = _.map(foldersArray, function(f){
+     if(f) return f.join(' > ');
+    });
+    var html = '';
+    var folders = _.uniq(stringnified).sort()
+    folders = _.first(folders, 15)
+    _.each(folders, function(f){
+      console.log(f);
+      if(f) html+= ' <li><a href="#folder/'+f+'" data-folder="'+f+'"><i class="icon-folder-close"></i>'+f+'</a></li>';
+    });
+    $('.category .folders').html(html);
+    return stringnified;
+  },
+  
+  computeSources: function(){
+    /*<li><a href="#source/chrome" class="type_chrome"><i class="icon-star"></i>Browser Bookmarks</a></li>
+    <li><a href="#source/twitter" class="type_chrome"><i class="icon-retweet"></i>Twitter</a></li>
+    <li><a href="#source/delicious" class="type_chrome"><i class="icon-th-large"></i>Delicious</a></li>*/
+    var types = this.all('type');
+    source = {
+      chrome:{
+        label: 'Chrome',
+        icon: '<i class="icon-star"></i>'
+      },
+      twitter:{
+        label: 'Twitter',
+        icon: '<i class="icon-retweet"></i>'
+      },
+      delicious:{
+        label: 'Delicious',
+        icon: '<i class="icon-th-large"></i>'
+      },
+      facebook:{
+        label: 'Facebook',
+        icon: '<i class="icon-user"></i>'
+      }
+    };
+    var html='';
+    _.each(types, function(t){
+     // console.log(t);
+      var data = source[t];
+      //console.log(data);
+      var count = app.collection.where({type: t}).length;
+      if(t) html+= ' <li><a href="#source/'+t+'" data-source="'+t+'">'+ data.icon + data.label +' <em>('+count+')'+'</em></a></li>';
+    });
+    $('.category .sources').html(html);
+    return types;
+  },
+  
   computeKeywords: function(){
     
     var models    = _.pluck(this.models, 'attributes');
@@ -225,6 +276,8 @@ var BookmarkCollection = Backbone.Collection.extend({
     console.log(alreadyThere.length+' chrome bookmarks already there...');
     
   },
+  
+
    //////////////////////////////////////////
   //   delicious
  //////////////////////////////////////////
@@ -287,7 +340,8 @@ var BookmarkCollection = Backbone.Collection.extend({
   render: function(){
     var that =this;
     this.computeDomainCounts(); //populate the dropdown for sites list
-
+    this.computeFolders();
+    this.computeSources();
     _.defer(function(){
       that.setBgColors();
     });
