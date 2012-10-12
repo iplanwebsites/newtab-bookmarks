@@ -4,7 +4,8 @@
 var Bookmark = Backbone.Model.extend({
  // url: '/bookmarks',
  defaults:{
-   hasHtml: false
+   hasHtml: false,
+   title: 'website'
  },
  //store: new WebSQLStore(db, "todos"),
   localStorage : new Backbone.LocalStorage('whatever2'),
@@ -205,8 +206,12 @@ var BookmarkCollection = Backbone.Collection.extend({
         icon: '<i class="icon-th-large"></i>'
       },
       facebook:{
-        label: 'Facebook',
-        icon: '<i class="icon-user"></i>'
+        label: 'Facebook Likes & Post',
+        icon: '<i class="icon-thumbs-up"></i>'
+      } ,
+      facebook_friend:{
+         label: 'Facebook Friends',
+         icon: '<i class="icon-user"></i>'
       }
     };
     var html='';
@@ -322,6 +327,69 @@ var BookmarkCollection = Backbone.Collection.extend({
     
     //alert(m);
   },
+    //////////////////////////////////////////
+   //   FACEBOOOK
+  //////////////////////////////////////////
+  addFacebook: function(m){
+    if(!localStorage.accessToken) return false;
+     var me = "https://graph.facebook.com/me?" + localStorage.accessToken;
+      var feed = "https://graph.facebook.com/me/feed?limit=5000&" + localStorage.accessToken;
+       var likes = "https://graph.facebook.com/me/likes?" + localStorage.accessToken;
+       var fql = "select uid, name, website from user where uid IN (select uid2 from friend where uid1=me())";
+       var websites = "https://graph.facebook.com/fql?q="+fql + '&'+localStorage.accessToken;
+       //q=SELECT+uid2+FROM+friend+WHERE+uid1=me()&access_token=...
+       //https://graph.facebook.com/fql?q=select%20uid,%20name,%20work_history,%20work,%20education_history,%20current_location%20from%20user%20where%20uid%20IN%20(select%20uid2%20from%20friend%20where%20uid1=me)access_token=AAAEfVi4krooBAOJfqvQQqkQSc8ZAHkpZCOAC6uvDXLYnZBHUEZCK7qx8H7bfuXRbh7SvTJVHOVD6F1r2HvMUdatbvcT0hIhy9Iy9PZAAZC9QZDZD     
+ //?q=select%20uid,%20name,%20work_history,%20work,%20education_history,%20current_location%20from%20user%20where%20uid%20IN%20(select%20uid2%20from%20friend%20where%20uid1=me)access_token=AAAEfVi4krooBAOJfqvQQqkQSc8ZAHkpZCOAC6uvDXLYnZBHUEZCK7qx8H7bfuXRbh7SvTJVHOVD6F1r2HvMUdatbvcT0hIhy9Iy9PZAAZC9QZDZD&expires_in=5983      
+      var that = this;
+      console.log(feed);
+      $.getJSON(feed, function(data) {
+        console.log('feed', data);
+        // var data = data.data;
+        var links = [];
+        _.each(data.data, function(i){
+          if(i.link){ //if friend has a website, add it...
+            links.push( i.link);
+            var title = i.name || i.link;
+            var keywords = i.name + ','+i.link;
+            var m = that.add({title: title, url: i.link , type:'facebook', dateAdded: 0, keywords: keywords });
+          }
+        });
+        console.log(links.length + ' sites added from FEED',links);
+        //return links
+      });
+      console.log(likes);
+      $.getJSON(likes, function(data) {
+        console.log('likes', data);
+        //return data
+      });
+      console.log(websites);
+      $.getJSON(websites, function(data) {
+        console.log('WEBSITE data.data:',data.data);
+        _.each(data.data, function(i){
+         // dateAdded = 
+          if((i.website != '') && (i.website)){ //if this friend has a webite...
+            console.log(i.name+' : '+urlize(i.website))
+            var keywords ='facebook, friend, friends,'+i.name;
+            var m = that.add({title: i.name+"'s website", url: urlize(i.website) , type:'facebook', dateAdded: 0, keywords: keywords });
+            //links.push( i.link);
+          }
+          var friend_url = 'http://www.facebook.com/'+i.uid;
+          console.log(friend_url);
+          var m2 = that.add({title: i.name, uid:i.uid, url: friend_url , type:'facebook_friend', dateAdded: 0, keywords: 'friend,facebook'+i.name });
+          
+        });
+        console.log('websites', data);
+        //return data
+      });
+      $.getJSON(me, function(data) {
+        console.log('me', data);
+        
+        //return data
+      });
+     
+   },
+ 
+  
    //////////////////////////////////////////
   //   tools
  //////////////////////////////////////////

@@ -11,6 +11,7 @@
     "chrome://favicon/",
     "http://*/*",
     "https://*/*",
+    "http://*.facebook.com/*",
     "https://connect.facebook.net/*",
     "https://graph.facebook.com/oauth/access_token"
   ],
@@ -24,6 +25,9 @@
   "chrome_url_overrides": { "newtab": "pages/newtab.html" },
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' https://connect.facebook.net https://ajax.googleapis.com https://connect.facebook.net/en_US/all.js; object-src 'self' ",
-  "omnibox":{ "keyword": "*" }
+  "omnibox":{ "keyword": "*" },
+  "background": 
+  {"page":"pages/background.html"
+  }
  
 }

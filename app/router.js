@@ -9,19 +9,28 @@ var Router = Backbone.Router.extend({
     "search/:query/p:page": "search",   // #search/kiwis/p7
     "source/:query": "source"   // #search/kiwis/p7
   },
- 
+  page: function(p){
+    app.ui.top();
+    if(p == 'options'){
+      $('#options').show();
+      $('#bookmarks').hide();
+      $('body').addClass('options');
+      $('.navbar li.options').addClass('active');
+    }else{
+      $('#options').hide();
+       $('#bookmarks').show();
+       $('body').removeClass('options');
+       $('.navbar li.options').removeClass('active');
+    }
+  },
   options: function() {
-    $('#options').show();
-    $('#bookmarks').hide();
-    $('body').addClass('options');
+    this.page('options');
     app.ui.render_options();
    // alert('opt');
   },
   home: function() {
     //TODO: close popup
-    $('#options').hide();
-     $('#bookmarks').show();
-     $('body').removeClass('options');
+    this.page('home');
     // alert('H');
     // alert('options!');
   },
@@ -32,9 +41,7 @@ var Router = Backbone.Router.extend({
      $('body').removeClass('options');*/
   },
   source: function(query) {
-    $('#options').hide();
-     $('#bookmarks').show();
-     $('body').removeClass('options');
+    this.page('home');
      console.log('s$rc!');
      var delicious = app.collection.where({type: query});
     alert(delicious.length);

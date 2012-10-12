@@ -26,13 +26,14 @@ padding-right:11%;
   }
   
   
-.navbar.top li{text-align:left;}
+.navbar.top li{text-align:left; }
 
  .dropdown-toggle >i {opacity:0.5}
 li:hover .dropdown-toggle >i {opacity:1}
 
+.navbar .options a{height:46px}
 .navbar .cog{height:30px; margin-top:-6px; margin-bottom:-10px; margin-right:10px; margin-left:20px; opacity:0.8; }
-.navbar .cog:hover{opacity:1;}
+.navbar .cog:hover, .navbar li.active .cog{opacity:1;}
 
 .navbar .starlogo img{margin-bottom:-30px;}
 .search_form{margin-top:7px; margin-left:30px;}
@@ -62,18 +63,17 @@ li:hover .dropdown-toggle >i {opacity:1}
 
 }
 
-  /*3d crazyness*/  
+  /*3d crazyness
  #options,  #bookmarks{
   -webkit-transform: rotateX(361deg) rotateY(0deg) rotateZ(0deg); 
   -webkit-transform-style: preserve-3d;
- /* -webkit-transition:all 0.2s;*/
   position: relative;
 }
  #stage{ 
 width:100%; margin:auto;
   -webkit-perspective: 300px;
   -webkit-transform-style: preserve-3d;
-}
+}*/  
 
 
 .grid ul#bookmarks >li{float:left; position:relative; 

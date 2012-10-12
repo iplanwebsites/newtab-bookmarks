@@ -149,7 +149,7 @@ function wireShits(){
   })*/
   
   //wire search
-  $('#search').bind('keyup change', _.throttle(function(ev) {
+  $('#search').bind('keyup change propertychange input paste', _.throttle(function(ev) {
      var s = $('#search').val();
      s = s.toLowerCase();
      console.log(s);

@@ -88,9 +88,16 @@ var UiView = Backbone.View.extend({
       }else{
         $('#options .delicious .start').show();
         $('#options .delicious .connected').hide();
-      }
+      };
       
-      
+      //facebook connnect
+      var appId = 315929978515082;
+       //alert(el);
+       var retUrl = window.location.href; //
+       retUrl = 'http://www.facebook.com/connect/login_success.html';
+       var url = "https://www.facebook.com/dialog/oauth?client_id="+appId+"&response_type=token&scope=email,read_stream,user_likes,friends_website&redirect_uri="+retUrl;
+      $('#fb_connect').attr('href', url);
+    
     },
     viewmode: function(ev) {
       el = ev['currentTarget'];
@@ -210,6 +217,7 @@ var UiView = Backbone.View.extend({
     search: function(search){
        //console.log('search: '+search, search);
        this.top();
+       app.router.page('search');//quit option page, if it'S the case...
        var models = app.collection.models//, 'attributes');
        //if search is empty: show all
        if(search ==''){_.each(models, function(m){

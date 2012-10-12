@@ -46,6 +46,15 @@ function isUrl(s) {
 	}
 }
 
+
+
+function urlize(s){ //append http block is doesnt look like a valid url (for facebook use websites..)
+  if(! isUrl(s)){
+    return 'http://'+s;
+  }else{
+    return s;
+  }
+}
 function getDomain(url) {
 return url.match(/:\/\/(www[0-9]?\.)?(.[^/:]+)/)[2];
 }
