@@ -5,7 +5,7 @@ Setting = Backbone.Model.extend({
 });
 
 var UiView = Backbone.View.extend({
-  
+  zoomLevel:5,//default number of col
   events: {
      // "click .icon":          "open",
     //  "click .button.edit":   "openEditDialog",

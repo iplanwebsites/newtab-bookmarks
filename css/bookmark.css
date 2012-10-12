@@ -5,7 +5,9 @@
 .right{float:right}
 .btn i, li i{margin-right:7px;}
 div, td, th { color: black; }
-body{background:  url('../img/brillant.png');
+body{
+  background:  url('../img/brillant.png');
+  background: url('../img/pat/light_noise_diagonal.png');
 padding-top:97px;
 padding-bottom:150px; 
 padding-left:100px;
@@ -14,9 +16,19 @@ padding-right:100px;
 
 .star{height:30px; margin-top:5px; float:right; margin-right:30px;}
 .navbar a.branding{margin-top:10px; font-weight:bold; color:#ccc; font-size:30px; line-height:40px;}
-.navbar.top{text-align:center;}
+.navbar.top .navbar-inner{
+  text-align:center; 
+  background-image: url('../img/pat/triangles4.gif'); 
+  background-repeat: repeat;
+  -webkit-box-shadow: inset 0 -3px 15px #282828;
+  border-bottom:1px solid #bbb;
+  
+  }
 .navbar.top li{text-align:left;}
-.navbar .cog{height:30px; margin-top:-6px; margin-bottom:-10px; margin-right:10px; margin-left:20px;}
+.navbar .cog{height:30px; margin-top:-6px; margin-bottom:-10px; margin-right:10px; margin-left:20px; opacity:0.8; }
+.navbar .cog:hover{opacity:1;}
+
+.navbar .starlogo img{margin-bottom:-30px;}
 
 #search{margin-top:7px; margin-left:20px; opacity:0.3; width:150px; -webkit-transition:all 0.2s; }
 #search:hover{opacity:0.5; }
