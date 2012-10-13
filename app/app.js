@@ -48,12 +48,22 @@ $(function() {
       
   initData(function(){
     
-    
     wireShits();
     Backbone.history.start();//sh
+    
+    
+    _.delay(function(){
+       var fbEnabled =  app.collection.updateFacebookLinks(); //will start fetching HTML content, and indexing it...
+       if(! fbEnabled){
+         //TOOD: show bar to incite user to add Facebook stuff!
+       }
+    },1000)
+    
     _.delay(function(){
       app.collection.scheduleHtmlDownload(); //will start fetching HTML content, and indexing it...
-    },10000)
+    },10000);
+    
+    
     
     
     chrome.omnibox.onInputChanged.addListener( function(str) {

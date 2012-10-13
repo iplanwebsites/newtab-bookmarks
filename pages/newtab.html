@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset="utf-8" />
-  <title>★ ★ ★ ★ </title>
+  <title> ★ ★ ★ </title>
 <link rel="stylesheet" type="text/css" media="all" href="../css/bootstrap.css">  
 <link rel="stylesheet" type="text/css" media="all" href="../css/bookmark.css">  
 
@@ -12,6 +12,7 @@
 <script src="../lib/domparser.js"></script>
 <script src="../lib/jquery-1.8.2.min.js"></script>
 <script src="../lib/backbone.min.js"></script>
+<script src="../lib/async.js"></script>
 
 <script src="../lib/backbone.localStorage.js"></script>
 <!-- <script src="../lib/backbone-websql.js"></script>-->
@@ -90,9 +91,8 @@
         <li><a href="#">History</a></li>
         <li><a href="#">Delicious</a></li> -->
         
-        <li class="dropdown">
-            <a class="dropdown-toggle"
-               data-toggle="dropdown"   href="#">
+        <li class="dropdown categories_drop">
+            <a class="dropdown-toggle" data-toggle="dropdown"   href="#" >
                 <i class="icon-folder-close icon-white"></i>Categories
                 <b class="caret"></b>
               </a>
@@ -275,6 +275,7 @@
     </div>
   </div>
   
+  <button class="btn btn-mini  remove_all"><i class="icon-trash "></i>Reset everything</button>
   
   config: toggle class "3dfx" on body to disable crazy 3d FX
   

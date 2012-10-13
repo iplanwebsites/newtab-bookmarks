@@ -7,8 +7,8 @@ function onFacebookLogin() {
                                 var params = tabs[i].url.split('#')[1];
                                 console.log(params);
                                 localStorage.accessToken = params;
-                                chrome.tabs.onUpdated.removeListener(onFacebookLogin);
-                                alert('got tha token!!'+params);
+                                //chrome.tabs.onUpdated.removeListener(onFacebookLogin);
+                                console.log('got tha FB token!!'+params);
                                 //TODO: we should close the SUCCESS TAB as well now...
                                 return;
                             }

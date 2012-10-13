@@ -1,5 +1,9 @@
 
 Setting = Backbone.Model.extend({
+  defaults: {
+    viewmode:'grid',
+    zoomVal: 70
+  },
   localStorage : new Backbone.LocalStorage('settings2'),
   id: 1 //there's duplicates otherwise...
 });
@@ -16,7 +20,8 @@ var UiView = Backbone.View.extend({
      'click .viewmode .btn':      'viewmode',
      'click  #options .delicious .btn.add':      'add_delicious',
      'click  #options .delicious .btn.remove':      'remove_delicious',
-     'click .footer .copyright':   'bt_copyright'
+     'click .footer .copyright':   'bt_copyright',
+     'click .remove_all': 'remove_all'
     },
     bt_copyright: function(ev){
       //window.location = ;
@@ -56,7 +61,8 @@ var UiView = Backbone.View.extend({
       
     },
     remove_delicious: function(ev){
-      ev.preventDefault();
+      if(ev)ev.preventDefault();
+      
       var that= this;
       var delicious = app.collection.where({type: "delicious"});
       console.log('rm',delicious);
@@ -70,6 +76,24 @@ var UiView = Backbone.View.extend({
         app.collection.render();
         $('#options .delicious .input').val('');
       },200)
+      
+      
+    },
+    remove_all: function(){
+      //ev.preventDefault();
+      var that= this;
+      localStorage.clear();
+      app.collection.reset();
+      
+      /*
+      var models = app.collection.models;
+      console.log('rm',models);
+      _.each(models, function(m){
+        //console.log('destroy delicious model1:',m)
+        m.destroy({wait: true});
+      });
+      console.log('done removing....')
+      this.remove_delicious();*/
       
       
     },
@@ -92,7 +116,6 @@ var UiView = Backbone.View.extend({
       
       //facebook connnect
       var appId = 315929978515082;
-       //alert(el);
        var retUrl = window.location.href; //
        retUrl = 'http://www.facebook.com/connect/login_success.html';
        var url = "https://www.facebook.com/dialog/oauth?client_id="+appId+"&response_type=token&scope=email,read_stream,user_likes,friends_website&redirect_uri="+retUrl;
@@ -115,11 +138,11 @@ var UiView = Backbone.View.extend({
     },
     set_viewmode: function(mode){
       this.top();
-      if(mode =='grid'){
+      if(mode =='list'){
          this.write_custom_css();//write the css rule for item height
-         $('body').addClass('grid').removeClass('list');
+         $('body').removeClass('grid').addClass('list');
       }else{
-        $('body').removeClass('grid').addClass('list'); 
+        $('body').addClass('grid').removeClass('list');
       }
     },
     top: function(){
@@ -148,10 +171,12 @@ var UiView = Backbone.View.extend({
          app.setting.save();
     	});
     	
-    	$(window).scroll(function(ev){
-    	  app.ui.position3d();
-    	});
-    	 this.position3d_t= _.throttle(that.position3d, 10);
+    	if($('body').hasClass('3dfx')){
+    	    $(window).scroll(function(ev){
+    	      app.ui.position3d();
+    	    });
+    	    this.position3d_t= _.throttle(that.position3d, 10);
+  	    }//end if 3dfx
       
     },
     position3d:function(ev){
@@ -214,14 +239,20 @@ var UiView = Backbone.View.extend({
       this.search(domain);
       console.log('favourites_sites', domain)
     },
+    set_title:function(num){
+      var digit = num || app.collection.length 
+      $('title').html('('+digit+')  ★ ★ ★ ');
+    }
     search: function(search){
        //console.log('search: '+search, search);
        this.top();
+       var that = this;
        app.router.page('search');//quit option page, if it'S the case...
        var models = app.collection.models//, 'attributes');
        //if search is empty: show all
        if(search ==''){_.each(models, function(m){
          m.v.$el.show();
+         that.set_title();//reset title to default
        })}
 
        var matchesTitle = _.filter(models, function(m){

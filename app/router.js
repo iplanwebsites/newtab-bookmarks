@@ -44,7 +44,7 @@ var Router = Backbone.Router.extend({
     this.page('home');
      console.log('s$rc!');
      var delicious = app.collection.where({type: query});
-    alert(delicious.length);
+  //  alert(delicious.length);
      _.each(app.collection.models, function(m){
        if(m.get('type') == query){
          $(m.v.el).show();

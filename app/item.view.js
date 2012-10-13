@@ -14,14 +14,22 @@ var ItemView = Backbone.View.extend({
     var html = "";
     
     //html += '<li data-id="'+u.id+'" data-url="'+u.url+'">';
-    if(u.type =='facebook_friend'){ //if it's a FB friend or FB like...
+    if((u.type =='facebook_friend') || (u.type =='facebook_like')){ //if it's a FB friend or FB like...
       html += '<div class="thumb_wrap"><img src="http://graph.facebook.com/'+u.uid+'/picture?height=360&width=480" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }else{
        html += '<div class="thumb_wrap"><img src="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }
      
     html += '<div class="meta">';
-    html += '<img src="chrome://favicon/'+ u.url +'" class="favicon" />';
+    if(u.type =='facebook_friend'){
+       html += '<i class="icon-user"></i>';
+   }else if(u.type =='facebook_like'){
+         html += '<i class="icon-thumbs-up"></i>';
+   }else if(u.type =='facebook'){
+        html += '<i class="icon-comment"></i>';
+    }else{
+      html += '<img src="chrome://favicon/'+ u.url +'" class="favicon" />';
+    }
     html += '<a href="'+ u.url +'">'+ u.title +'</a>';
     html +=' ~ <em class="domain">'+u.domain + '</em>';
     html +=' ~ <button class="btn delete hide">'+ 'delete' + '</button>';
