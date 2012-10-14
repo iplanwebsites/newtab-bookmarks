@@ -23,8 +23,8 @@
 
 <script src="../app/utils.js"></script>
 <script src="../app/router.js"></script>
-<script src="../app/models.js"></script>
-<script src="../app/ui.view.js"></script>
+<script src="../app/models2.js"></script>
+<script src="../app/ui.view2.js"></script>
 <script src="../app/item.view.js"></script>
 <script src="../app/app.js"></script>
 
@@ -32,7 +32,7 @@
 
 
 </head>
-<body id="body" class=""> <!-- <body id="body" class="3dfx">-->
+<body id="body" class="grid"> <!-- <body id="body" class="3dfx">-->
   <style id="write_custom_css">
   /*genereted in JS*/
   </style>
@@ -43,25 +43,7 @@
   </div>
   
   <div id="fb-root"></div>
-  <!-- <script src="https://connect.facebook.net/en_US/all.js"></script>
-  <script>
-   // window.fbAsyncInit = function() {
-     /* FB.init({
-        appId  : '315929978515082',
-        status : true, // check login status
-        cookie : true, // enable cookies to allow the server to access the session
-        xfbml  : true  // parse XFBML
-      });
-   // };*/
-/*
-    (function() {
-      var e = document.createElement('script');
-      e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
-      e.async = true;
-      document.getElementById('fb-root').appendChild(e);
-    }());*/
-  </script>-->
-  
+
   
   
   
@@ -76,7 +58,7 @@
       <li class="">
         <div class="input-append search_form">
           <input id="search"  type="search" placeholder="Search Bookmarks" data-provide="typeahead">
-          <button class="btn btn-danger" type="button"><i class="icon-search icon-white"></i></button>
+          <button class="btn btn-success" type="button"><i class="icon-search icon-white"></i></button>
         </div>
         
       
@@ -324,8 +306,8 @@
        
          <li>
          <div class="btn-group viewmode" data-toggle="buttons-radio">
-           <button type="button" class="btn grid"><i class="icon-th-large"></i>Grid</button>
-           <button type="button" class="btn active list"><i class="icon-th-list"></i>List</button>
+           <button type="button" class="btn grid active"><i class="icon-th-large"></i>Grid</button>
+           <button type="button" class="btn  list"><i class="icon-th-list"></i>List</button>
          </div>
          </li>
          

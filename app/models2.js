@@ -1,11 +1,12 @@
 
 //var db = openDatabase("todos", "", "Backbone-websql example", 1024*1024);
-
+//alert('ok');
 var Bookmark = Backbone.Model.extend({
  // url: '/bookmarks',
  defaults:{
    hasHtml: false,
    title: 'website',
+   url: '',
    color: [200,200,200]//rgb
  },
  //store: new WebSQLStore(db, "todos"),
@@ -15,16 +16,33 @@ var Bookmark = Backbone.Model.extend({
     this.set({color: cssColor});
   },
   initialize: function(){
-    //console.log(this.attributes.url);
-    var url = this.get('url') || '';
+    console.log('initialize: '+this.attributes.url);
+    var url = this.get('url');
     
-    if(isUrl(url)){
-      this.set('domain', getDomain(url));
-    }else{
-      //this can be a bookmarklet, a FTP, or special page bookmark...
-      this.set('domain', false);
-      console.log('not a URL:', url);
+    //set the domain if it's a new object...
+    if(this.get('domain') == undefined){
+    // NEW object...
+      if(isUrl(url)){
+        this.set('domain', getDomain(url));
+      }else{
+        //this can be a bookmarklet, a FTP, or special page bookmark...
+        this.set('domain', false);
+        console.log('not a URL:', url);
+      }
+      
+       //set the main category
+        if(url.indexOf('.pdf') != -1){
+          this.set('filetype', 'pdf');
+
+        }else if((url.indexOf('.jpg') != -1) || (url.indexOf('.jpeg') != -1) || (url.indexOf('.png') != -1) || (url.indexOf('.gif') != -1)){
+          this.set('filetype', 'image');
+        }else{
+
+        }
+        
+         this.save();//save it to LocalStorage right away.
     }
+    
     //console.log('init model');
     //attach the corresponding view
     this.v = new ItemView({
@@ -32,18 +50,10 @@ var Bookmark = Backbone.Model.extend({
       id: "item-" + this.id
     });
     
-    //set the main category
-    if(url.indexOf('.pdf') != -1){
-      this.set('filetype', 'pdf');
-      
-    }else if((url.indexOf('.jpg') != -1) || (url.indexOf('.jpeg') != -1) || (url.indexOf('.png') != -1) || (url.indexOf('.gif') != -1)){
-      this.set('filetype', 'image');
-    }else{
-      
-    }
+   
     
     //if there's no title, set the domain name or URL?
-    this.save();//save it to LocalStorage right away.
+   
     
   },
 
@@ -299,19 +309,13 @@ var BookmarkCollection = Backbone.Collection.extend({
  //////////////////////////////////////////
   addDelicious: function(deliciousUser, cb){
     var that = this;
-    
     app.setting.set('delicious_user', deliciousUser);
     var delicious_url = 'http://feeds.delicious.com/v2/json';
     var del_count = '?count=9999'; //TODO: there's a maximum of 100 entries...
-    //var deliciousUser = 'ayudantegrafico';//'sigamani7977'; //TEST
     var url = delicious_url+'/'+deliciousUser+del_count;
    console.log(url);
     $.getJSON(url, function(data) {
-     // console.log('addDelicious', data);
       _.each(data, function(d) {
-       // console.log(d);
-        //what do we do for ID??
-        
         
        if(app.collection.where({url: d.u}).length ==0) {//Make sure the URL is NOT already indexed... avoid duplicates...
         var dateAdded = new Date(d.dt).getTime();
@@ -338,6 +342,60 @@ var BookmarkCollection = Backbone.Collection.extend({
     
     //alert(m);
   },
+  
+    //////////////////////////////////////////
+   // TWITTER import
+  //////////////////////////////////////////
+  addTwitter: function(handle, cb){
+     var that = this;
+      app.setting.set('twitter_user', handle);
+      var delicious_url = 'https://api.twitter.com/1/statuses/user_timeline.json?include_entities=true&include_rts=true&screen_name=';
+      var del_count = '&count=200'; //TODO: there's a maximum of 100 entries...
+      var url = delicious_url + handle + del_count;
+     console.log(url);
+      $.getJSON(url, function(data) {
+        console.log(data);
+        
+        _.each(data, function(d) {
+          
+          //check if tweet has url
+          if(d.entities.urls.length > 0){
+            
+            /*{
+            url: "https://t.co/utx9VAVt",
+            expanded_url: "https://brooklynbeta.org/beyond",
+            display_url: "brooklynbeta.org/beyond",
+            indices: [
+            46,
+            67
+            ]
+            }*/
+            var dateAdded = new Date(d.created_at).getTime();
+            var expanded_url = _.pluck(d.entities.urls, 'expanded_url');
+            _.each(expanded_url, function(url) {
+              if(app.collection.where({url: url}).length ==0) {//Make sure the URL is NOT already indexed... to avoid duplicates...
+                var keywords = d.text; //the tweet text.. //TODO: parse and keywordize...
+                 //if it's an array, and not an empty str...
+                  keywords = keywords+',twitter';//it's already a string..
+                var m = that.add({title: d.d, url:url , type:'twitter', dateAdded: dateAdded, keywords: keywords }); //add to collection
+                console.log('imported from twitter: '+url);
+               }else{//end if
+                console.log('not importing duplicate:',d.u);
+               }
+              
+              }); //eo each url of a tweet
+          }
+        });//eo each tweet
+        cb();
+        that.render();//refresh the collection, so these new elements appears!...
+      });
+  },
+  
+  
+  
+  
+  
+  
     //////////////////////////////////////////
    //   FACEBOOOK
   //////////////////////////////////////////

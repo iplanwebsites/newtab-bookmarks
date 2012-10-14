@@ -242,7 +242,7 @@ var UiView = Backbone.View.extend({
     set_title:function(num){
       var digit = num || app.collection.length 
       $('title').html('('+digit+')  ★ ★ ★ ');
-    }
+    },
     search: function(search){
        //console.log('search: '+search, search);
        this.top();

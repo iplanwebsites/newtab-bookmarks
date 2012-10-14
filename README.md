@@ -20,6 +20,7 @@ Features (done)
 TODO
 =========================
 - z-index bug btween the URL adn the menus
+- re(set) the custom style on window resize... throttled
 - shadow 1px black shadow on the cog icon.
 - check the count of Chrome bookmarks (or delicious), to make sure we got em all on file. If not, import/delete the ones that aren't there already.
 - Lazy load thumb images 
