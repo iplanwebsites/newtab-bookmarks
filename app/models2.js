@@ -16,8 +16,7 @@ var Bookmark = Backbone.Model.extend({
     this.set({color: cssColor});
   },
   initialize: function(){
-    console.log('initialize: '+this.attributes.url);
-    
+    //console.log('initialize: '+this.attributes.url);
     
     //set the domain if it's a new object...
     if(this.get('domain') == undefined){
@@ -42,18 +41,44 @@ var Bookmark = Backbone.Model.extend({
         }
            //if there's no title, set the domain name or URL?
          this.save();//save it to LocalStorage right away.
+         this.thumb_ping();// tell the server we'll need the thumb one day...
+         
     }
     
-    //attach the corresponding view
-    this.v = new ItemView({
-      model: this,
-      id: "item-" + this.id
-    });
+      //attach the corresponding view
+      this.v = new ItemView({
+        model: this,
+        id: "item-" + this.id
+      });
     
+     
  
   },
-
-
+   get_thumb_url: function(){
+       var u = this.attributes;
+       if(( u.type =='facebook_like') || ( u.type =='facebook_friend')){ //if it's a FB friend or FB like...
+         return 'http://graph.facebook.com/'+u.uid+'/picture?height=360&width=480'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+       // }else if(u.type =='facebook_friend'){
+        //  return 'http://graph.facebook.com/'+u.uid+'/picture?height=360&width=480'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+         }else{
+            return 'http://pagepeeker.com/thumbs.php?size=x&url='+ u.url;
+         }
+    },
+    thumb_ping: function(){
+      // TOOD: have the img server setted on different sub-domains, so more concurent AJAX calls can be made
+      var thumb_url = this.get_thumb_url();
+      //Function that pings the tile server, so it prepares the thumbnail... We  ignore the response to save user's bandwith
+      var a = new XMLHttpRequest();
+      a.onreadystatechange = function () {
+          if (a.readyState === a.HEADERS_RECEIVED) {
+              a.abort();
+              console.log(a, 'tile server responded with headers for '+thumb_url);
+          }
+      };
+      a.open("GET", thumb_url);
+      a.send(null);
+    },
+  
   downloadHTML: function(cb){
     var that = this;
     if(!cb)var cb = function(){};

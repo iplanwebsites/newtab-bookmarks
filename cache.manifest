@@ -1,0 +1,16 @@
+CACHE MANIFEST
+# rev 20111128
+/img/grey.gif
+/img/grey_globe.gif
+/img/grey_person.gif
+/img/grey_thumb.gif
+/img/grey_photo.gif
+/img/grey_video.gif
+
+lib/*
+lib
+img/*
+
+beep.js
+beep.htm
+/Library/jQuery/jQuery.js

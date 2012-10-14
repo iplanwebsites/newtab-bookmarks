@@ -127,6 +127,7 @@ var UiView = Backbone.View.extend({
       if($(el).hasClass('grid')){
          this.set_viewmode('grid');
          $('#zoom_level').show();
+         $(window).trigger('scroll');//for thumbs to load...
          app.setting.set('viewmode', 'grid');
          app.setting.save();
       }else{
@@ -151,6 +152,10 @@ var UiView = Backbone.View.extend({
     click_item: function(ev) {
       ev.preventDefault();
       var u = $(ev['currentTarget']).attr('data-url');
+      //console.log(ev);
+     // alert(ev);
+     // $(ev['currentTarget']).find('a').trigger(ev); //
+      //TODO: pass the event to the real link to handle ctrl-click? Or just wrap the LI in a A tag?
        app.ui.getUrl(u);
        return false;
     },
@@ -239,47 +244,84 @@ var UiView = Backbone.View.extend({
       this.search(domain);
       console.log('favourites_sites', domain)
     },
-    set_title:function(num){
-      var digit = num || app.collection.length 
-      $('title').html('('+digit+')  ★ ★ ★ ');
+    set_title:function(num){//udp title bar
+      if(num == undefined){
+         var digit = app.collection.length 
+      }else{
+         var digit = num 
+      }
+      if(digit== 0 ){
+        $('title').html('no retults... ');
+      }else{
+        $('title').html('('+digit+')  ★ ★ ★ ');
+      }
+      
     },
     search: function(search){
        //console.log('search: '+search, search);
        this.top();
+       var SEARCH_KEYWORDS = true; //speed testing...
        var that = this;
+       
+       var toShow = [];
+       var toHide = [];
        app.router.page('search');//quit option page, if it'S the case...
        var models = app.collection.models//, 'attributes');
        //if search is empty: show all
        if(search ==''){_.each(models, function(m){
-         m.v.$el.show();
+         //m.v.$el.show();
+         toShow.push(m.v.$el[0]);
          that.set_title();//reset title to default
+         return '';//we're done...
        })}
 
 
-       var matchesTitle = _.filter(models, function(m){
+       _.each(models, function(m){
          var a = m.attributes;
          var content = ','+a.url+','+a.domain+','+a.title.toLowerCase().split(' ').join(',');//m.keyword.join(',');
 
          if(matchKeywords(search, content)){
            m.v.setRank(1);
-           m.v.$el.show();
+          // m.v.$el.show();
+          toShow.push(m.v.$el[0]);
            return true
          }else{
-           if(a.keywords){
+           
+           if(a.keywords && SEARCH_KEYWORDS){
              if(matchKeywords(search, a.keywords)){
                m.v.setRank(2);
-                m.v.$el.show();
+               // m.v.$el.show();
+               toShow.push(m.v.$el[0]);
                 return true
              }
            }
-           m.v.$el.hide();
+           //m.v.$el.hide();
+           toHide.push(m.v.$el[0]);
            return false
          }
        });
-       this.set_title(matchesTitle.length); 
+      // console.log(matchesTitle.length + 'results');
+       //console.log(toHide.length + ' vs '+toShow.length, toHide, toShow);
+       
+       $(toShow).show();
+       $(toHide).hide();
+       this.set_title(toShow.length);
+       
+       if(toShow.length ==0){
+         $('.no_results').removeClass('hide').find('strong').html( search );
+       }else{
+         $(window).trigger('scroll');//load new thumbnails
+         $('.no_results').addClass('hide');
+       }
+       
+       
+       
+       //alert('v1');
+       
     },
     setRank: function(r){
-      this.$el.attr('data-rank', r); //for sorting purpose (isotope)
+      //Todo: make this less DOM consuming..., defer it?
+      //this.$el.attr('data-rank', r); //for sorting purpose (isotope)
     },
     clearSearch: function(ev){
       //ev.preventDefault();

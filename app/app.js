@@ -35,10 +35,14 @@ Backbone.sync = function Sync() {
 
 //log = bkg.console.log;
 
-$(function() {
+  //$(function() {
+  $(window).load(function() { // faster than DOM ready
   //alert('1')
   //
    // $('.brand').html('VVVVVV 7');
+   jQuery.ajaxSetup({async:true}); //avoid DOM locking...
+   
+   
   initView();
   
     app.setting.fetch({
@@ -171,12 +175,15 @@ function wireShits(){
   })*/
   
   //wire search
+  $('#search').bind('focus',function(ev) {
+    if(! $(this).hasClass('dirty') )$(this).addClass('dirty'); //manage the width better.
+  });
   $('#search').bind('keyup change propertychange input paste', _.debounce(function(ev) {
      var s = $('#search').val();
      s = s.toLowerCase();
      console.log(s);
      app.ui.search(s);
-  }, 300)); //100: throttle the input search
+  }, 100)); //100: throttle the input search
   
  // alert('wire1')
  

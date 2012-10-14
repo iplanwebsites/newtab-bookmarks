@@ -1,50 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html manifest="../cache.manifest">
 <head>
   <meta charset="utf-8" />
-  <title> ★ ★ ★ </title>
+  <title> ★ </title>
 <link rel="stylesheet" type="text/css" media="all" href="../css/bootstrap.css">  
 <link rel="stylesheet" type="text/css" media="all" href="../css/bookmark.css">  
 
-<!--<script src="../lib/zepto.min.js"></script>-->
-<script src="../lib/underscore.js"></script>
-<script src="../lib/underscore.string.js"></script>
-<script src="../lib/domparser.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
 <!-- 
-<script src="../lib/jquery-1.8.2.min.js"></script>-->
-<script src="../lib/jquery.scrollstop.js"></script>
-<script src="../lib/jquery.lazyload.js?v=4" ></script>
-<script src="../lib/backbone.min.js"></script>
-<script src="../lib/async.js"></script>
-
-<script src="../lib/backbone.localStorage.js"></script>
-<!-- <script src="../lib/backbone-websql.js"></script>-->
-<script src="../lib/bootstrap.min.js"></script>
-<script src="../lib/quantize.js"></script>
-<script src="../lib/color-thief.js"></script>
-
-
-<script src="../app/utils.js"></script>
-<script src="../app/router.js"></script>
-<script src="../app/models2.js?cache=rnd234"></script>
-<script src="../app/ui.view2.js?cache=rnd234"></script>
-<script src="../app/item.view.js"></script>
-<script src="../app/app.js"></script>
-
-
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+-->
+<script src="../lib/jquery-1.8.2.min.js"></script>
 
 </head>
-<body id="body" class="grid"> <!-- <body id="body" class="3dfx">-->
+<body id="body" class=""> <!-- <body id="body" class="3dfx">-->
   <style id="write_custom_css">
   /*genereted in JS*/
   </style>
   
   <div id="cache" class="hide">
-  
-    
   </div>
+  <div id="img_preload" class="hide">
+    <img src="../img/grey_globe.gif" >
+     <img src="../img/grey_person.gif" >
+     <img src="../img/grey_thumb.gif" >
+     <img src="../img/grey_photo.gif" >
+     <img src="../img/grey_video.gif" >
+     <img src="../img/grey.gif" >
+  </div>
+ 
+  
+ 
   
   <div id="fb-root"></div>
 
@@ -61,7 +46,7 @@
        <ul class="nav pull-left">
       <li class="">
         <div class="input-append search_form">
-          <input id="search"  type="search" placeholder="Search Bookmarks" data-provide="typeahead">
+          <input id="search"  type="search" placeholder="Search " >
           <button class="btn btn-success" type="button"><i class="icon-search icon-white"></i></button>
         </div>
         
@@ -113,22 +98,7 @@
           </li>
           
         
-        
-        <!-- 
-           <li>
-            <div class="btn-group favourites_sites">
-              <a class="btn dropdown-toggle dropup" data-toggle="dropdown" href="#">
-                <i class="icon-folder-close"></i>
-                Sites
-                <span class="caret"></span>
-              </a>
-              <ul class="dropdown-menu sites">
-                55
-              </ul>
-            </div>
-           </li>
-        -->
-        
+
            <li class="options"><a href="#option"><img src="../img/white/19-gear@2x.png" class="cog"></a></li>
 
         
@@ -145,58 +115,8 @@
 </div>
 
 
-
-
-<!-- 
-<section id="stage">
-    <div id="logo" class="" style="-webkit-transform: rotateX(251deg) rotateY(0deg) rotateZ(0deg); ">
-      <img src="html5.png" alt="HTML5 logo">
-    </div>
-  </section>-->
-  
-  <style>/*
-  footer,section,header{display:block;}
-   body { 
-     padding: 2em
-   }
-   #stage {
-     width: 300px;
-     height: 300px;
-     float: left;
-   }
-   h1{
-     font-family: futura,sans-serif;
-     text-transform: uppercase;
-     font-weight: normal;
-     color: #666;
-     font-size: 32px;
-   }
-   form{
-     width: 300px;
-     float: left;
-     background: #ccc;
-     padding: 10px;
-     margin-top: 1em;
-   }
-   form p{
-     padding: 0.5em 0;
-   }
-   button{
-     padding: 5px 10px;
-   }
-   label, span{
-     font-weight: bold;
-     padding: 0 0.5em;
-   }
-   fieldset{
-     border:none;
-   }
-   #logo img{
-     width:240px;
-     padding:20px;
-     display:block;
-   }
-   footer{clear:both;}*/
+  <style>
+ 
   </style>
 
 
@@ -204,6 +124,16 @@
 <div id="stage">
   <ul id="bookmarks"></ul>
 </div>
+
+
+<div class="alert alert-block no_results hide">
+  <button type="button" class="close" data-dismiss="alert">×</button>
+  <h4>Nothing found for <strong>your query</strong></h4>
+  Best check Google for <strong>your query</strong>...
+</div>
+
+
+
 
 <section id="options">
   <div class="container">
@@ -220,7 +150,7 @@
   
   
   <div class="alert alert-info service chrome span7">
-    <img src="http://2.bp.blogspot.com/-RDu9U2NP24Q/T4unv6w70BI/AAAAAAAAAQQ/smh2cpVImwE/s1600/chrome+logo.png" class="logo pull-left span1" />
+    <img src="../img/chrome logo.png" class="logo pull-left span1" />
     <h4>Chrome</h4>
  
       <p><strong class="count">222</strong> browser bookmarks indexed</p>
@@ -235,7 +165,7 @@
   
   
   <div class="alert alert-info service twitter span7">
-    <img src="http://twitter.com/images/resources/twitter-bird-light-bgs.png" class="logo pull-left span1" />
+    <img src="../img/twitter-bird-light-bgs.png" class="logo pull-left span1" />
     <h4>Twitter</h4>
     <p>Add Tweeted articles and websites</p>
     <form class="form-search">
@@ -246,7 +176,7 @@
   
   
   <div class="alert alert-success service delicious span7">
-    <img src="http://upload.wikimedia.org/wikipedia/commons/2/29/Del.icio.us_logo.png" class="logo pull-left span1" />
+    <img src="../img/del_logo.png" class="logo pull-left span1" />
     <h4>Delicious</h4>
     
     <div class="start">
@@ -315,8 +245,8 @@
        
          <li>
          <div class="btn-group viewmode" data-toggle="buttons-radio">
-           <button type="button" class="btn grid active"><i class="icon-th-large"></i>Grid</button>
-           <button type="button" class="btn  list"><i class="icon-th-list"></i>List</button>
+           <button type="button" class="btn grid "><i class="icon-th-large"></i>Grid</button>
+           <button type="button" class="btn  list active"><i class="icon-th-list"></i>List</button>
          </div>
          </li>
          
@@ -327,6 +257,31 @@
 
 
 
+<!--<script src="../lib/zepto.min.js"></script>-->
+<script src="../lib/underscore.js"></script>
+<script src="../lib/underscore.string.js"></script>
+<script src="../lib/domparser.js"></script>
+
+
+<script src="../lib/jquery.scrollstop.js"></script>
+<script src="../lib/jquery.lazyload.js?v=4" ></script>
+<script src="../lib/backbone.min.js"></script>
+<script src="../lib/async.js"></script>
+
+<script src="../lib/backbone.localStorage.js"></script>
+<!-- <script src="../lib/backbone-websql.js"></script>-->
+<script src="../lib/bootstrap.min.js"></script>
+<script src="../lib/quantize.js"></script>
+<script src="../lib/color-thief.js"></script>
+
+
+<script src="../app/utils.js"></script>
+<script src="../app/router.js"></script>
+<script src="../app/models2.js?cache=rnd234"></script>
+<script src="../app/ui.view2.js?cache=rnd234"></script>
+<script src="../app/item.view.js"></script>
+
+<script src="../app/app.js?cache=4324"></script>
 
 </body>
 </html>

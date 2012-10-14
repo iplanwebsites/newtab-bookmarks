@@ -18,19 +18,20 @@ var ItemView = Backbone.View.extend({
     if(u.color){
      var styles =  "background-color: rgb("+u.color[0]+", " + u.color[1] + ", " + u.color[2] + ")";
     }
+    var thumb = this.model.get_thumb_url();
     
     if( u.type =='facebook_like'){ //if it's a FB friend or FB like...
-     html += '<div class="thumb_wrap"><img  src="../img/grey_thumb.gif" data-original="http://graph.facebook.com/'+u.uid+'/picture?height=360&width=480" style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+     html += '<div class="thumb_wrap"><img  src="../img/grey_thumb.gif" data-original="'+thumb+'" style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }else if(u.type =='facebook_friend'){
-      html += '<div class="thumb_wrap"><img  src="../img/grey_person.gif" data-original="http://graph.facebook.com/'+u.uid+'/picture?height=360&width=480" style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+      html += '<div class="thumb_wrap"><img  src="../img/grey_person.gif" data-original="'+thumb+'" style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
      }else if(u.type =='doc'){
-        html += '<div class="thumb_wrap"><img src="../img/grey_docs.gif" data-original="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+        html += '<div class="thumb_wrap"><img src="../img/grey_docs.gif" data-original="'+thumb+'" style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }else if(u.type =='photo'){
-       html += '<div class="thumb_wrap"><img src="../img/grey_photo.gif"data-original="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'"  style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+       html += '<div class="thumb_wrap"><img src="../img/grey_photo.gif"data-original="'+thumb+'"  style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }else if(u.type =='video'){
-       html += '<div class="thumb_wrap"><img src="../img/grey_video.gif" data-original="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+       html += '<div class="thumb_wrap"><img src="../img/grey_video.gif" data-original="'+thumb+'" style="'+styles+'" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }else{
-       html += '<div class="thumb_wrap"><img src="../img/grey_globe.gif" data-original="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'"  style="'+styles+'" class="thumb" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+       html += '<div class="thumb_wrap"><img src="../img/grey_globe.gif" data-original="'+thumb+'"  style="'+styles+'" class="thumb" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }
      
     html += '<div class="meta">';
@@ -48,14 +49,13 @@ var ItemView = Backbone.View.extend({
     html +=' ~ <button class="btn delete hide">'+ 'delete' + '</button>';
     html += '</div>';
     
-     
-    
-    
      this.$el.html(html).attr('data-id', u.id).attr('data-url', u.url);
-    
+
     
       return this;
     },
+   
+    
     initialize: function() {
      //  this.$el.append(this.container);
      
