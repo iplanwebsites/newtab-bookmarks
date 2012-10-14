@@ -590,7 +590,17 @@ var BookmarkCollection = Backbone.Collection.extend({
     //_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
     _.each(items, function(m){
       m.v.attach(); //re-attach the items.
-    })
+    });
+    
+   // app.ui.lazy_load();
+   
+             
+    $(".thumb_wrap img").lazyload({
+                   event: "scrollstop"
+               });// attach action on these lazy images...
+    //alert('v4');
+    
+    
     
   },
   sortOrder:'dateAdded',

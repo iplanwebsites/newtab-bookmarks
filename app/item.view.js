@@ -17,7 +17,7 @@ var ItemView = Backbone.View.extend({
     if((u.type =='facebook_friend') || (u.type =='facebook_like')){ //if it's a FB friend or FB like...
       html += '<div class="thumb_wrap"><img src="http://graph.facebook.com/'+u.uid+'/picture?height=360&width=480" class="thumb facebook" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }else{
-       html += '<div class="thumb_wrap"><img src="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
+       html += '<div class="thumb_wrap"><img src="../img/grey.gif" data-original="http://pagepeeker.com/thumbs.php?size=x&url='+ u.url +'" class="thumb" width="480" height="360" /></div>'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
     }
      
     html += '<div class="meta">';

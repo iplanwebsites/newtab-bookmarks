@@ -19,6 +19,8 @@ Features (done)
 
 TODO
 =========================
+- BUG: lazy-loading images is not working properly. It's only fetching url that are withing the viewport on load, scroll event don't fire extra image download...
+(https://github.com/tuupola/jquery_lazyload/blob/master/jquery.lazyload.js)
 - z-index bug btween the URL adn the menus
 - re(set) the custom style on window resize... throttled
 - shadow 1px black shadow on the cog icon.

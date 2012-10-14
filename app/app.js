@@ -14,6 +14,18 @@ app.setting = new Setting();
 app.router = new Router();
 
 
+
+
+
+
+// EXAMPLE CODE For communication with background.js - usefull for processing/computing...
+chrome.extension.sendMessage({greeting: "hello"}, function(response) {
+  console.log(response.farewell);
+});
+
+
+
+
 /*
 Backbone.sync = function Sync() {
     Backbone.ajaxSync.apply(this, arguments);
