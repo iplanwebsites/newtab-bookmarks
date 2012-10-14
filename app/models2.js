@@ -17,11 +17,12 @@ var Bookmark = Backbone.Model.extend({
   },
   initialize: function(){
     console.log('initialize: '+this.attributes.url);
-    var url = this.get('url');
+    
     
     //set the domain if it's a new object...
     if(this.get('domain') == undefined){
     // NEW object...
+      var url = this.get('url');
       if(isUrl(url)){
         this.set('domain', getDomain(url));
       }else{
@@ -39,22 +40,17 @@ var Bookmark = Backbone.Model.extend({
         }else{
 
         }
-        
+           //if there's no title, set the domain name or URL?
          this.save();//save it to LocalStorage right away.
     }
     
-    //console.log('init model');
     //attach the corresponding view
     this.v = new ItemView({
       model: this,
       id: "item-" + this.id
     });
     
-   
-    
-    //if there's no title, set the domain name or URL?
-   
-    
+ 
   },
 
 
@@ -131,7 +127,11 @@ var BookmarkCollection = Backbone.Collection.extend({
         var pcnt = Math.floor( (remaining/that.length)*100);
         
         console.log('('+remaining+'/'+that.length+')');
-        that.show_html_download_notice(pcnt+'% ('+remaining+'/'+that.length+')')
+        
+        
+        
+        
+        that.show_html_download_notice(pcnt, remaining, that.length);
        var model = todo[Math.floor(Math.random()*todo.length-1)]; //pick a random one...
        //  var model = todo[0];
         model.downloadHTML();
@@ -147,9 +147,11 @@ var BookmarkCollection = Backbone.Collection.extend({
     window.clearInterval(this.htmlInterval); 
     $('.html-download').hide();
   },
-  show_html_download_notice: function(count){ //VIEW
+  show_html_download_notice: function(pcnt, remaining, all){ //VIEW
     $('.html-download').show();
-    $('.html-download strong').html(count);
+    $('.html-download strong').html(pcnt+'% ('+remaining+'/'+all+')');
+    $('.html-download .bar').css('width', pcnt+'%');
+    
    },
    show_html_download_complete: function(count){ //VIEW
      $('.html-download-complete').show();
@@ -593,14 +595,35 @@ var BookmarkCollection = Backbone.Collection.extend({
     });
     
    // app.ui.lazy_load();
-   
+   _.delay(function(){
+     console.log('>>> ini images');
+     $(".thumb_wrap img").lazyload({
+       threshold: 500
+       
+      });
+   },1); //just to skip the DOM repaint...
+   //alert('v6');
+           
+           
              
-    $(".thumb_wrap img").lazyload({
+   /* $(".thumb_wrap img").lazyload({
                    event: "scrollstop"
                });// attach action on these lazy images...
-    //alert('v4');
+      */
+      /*
+    _.delay(function(){ 
+     $(".thumb_wrap img").lazyload(   { 
+          event : "mouseover",
+          skip_invisible : false,
+          effect : "fadeIn"
+      });         
+      //WE SHOUL CALL this on scroll...
+     // $(".thumb_wrap img").filter(":below-the-fold").trigger("appear")
+      $(".thumb_wrap img[src='../img/grey.gif']").filter(":above-the-fold").trigger("appear"); 
+
+     alert('v5');
     
-    
+    },5000);*/
     
   },
   sortOrder:'dateAdded',
@@ -620,7 +643,8 @@ var BookmarkCollection = Backbone.Collection.extend({
       if((color[0] =148 )&&(color[1] ==148 )&&(color[2] ==148 )){
         //this is the default chrome icon... problem...
       }else{
-        $(this).parent().parent().find('.thumb_wrap').css('background-color', "rgb("+color[0]+"," + color[1] + "," + color[2] + ")");
+        //just save it, show it next time...
+        //$(this).parent().parent().find('.thumb_wrap').css('background-color', "rgb("+color[0]+"," + color[1] + "," + color[2] + ")");
       }
       
     })

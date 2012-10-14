@@ -255,6 +255,7 @@ var UiView = Backbone.View.extend({
          that.set_title();//reset title to default
        })}
 
+
        var matchesTitle = _.filter(models, function(m){
          var a = m.attributes;
          var content = ','+a.url+','+a.domain+','+a.title.toLowerCase().split(' ').join(',');//m.keyword.join(',');
@@ -275,6 +276,7 @@ var UiView = Backbone.View.extend({
            return false
          }
        });
+       this.set_title(matchesTitle.length); 
     },
     setRank: function(r){
       this.$el.attr('data-rank', r); //for sorting purpose (isotope)

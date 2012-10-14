@@ -10,7 +10,9 @@
 <script src="../lib/underscore.js"></script>
 <script src="../lib/underscore.string.js"></script>
 <script src="../lib/domparser.js"></script>
-<script src="../lib/jquery-1.8.2.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+<!-- 
+<script src="../lib/jquery-1.8.2.min.js"></script>-->
 <script src="../lib/jquery.scrollstop.js"></script>
 <script src="../lib/jquery.lazyload.js?v=4" ></script>
 <script src="../lib/backbone.min.js"></script>
@@ -25,7 +27,7 @@
 
 <script src="../app/utils.js"></script>
 <script src="../app/router.js"></script>
-<script src="../app/models2.js"></script>
+<script src="../app/models2.js?cache=rnd234"></script>
 <script src="../app/ui.view2.js?cache=rnd234"></script>
 <script src="../app/item.view.js"></script>
 <script src="../app/app.js"></script>
@@ -283,9 +285,14 @@
       </div>
     
     <div class="alert alert-info html-download span5 pull-left hide">
-       <i class="icon-time"></i>
-      Indexing bookmarks for full text search ~ <strong>count</strong>
-      <button type="button" class="close stop" >×</a>
+      <!--  <i class="icon-time"></i>-->
+       <button type="button" class="close stop" >×</a>
+      <div class="progress progress-striped active download">
+        <div class="bar" style="width: 1%;"></div>
+      </div>
+      Indexing websites for full text search ~ <strong>count</strong>
+      
+     
     </div>
     
      <div class="alert alert-success html-download-complete span5 pull-left hide">

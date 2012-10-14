@@ -69,11 +69,11 @@ $(function() {
        if(! fbEnabled){
          //TOOD: show bar to incite user to add Facebook stuff!
        }
-    },1000)
+    },2000)
     
     _.delay(function(){
       app.collection.scheduleHtmlDownload(); //will start fetching HTML content, and indexing it...
-    },10000);
+    },30000);//inactive 30 sec >>> index html content every 2 seconds...
     
     
     
@@ -171,14 +171,14 @@ function wireShits(){
   })*/
   
   //wire search
-  $('#search').bind('keyup change propertychange input paste', _.throttle(function(ev) {
+  $('#search').bind('keyup change propertychange input paste', _.debounce(function(ev) {
      var s = $('#search').val();
      s = s.toLowerCase();
      console.log(s);
      app.ui.search(s);
-  }, 100)); //100: throttle the input search
+  }, 300)); //100: throttle the input search
   
-  
+ // alert('wire1')
  
  
  $('.html-download .stop').click(function(ev){
