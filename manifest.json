@@ -24,7 +24,7 @@
   "icons": { "16": "img/icon16.png"  },
   "chrome_url_overrides": { "newtab": "pages/newtab.html" },
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' https://connect.facebook.net https://ajax.googleapis.com https://connect.facebook.net/en_US/all.js; object-src 'self' ",
+  "content_security_policy": "script-src 'self'  https://connect.facebook.net https://ajax.googleapis.com https://connect.facebook.net/en_US/all.js; object-src 'self' ",
   "omnibox":{ "keyword": "*" },
   "background": 
   {"page":"pages/background.html"
