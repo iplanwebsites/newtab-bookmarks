@@ -51,8 +51,12 @@ var Bookmark = Backbone.Model.extend({
      this.save();
  
   },
+  get_node: function(){
+    
+  },
   set_content_type: function(){ //TODO add all types, find less awfull algorithm to sort websites...
     var url = this.get('url');
+    var type = this.get('type');
     if(url.indexOf('.pdf') != -1){
      var t =  'doc';
     }else if((url.indexOf('.jpg') != -1) || (url.indexOf('.jpeg') != -1) || (url.indexOf('.png') != -1) || (url.indexOf('.gif') != -1)){
@@ -61,9 +65,16 @@ var Bookmark = Backbone.Model.extend({
       var t = 'blog';
     }else if((url.indexOf('youtube.') != -1) || (url.indexOf('dailymotion.') != -1)|| (url.indexOf('vimeo.') != -1)){
       var t = 'video';
+     }else if(type == 'facebook_friend'){
+        var t = 'person';
+      }else if(type == 'facebook_like'){
+          var t = 'facebook_like';
+    // }else if((url.indexOf('youtube.') != -1) || (url.indexOf('dailymotion.') != -1)|| (url.indexOf('vimeo.') != -1)){
+      //  var t = 'video';
     }else{
       var t = 'web';
     }
+    
      this.set('content_type', t);
   },
    get_thumb_url: function(){
@@ -340,13 +351,14 @@ var BookmarkCollection = Backbone.Collection.extend({
       var data = source[t];
       //console.log(data);
       var count = app.collection.where({content_type: t}).length;
-      if(t) html+= ' <li><a href="#type/'+t+'" class="tip" data-type="'+t+'"   rel="tooltip" data-placement="bottom" data-original-title="'+ data.label +' <em>('+count+')'+'</em>" >'+ data.icon +'</a></li>';
+      if(t) html+= ' <li class=" '+t+'" ><a href="#type/'+t+'" class="tip '+t+'" data-type="'+t+'"   rel="tooltip" data-placement="bottom" data-original-title="'+ data.label +' <em>('+count+')'+'</em>" >'+ data.icon +'</a></li>';
     });
     
     $('.content_types').html(html);
     $('.content_types .tip').tooltip();
     return types;
   },
+  
   computeKeywords: function(){
     
     var models    = _.pluck(this.models, 'attributes');

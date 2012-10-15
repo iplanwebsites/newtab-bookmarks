@@ -22,24 +22,28 @@ Features (done)
 - better search filter function (so the DOM repaint only once)
 - ping the tile server for all images that will be required one day (so the server has time to fetch the website thumb, Ignore the response: save bandwith)
 - Focus bug with the search field... (seems ok now)
+- comparator filter method of the grid (caching of jquery objects to hide/show)
+
 
 TODO
 =========================
+- UI: active state for type and folders. search as well??
 - UI: create modals to link Twitter/Delicious/Facebook (and also add some instructions, and options settings...)
 - BUG: the collection count sometimes double up in the Title bar...
-- Adjust the sources and content_type routes to use the better filter algorithm (caching of jquery object VS each hide/show)
+- Bug with the parsing of Facebook page's website URL (we need to separate multilnes, multi-urls better... on spaces we split, then we with trim??)
 - In the site model, code all the condition (set_content_type) to sort websites types (photo/videos/blogs/pdf/etc)
 - bug with default viewmode (list/grid)
+- Delete feature for Browser bookmarks (and actually delete it from the browser, maybe a confirm dialog before?)
 - Add Pinboard import (Exact same syntax than delicious API): http://feeds.pinboard.in/json/u:bob/?count=5000
 - Grid float bug: why do some elements push the next row, and break the grid pattern?
 - CSS for the alerts in the footer (thinner)
 - make LIST actual <A> links that we can ctrl click (no on click events...)
 - Google Auth (and fetch ALL youtube favorites, and more...)
-- UI tooltips
-- do the heavy stuff on the background js page (fetching websites, importing facebook / twitter / delicious links)
+- UI tooltips: improve placement + color
+- do the heavy stuff on the background-js page (fetching websites, importing facebook / twitter / delicious links)
 - add better filter controle (and search within, currently, the search overrides any filters...)
 - find a way to cache thumb images (but only once the tile-server send a good image, not the placeholder)
-- z-index bug between the URL and the menus
+- z-index bug between the URL and the menus:buggy...
 - re(set) the custom style on window resize... throttled
 - shadow 1px black shadow on the cog icon.
 - check the count of Chrome bookmarks (or delicious), to make sure we got em all on file. If not, import/delete the ones that aren't there already.
@@ -48,8 +52,10 @@ TODO
 - Import URls from Freebase database
 - Thumbnail server (to replace the crappy APIs?)
 - Thumb server: mirror lots of subdomains, so we can max out the number of concurent download/pings
+- thumb server ping: make this task happen in the background.js.
 - Sync the bookmarks to a server (so we know how many users has bookmarked the same sites)
 - Backend (auth, sync, import favs from github, facebook, etc)
+- Code clean: Make modular importer objects for the different services.
 
 
 

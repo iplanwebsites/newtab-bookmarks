@@ -247,6 +247,7 @@ var UiView = Backbone.View.extend({
       this.search(domain);
       console.log('favourites_sites', domain)
     },
+    
     set_title:function(num){//udp title bar
       if(num == undefined){
          var digit = app.collection.length 
@@ -258,68 +259,104 @@ var UiView = Backbone.View.extend({
       }else{
         $('title').html('('+digit+')  ★ ★ ★ ');
       }
+      //show the alert if we don'T show anythin...
+       if(digit ==0){
+         var search = $('#search').val();
+          $('.no_results').removeClass('hide').find('strong').html( search );
+        }else{
+          $(window).trigger('scroll');//load new thumbnails
+          $('.no_results').addClass('hide');
+        }
       
     },
     search: function(search){
        //console.log('search: '+search, search);
        this.top();
-       var SEARCH_KEYWORDS = true; //speed testing...
-       var that = this;
        
-       var toShow = [];
-       var toHide = [];
+       var that = this;
        app.router.page('search');//quit option page, if it'S the case...
-       var models = app.collection.models//, 'attributes');
-       //if search is empty: show all
-       if(search ==''){_.each(models, function(m){
-         //m.v.$el.show();
-         toShow.push(m.v.$el[0]);
-         that.set_title();//reset title to default
-         return '';//we're done...
-       })}
+          
+       app.router.filter_grid(search, function(m, search){ //this functions takes a comparator function that receive the model as a param
+          //console.log('search:  ' + search );
+          var SEARCH_KEYWORDS = true; //speed testing...
+          if(search ==''){
+             return true; //blank search, useless to fuss with searching...
+           }else{
+             var a = m.attributes;
+             var content = ','+a.url+','+a.domain+','+a.title.toLowerCase().split(' ').join(',');//m.keyword.join(',');
+             if(matchKeywords(search, content)){
+              // m.v.setRank(1);
+               return true;
+             }else{
 
-
-       _.each(models, function(m){
-         var a = m.attributes;
-         var content = ','+a.url+','+a.domain+','+a.title.toLowerCase().split(' ').join(',');//m.keyword.join(',');
-
-         if(matchKeywords(search, content)){
-           m.v.setRank(1);
-          // m.v.$el.show();
-          toShow.push(m.v.$el[0]);
-           return true
-         }else{
-           
-           if(a.keywords && SEARCH_KEYWORDS){
-             if(matchKeywords(search, a.keywords)){
-               m.v.setRank(2);
-               // m.v.$el.show();
-               toShow.push(m.v.$el[0]);
-                return true
+               if(a.keywords && SEARCH_KEYWORDS){
+                 if(matchKeywords(search, a.keywords)){
+                  // m.v.setRank(2);
+                    return true;
+                 }
+               }
+               return false;
              }
            }
-           //m.v.$el.hide();
-           toHide.push(m.v.$el[0]);
-           return false
-         }
-       });
-      // console.log(matchesTitle.length + 'results');
-       //console.log(toHide.length + ' vs '+toShow.length, toHide, toShow);
+        });// eo filter grid
        
+       
+       
+       
+       /*
+       
+      // var models = app.collection.models//, 'attributes');
+       //if search is empty: show all
+       if(search ==''){
+         _.each(models, function(m){
+         toShow.push(m.v.$el[0]);
+       })}else{
+         
+         //keywords parsing
+         _.each(models, function(m){
+            var a = m.attributes;
+            var content = ','+a.url+','+a.domain+','+a.title.toLowerCase().split(' ').join(',');//m.keyword.join(',');
+
+            if(matchKeywords(search, content)){
+              m.v.setRank(1);
+             // m.v.$el.show();
+             toShow.push(m.v.$el[0]);
+              return true
+            }else{
+
+              if(a.keywords && SEARCH_KEYWORDS){
+                if(matchKeywords(search, a.keywords)){
+                  m.v.setRank(2);
+                  // m.v.$el.show();
+                  toShow.push(m.v.$el[0]);
+                   return true
+                }
+              }
+              //m.v.$el.hide();
+              toHide.push(m.v.$el[0]);
+              return false
+            }
+          });
+         
+         
+       }//end if
+       
+       that.set_title();//reset title to default
+
        $(toShow).show();
        $(toHide).hide();
        this.set_title(toShow.length);
        
-       if(toShow.length ==0){
-         $('.no_results').removeClass('hide').find('strong').html( search );
-       }else{
-         $(window).trigger('scroll');//load new thumbnails
-         $('.no_results').addClass('hide');
-       }
+       */
        
        
        
-       //alert('v1');
+       
+       
+       
+       
+       
+     
        
     },
     setRank: function(r){
