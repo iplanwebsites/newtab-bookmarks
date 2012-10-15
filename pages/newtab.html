@@ -41,7 +41,11 @@
       <!-- 
       <a class="branding clearSearch" href="#">Everymarks</a>-->
       
-       <a href="#" class="clearSearch starlogo"><img src="../img/logo2.png" ></a>
+       <a href="#" class="clearSearch starlogo tip"  rel="tooltip" data-placement="left" data-original-title="All Bookmarks"><img src="../img/logo2.png" ></a>
+       
+       
+       
+       
        
        <ul class="nav pull-left">
       <li class="">
@@ -63,9 +67,17 @@
         <li><a href="#">Delicious</a></li> -->
         
         <li class="dropdown categories_drop">
-            <a class="dropdown-toggle" data-toggle="dropdown"   href="#" >
-                <i class="icon-folder-close icon-white"></i>Categories
-                <b class="caret"></b>
+            <a class="dropdown-toggle tip" data-toggle="dropdown"   href="#"  rel="tooltip" data-placement="bottom" data-original-title="Select Folder">
+              
+                <!-- 
+                Select Folder
+                 <b class="caret"></b>
+                <i class="icon-folder-close icon-white"></i>
+                -->
+                
+                
+                <img src="../img/white/33-cabinet@2x.png" class="folder">
+                
               </a>
               <ul class="dropdown-menu category">
                                 <li class="all_bookmarks"><a href="#"><i class="icon-home"></i>View all</a></li><li class="divider"></li>
@@ -92,17 +104,64 @@
                                 <li><a href="#"><i class="icon-globe"></i>test</a></li>
                                 <li><a href="#"><i class="icon-globe"></i>test</a></li>
                                 </div>
-                                
-                                
-                              </ul>
+              </ul>
           </li>
           
         
 
-           <li class="options"><a href="#option"><img src="../img/white/19-gear@2x.png" class="cog"></a></li>
+           <li class="options">
+             <a class="dropdown-toggle tip" data-toggle="dropdown"   href="#"  rel="tooltip" data-placement="bottom" data-original-title="Add source">
+                 <img src="../img/white/19-gear@2x.png" class="cog">
+               </a>
+               
+             
+              <ul class="dropdown-menu category">
+               
+                 <li class="all_bookmarks"> <a href="#option"><i class="icon-home"></i>Stats (former option page)</a></li>
+                   <li class="divider"></li>
+                   
+                   <li class="divider"></li>
+                   <li class="divider"></li>
+                   
+                                <li class="all_bookmarks"><a href="#"><i class="icon-home"></i>View all</a></li>
+                                <li class="divider"></li>
+                                <div class="folders">
+                                <li><a href="#"><i class="icon-folder-close"></i>My folder</a></li>
+                                </div>
+                                <!-- 
+                                <li class="divider"></li>
+                                <li><a href="#"><i class="icon-user"></i>People</a></li>
+                                <li><a href="#"><i class="icon-picture"></i>Photos</a></li>
+                                <li><a href="#"><i class="icon-film"></i>Video</a></li>
+                                <li><a href="#"><i class="icon-music"></i>Music</a></li>-->
+                                
+                                <li class="divider"></li>
+                                <div class="sources">
+                                <li><a href="#source/chrome" class="type_chrome"><i class="icon-star"></i>Browser Bookmarks</a></li>
+                                <li><a href="#source/twitter" class="type_chrome"><i class="icon-retweet"></i>Twitter</a></li>
+                                <li><a href="#source/delicious" class="type_chrome"><i class="icon-th-large"></i>Delicious</a></li>
+                                </div>
+                                
+                                <li class="divider"></li>
+                                <div class="sites">
+                                <li><a href="#"><i class="icon-globe"></i>github.com</a></li>
+                                <li><a href="#"><i class="icon-globe"></i>test</a></li>
+                                <li><a href="#"><i class="icon-globe"></i>test</a></li>
+                                </div>
+              </ul>
+             
+             </li>
 
+
+               
         
       </ul>
+      
+      <div class="content_types pull-right">
+
+        </div>
+
+
     </div>
   </div>
   
@@ -284,8 +343,8 @@
 
 <script src="../app/utils.js"></script>
 <script src="../app/router.js"></script>
-<script src="../app/models2.js?cache=rnd234"></script>
-<script src="../app/ui.view2.js?cache=rnd234"></script>
+<script src="../app/models.js?cache=rnd234"></script>
+<script src="../app/ui.view.js?cache=rnd234"></script>
 <script src="../app/item.view.js"></script>
 
 <script src="../app/app.js?cache=4324"></script>

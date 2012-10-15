@@ -19,7 +19,7 @@ var Bookmark = Backbone.Model.extend({
     //console.log('initialize: '+this.attributes.url);
     
     //set the domain if it's a new object...
-    if(this.get('domain') == undefined){
+    if((this.get('domain') == undefined) || (this.get('content_type') == undefined)){
     // NEW object...
       var url = this.get('url');
       if(isUrl(url)){
@@ -30,17 +30,12 @@ var Bookmark = Backbone.Model.extend({
         console.log('not a URL:', url);
       }
       
-       //set the main category
-        if(url.indexOf('.pdf') != -1){
-          this.set('filetype', 'pdf');
-
-        }else if((url.indexOf('.jpg') != -1) || (url.indexOf('.jpeg') != -1) || (url.indexOf('.png') != -1) || (url.indexOf('.gif') != -1)){
-          this.set('filetype', 'image');
-        }else{
-
-        }
+       //set the main set_content_type
+       this.set_content_type()
+        
            //if there's no title, set the domain name or URL?
          this.save();//save it to LocalStorage right away.
+        
          this.thumb_ping();// tell the server we'll need the thumb one day...
          
     }
@@ -51,8 +46,25 @@ var Bookmark = Backbone.Model.extend({
         id: "item-" + this.id
       });
     
-     
+    //TODO: remove these 2 lines in production; it's already done in the init...
+      this.set_content_type();
+     this.save();
  
+  },
+  set_content_type: function(){ //TODO add all types, find less awfull algorithm to sort websites...
+    var url = this.get('url');
+    if(url.indexOf('.pdf') != -1){
+     var t =  'doc';
+    }else if((url.indexOf('.jpg') != -1) || (url.indexOf('.jpeg') != -1) || (url.indexOf('.png') != -1) || (url.indexOf('.gif') != -1)){
+      var t =  'photo';
+    }else if((url.indexOf('wordpress.') != -1) || (url.indexOf('blogger.') != -1)){
+      var t = 'blog';
+    }else if((url.indexOf('youtube.') != -1) || (url.indexOf('dailymotion.') != -1)|| (url.indexOf('vimeo.') != -1)){
+      var t = 'video';
+    }else{
+      var t = 'web';
+    }
+     this.set('content_type', t);
   },
    get_thumb_url: function(){
        var u = this.attributes;
@@ -273,7 +285,68 @@ var BookmarkCollection = Backbone.Collection.extend({
     $('.category .sources').html(html);
     return types;
   },
-  
+  computeContentTypes: function(){
+    /*<li><a href="#source/chrome" class="type_chrome"><i class="icon-star"></i>Browser Bookmarks</a></li>
+    <li><a href="#source/twitter" class="type_chrome"><i class="icon-retweet"></i>Twitter</a></li>
+    <li><a href="#source/delicious" class="type_chrome"><i class="icon-th-large"></i>Delicious</a></li>*/
+    var types = _.without(this.all('content_type'), undefined);
+    console.log('>>>> types');
+    console.log(types);
+    source = {
+      photo:{
+        label: 'Photos',
+        icon: '<i class="icon-picture icon-white"></i>'
+      },
+      web:{
+        label: 'Websites',
+        icon: '<i class="icon-globe icon-white"></i>'
+      },
+      video:{
+        label: 'Videos',
+        icon: '<i class="icon-film icon-white"></i>'
+      },
+      facebook_like:{
+        label: 'Facebook Pages',
+        icon: '<i class="icon-thumbs-up icon-white"></i>'
+      },
+      doc:{
+        label: 'Documents (pdf)',
+        icon: '<i class="icon-book icon-white"></i>'
+      },
+      music:{
+        label: 'Music',
+        icon: '<i class="icon-music icon-white"></i>'
+      },
+      file:{
+        label: 'Files',
+        icon: '<i class="icon-file icon-white"></i>'
+      },
+      blog:{
+        label: 'Blogs',
+        icon: '<i class="icon-comment icon-white"></i>'
+      },
+      person:{
+         label: 'Persons',
+         icon: '<i class="icon-user icon-white"></i>'
+      },
+      nsfw:{
+        label: 'NSFW',
+        icon: '<i class="icon-eye-open icon-white"></i>'
+      }
+    };
+    var html='';
+    _.each(types, function(t){
+     // console.log(t);
+      var data = source[t];
+      //console.log(data);
+      var count = app.collection.where({content_type: t}).length;
+      if(t) html+= ' <li><a href="#type/'+t+'" class="tip" data-type="'+t+'"   rel="tooltip" data-placement="bottom" data-original-title="'+ data.label +' <em>('+count+')'+'</em>" >'+ data.icon +'</a></li>';
+    });
+    
+    $('.content_types').html(html);
+    $('.content_types .tip').tooltip();
+    return types;
+  },
   computeKeywords: function(){
     
     var models    = _.pluck(this.models, 'attributes');
@@ -600,6 +673,7 @@ var BookmarkCollection = Backbone.Collection.extend({
     this.computeDomainCounts(); //populate the dropdown for sites list
     this.computeFolders();
     this.computeSources();
+    this.computeContentTypes();//header bar
     _.defer(function(){
       that.setBgColors();
     });

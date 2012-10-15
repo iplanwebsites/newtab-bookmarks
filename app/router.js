@@ -7,7 +7,8 @@ var Router = Backbone.Router.extend({
     "options":                 "options",    // #help
     "search/:query":        "search",  // #search/kiwis
     "search/:query/p:page": "search",   // #search/kiwis/p7
-    "source/:query": "source"   // #search/kiwis/p7
+    "source/:query": "source",   // #search/kiwis/p7
+    "source/:query": "type"
   },
   page: function(p){
     app.ui.top();
@@ -42,19 +43,26 @@ var Router = Backbone.Router.extend({
   },
   source: function(query) {
     this.page('home');
-     console.log('s$rc!');
      var delicious = app.collection.where({type: query});
-  //  alert(delicious.length);
      _.each(app.collection.models, function(m){
        if(m.get('type') == query){
          $(m.v.el).show();
-         console.log('show!')
        }else{
          $(m.v.el).hide();
        }
       
      });
-      console.log('$src!33');
+  },
+  content_type: function(query) {
+    this.page('home');
+     var delicious = app.collection.where({content_type: query});
+     _.each(app.collection.models, function(m){
+       if(m.get('type') == query){
+         $(m.v.el).show();
+       }else{
+         $(m.v.el).hide();
+       }
+     });
   }
 
 });

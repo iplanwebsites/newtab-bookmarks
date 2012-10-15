@@ -25,6 +25,8 @@ Features (done)
 
 TODO
 =========================
+- Adjust the sources and content_type routes to use the better filter algorithm (caching of jquery object VS each hide/show)
+- In the site model, code all the condition (set_content_type) to sort websites types (photo/videos/blogs/pdf/etc)
 - bug with default viewmode (list/grid)
 - Grid float bug: why do some elements push the next row, and break the grid pattern?
 - CSS for the alerts in the footer (thinner)

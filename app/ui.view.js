@@ -183,6 +183,9 @@ var UiView = Backbone.View.extend({
     	    this.position3d_t= _.throttle(that.position3d, 10);
   	    }//end if 3dfx
       
+      $('.tip').tooltip();//wire tooltips.
+      
+      
     },
     position3d:function(ev){
       if($('body').hasClass('3dfx')){
