@@ -63,9 +63,15 @@ var ItemView = Backbone.View.extend({
      //this.model.bind('remove', this.remove); //inherit destroy
       
     },
-    attach: function(){
+    attach: function(defered){
       this.render();// generate the html in the node
-      $('#bookmarks').append(this.el);
+      if(defered){
+        return this.el;
+      }else{
+        $('#bookmarks').append(this.el);
+        return true;
+      }
+      
     },
     destroy: function(){
       alert('destroy this bookmark')

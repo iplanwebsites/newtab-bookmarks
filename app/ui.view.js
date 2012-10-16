@@ -184,7 +184,7 @@ var UiView = Backbone.View.extend({
   	    }//end if 3dfx
       
       $('.tip').tooltip();//wire tooltips.
-      
+     $('.bt_modal').modal(); 
       
     },
     position3d:function(ev){

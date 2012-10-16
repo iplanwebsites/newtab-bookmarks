@@ -23,13 +23,20 @@ Features (done)
 - ping the tile server for all images that will be required one day (so the server has time to fetch the website thumb, Ignore the response: save bandwith)
 - Focus bug with the search field... (seems ok now)
 - comparator filter method of the grid (caching of jquery objects to hide/show)
+- UI: active state for type and folders. search as well??
+
+
 
 
 TODO
 =========================
-- UI: active state for type and folders. search as well??
+- speed up attaching using a BIG html STR to append.
+- Add a non-active state to the logo (when we activate other filters)
+- better handle duplicates, >> use a middle "addUrl function avoind adding existing URL?"
 - UI: create modals to link Twitter/Delicious/Facebook (and also add some instructions, and options settings...)
 - BUG: the collection count sometimes double up in the Title bar...
+- Facebook auth: fire/listen an event when we retrive the Token! (so no refresh is required)
+- FB import: show status in an allert at the bottom, especially when it's completed>> 231 websites imported from facebook sucessfully!
 - Bug with the parsing of Facebook page's website URL (we need to separate multilnes, multi-urls better... on spaces we split, then we with trim??)
 - In the site model, code all the condition (set_content_type) to sort websites types (photo/videos/blogs/pdf/etc)
 - bug with default viewmode (list/grid)
@@ -49,6 +56,7 @@ TODO
 - check the count of Chrome bookmarks (or delicious), to make sure we got em all on file. If not, import/delete the ones that aren't there already.
 - Url classifications (ie. a person website, a media, an open source-projet). Is Open Calay a good engine???
 - add a x icon to the search
+- bt search: keep the focus on the input. (now it blurs it)
 - Import URls from Freebase database
 - Thumbnail server (to replace the crappy APIs?)
 - Thumb server: mirror lots of subdomains, so we can max out the number of concurent download/pings
@@ -56,8 +64,8 @@ TODO
 - Sync the bookmarks to a server (so we know how many users has bookmarked the same sites)
 - Backend (auth, sync, import favs from github, facebook, etc)
 - Code clean: Make modular importer objects for the different services.
-
-
+- Feature idea: pin website (for speedial-like feature)
+- discovery options (website suggestions?)
 
 Liscence
 =========================

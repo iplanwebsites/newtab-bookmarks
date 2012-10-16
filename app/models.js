@@ -57,9 +57,9 @@ var Bookmark = Backbone.Model.extend({
   set_content_type: function(){ //TODO add all types, find less awfull algorithm to sort websites...
     var url = this.get('url');
     var type = this.get('type');
-    if(url.indexOf('.pdf') != -1){
+    if((url.indexOf('.pdf') != -1) || (url.indexOf('books.google.') != -1)){ //
      var t =  'doc';
-    }else if((url.indexOf('.jpg') != -1) || (url.indexOf('.jpeg') != -1) || (url.indexOf('.png') != -1) || (url.indexOf('.gif') != -1)){
+    }else if((url.indexOf('.jpg') != -1) || (url.indexOf('.jpeg') != -1) || (url.indexOf('.png') != -1) || (url.indexOf('.gif') != -1)|| (url.indexOf('flickr.com') != -1)){
       var t =  'photo';
     }else if((url.indexOf('wordpress.') != -1) || (url.indexOf('blogger.') != -1)){
       var t = 'blog';
@@ -701,10 +701,12 @@ var BookmarkCollection = Backbone.Collection.extend({
     });
     
     //_.sortBy([1, 2, 3, 4, 5, 6], function(num){ return Math.sin(num); });
+    var toAttach = [];
     _.each(items, function(m){
-      m.v.attach(); //re-attach the items.
+      toAttach.push(m.v.attach(true)) ; //re-attach the items, we deffer it with true (so it return the rendered node...)
     });
-    
+    //console.log('attach! ',toAttach)
+    $('#bookmarks').append(toAttach);
    // app.ui.lazy_load();
    _.delay(function(){
      console.log('>>> ini images');
