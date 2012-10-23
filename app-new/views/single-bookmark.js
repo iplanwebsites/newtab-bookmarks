@@ -84,10 +84,14 @@ function( app, $, _, Backbone ) {
 			//this.model.bind('remove', this.remove); //inherit destroy
 		},
 		
-		attach: function() {
-			// generate the html in the node
-			this.render();
-			$('#bookmarks').append( this.el );
+		attach: function( deferred ){
+			this.render();// generate the html in the node
+			if ( deferred ) {
+				return this.el;
+			} else {
+				$('#bookmarks').append( this.el );
+				return true;
+			}
 		},
 		
 		destroy: function() {

@@ -190,8 +190,9 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 				this.position3d_t = _.throttle(that.position3d, 10);
 			}
 			
-			//wire tooltips
+			//wire Bootstrap
 			$('.tip').tooltip();
+			$('.bt_modal').modal();
 		},
 		
 		position3d:function( ev ) {

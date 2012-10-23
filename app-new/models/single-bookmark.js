@@ -11,9 +11,10 @@ define([
 	"backbone",
 	"modules/utils",
 	"views/single-bookmark",
+	"domparser",
 	"backbone.localStorage"
 ],
-function( app, $, _, Backbone, utils, BookmarkView ) {
+function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 	"use strict";
 	
 	var Bookmark = Backbone.Model.extend({
@@ -38,8 +39,7 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 			if ( this.get('domain') === undefined || this.get('content_type') === undefined ) {
 				
 				var url = this.get('url');
-				
-				if ( utils.isUrl(url) ) {
+				if ( utils.isURL(url) ) {
 					this.set( 'domain', utils.getDomain(url) );
 				} else {
 					//this can be a bookmarklet, a FTP, or special page bookmark...
@@ -81,9 +81,9 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 			var url = this.get('url');
 			var type = this.get('type');
 			var t;
-			if ( url.indexOf('.pdf') !== -1 ) {
+			if ( url.indexOf('.pdf') !== -1 || url.indexOf('books.google.') !== -1 ) {
 				t = 'doc';
-			} else if ( (url.indexOf('.jpg') !== -1) || (url.indexOf('.jpeg') !== -1) || (url.indexOf('.png') !== -1) || (url.indexOf('.gif') !== -1) ) {
+			} else if ( (url.indexOf('.jpg') !== -1) || (url.indexOf('.jpeg') !== -1) || (url.indexOf('.png') !== -1) || (url.indexOf('.gif') !== -1) || (url.indexOf('flickr.com') !== -1) ) {
 				t = 'photo';
 			} else if ( (url.indexOf('wordpress.') !== -1) || (url.indexOf('blogger.') !== -1) ) {
 				t = 'blog';

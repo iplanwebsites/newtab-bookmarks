@@ -22,7 +22,11 @@ require.config({
 		
 		// jQuery plugins
 		bootstrap: "../libs/bootstrap",
-		"jquery.lazyload": "../libs/jquery.lazyload"
+		"jquery.lazyload": "../libs/jquery.lazyload",
+		
+		// plugins
+		colorThief: "../libs/color-thief",
+		domparser: "../libs/domparser"
 	},
 	
 	shim: {
@@ -39,7 +43,13 @@ require.config({
 		"backbone.localStorage": ["backbone"],
 		
 		bootstrap: ["jquery"],
-		"jquery.lazyload": ["jquery"]
+		"jquery.lazyload": ["jquery"],
+		
+		colorThief: ["../libs/quantize"],
+		
+		domparser: {
+			exports: "DOMParser"
+		}
 		
 	}
 	

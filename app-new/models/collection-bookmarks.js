@@ -19,7 +19,8 @@ define([
 	"views/application",
 	"modules/utils",
 	"backbone.localStorage",
-	"jquery.lazyload"
+	"jquery.lazyload",
+	"colorThief"
 ],
 function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 	"use strict";
@@ -635,10 +636,13 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 				}
 			});
 			
+			var toAttach = [];
 			_.each( items, function( m ) {
-				// re-attach the items.
-				m.v.attach();
+				// re-attach the items, we deffer it with true (so it return the rendered node...)
+				toAttach.push( m.v.attach(true) );
 			});
+			
+			$('#bookmarks').append( toAttach );
 			
 			_.delay(function() {
 				console.log('>>> ini images');
@@ -665,7 +669,7 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 				} else {
 					console.log('COMPUTE COLOR2');
 					
-					color = getDominantColor( $(this) );
+					color = window.getDominantColor( $(this) );
 					
 					// save color into the model...
 					model.set('dominantColor', color);
