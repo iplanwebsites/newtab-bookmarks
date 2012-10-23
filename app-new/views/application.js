@@ -11,13 +11,16 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
+	"router",
 	"modules/utils",
-	"models/settings"
+	"models/settings",
+	"models/collection-bookmarks",
+	"bootstrap"
 ],
-function( app, $, _, Backbone, utils, settings ) {
+function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 	"use strict";
 	
-	var UiView = Backbone.View.extend({
+	var ApplicationView = Backbone.View.extend({
 		
 		zoomLevel: 5,//default number of col
 		
@@ -58,7 +61,7 @@ function( app, $, _, Backbone, utils, settings ) {
 				console.log('importing delicious user: ' + handle); //ayudantegrafico
 				$(ev['currentTarget']).button('loading');
 				
-				app.collection.addDelicious(handle, function(){
+				bookmarksCollection.addDelicious(handle, function(){
 					$(ev['currentTarget']).button('reset');
 					that.render_options();
 					$('#options .delicious .input').val('');
@@ -72,7 +75,7 @@ function( app, $, _, Backbone, utils, settings ) {
 			ev && ev.preventDefault();
 			
 			var that= this;
-			var delicious = app.collection.where({type: "delicious"});
+			var delicious = bookmarksCollection.where({type: "delicious"});
 			
 			console.log( 'rm', delicious );
 			
@@ -86,7 +89,7 @@ function( app, $, _, Backbone, utils, settings ) {
 			//refresh the page...
 			_.delay(function() {
 				that.render_options();
-				app.collection.render();
+				bookmarksCollection.render();
 				$('#options .delicious .input').val('');
 			}, 200);
 			
@@ -95,7 +98,7 @@ function( app, $, _, Backbone, utils, settings ) {
 		remove_all: function() {
 			// @todo: where is localstorage defined ??
 			localStorage.clear();
-			app.collection.reset();
+			bookmarksCollection.reset();
 		},
 		
 		render: function() {
@@ -105,9 +108,9 @@ function( app, $, _, Backbone, utils, settings ) {
 		render_options: function() {
 			// @todo: rewrite this section - way to much dom access
 			// options: templatize or join actions
-			$('#options .totals h1 strong').html(app.collection.length);
-			$('#options .chrome .count').html(app.collection.where({type: "chrome"}).length);
-			var delicious = app.collection.where({type: "delicious"}).length;
+			$('#options .totals h1 strong').html(bookmarksCollection.length);
+			$('#options .chrome .count').html(bookmarksCollection.where({type: "chrome"}).length);
+			var delicious = bookmarksCollection.where({type: "delicious"}).length;
 			
 			if ( delicious ) {
 			  $('#options .delicious .count').html(delicious);
@@ -161,7 +164,7 @@ function( app, $, _, Backbone, utils, settings ) {
 			ev.preventDefault();
 			var u = $(ev['currentTarget']).attr('data-url');
 			//@todo: pass the event to the real link to handle ctrl-click? Or just wrap the LI in a A tag?
-			app.ui.getUrl( u );
+			this.getUrl( u );
 			return false;
 		},
 		
@@ -174,15 +177,15 @@ function( app, $, _, Backbone, utils, settings ) {
 			//wire zoom slider
 			$('#zoom_level').change(function() {
 				var val = $(this).val(); //vary from 0-100
-				app.ui.set_zoom(val);
-				settings.set('zoomVal', val);
+				that.set_zoom( val );
+				settings.set( 'zoomVal', val );
 				settings.save();
 			});
 			
 			// Apply 3d FX ?
 			if( $('body').hasClass('3dfx') ){
-				$(window).scroll(function(ev){
-				  app.ui.position3d();
+				$(window).scroll(function( ev ) {
+					that.position3d();
 				});
 				this.position3d_t = _.throttle(that.position3d, 10);
 			}
@@ -231,7 +234,7 @@ function( app, $, _, Backbone, utils, settings ) {
 				$('body').removeClass('zoom1 zoom2 zoom3 zoom4 zoom5 zoom6 zoom7 zoom8 zoom9 zoom10 zoom11 zoom12');
 				$('body').addClass(className);
 				this.zoomLevel = zoom; //save it
-				app.ui.write_custom_css(); //we set the height of the grid rules...
+				this.write_custom_css(); //we set the height of the grid rules...
 			}
 			
 		},
@@ -248,7 +251,7 @@ function( app, $, _, Backbone, utils, settings ) {
 			var digit;
 			
 			if ( num === undefined ) {
-			   digit = app.collection.length;
+			   digit = bookmarksCollection.length;
 			} else {
 			   digit = num;
 			}
@@ -270,6 +273,7 @@ function( app, $, _, Backbone, utils, settings ) {
 		},
 		
 		search: function( search ) {
+			// @todo: Remove all reference to router, view should know nothing outside their dom el
 			this.top();
 			
 			//quit option page, if it's the case...
@@ -320,6 +324,8 @@ function( app, $, _, Backbone, utils, settings ) {
 		
 	});
 	
-	return UiView;
+	app.Views.applicationView = new ApplicationView({ el: "body" });
+	
+	return app.Views.applicationView;
 
 });

@@ -7,9 +7,11 @@ define([
 	"app",
 	"jquery",
 	"underscore",
-	"backbone"
+	"backbone",
+	"views/application",
+	"models/collection-bookmarks"
 ],
-function( app, $, _, Backbone ) {
+function( app, $, _, Backbone, applicationView, bookmarksCollection ) {
 	"use strict";
 	
 	var Router = Backbone.Router.extend({
@@ -25,7 +27,9 @@ function( app, $, _, Backbone ) {
 		},
 		
 		page: function( p ) {
-			app.ui.top();
+			
+			applicationView.top();
+			
 			if ( p === 'options' ) {
 				$('#options').show();
 				$('#bookmarks').hide();
@@ -41,7 +45,7 @@ function( app, $, _, Backbone ) {
 		
 		options: function() {
 			this.page('options');
-			app.ui.render_options();
+			applicationView.render_options();
 		},
 		
 		clear_seach: function() {
@@ -78,7 +82,7 @@ function( app, $, _, Backbone ) {
 			var toShow = [];
 			var toHide = [];
 			
-			_.each( app.collection.models, function( m ) {
+			_.each( bookmarksCollection.models, function( m ) {
 				//if this model passes the truth test...
 				if ( comparator(m, query) ){
 				   toShow.push( m.v.$el[0] );
@@ -89,7 +93,7 @@ function( app, $, _, Backbone ) {
 			
 			$(toShow).show();
 			$(toHide).hide();
-			app.ui.set_title( toShow.length );
+			applicationView.set_title( toShow.length );
 		},
 		
 		content_type: function( query ) { //TODO: refactor to include search and types, no copypasta
@@ -105,7 +109,9 @@ function( app, $, _, Backbone ) {
 		}
 		
 	});
+	
+	app.router = new Router();
   
-	return Router;
+	return app.router;
 	
 });
