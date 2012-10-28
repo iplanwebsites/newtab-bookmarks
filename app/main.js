@@ -92,10 +92,10 @@ function( app, $, _, Backbone, router, settings, bookmarksCollection, applicatio
 			}
 		}, 2000 );
 		
-		_.delay(function() {
+		/*_.delay(function() {
 			//will start fetching HTML content, and indexing it...
 			bookmarksCollection.scheduleHtmlDownload();
-		}, 30000 ); //inactive 30 sec >>> index html content every 2 seconds...
+		}, 30000 );*/ //inactive 30 sec >>> index html content every 2 seconds...
 		
 		chrome.omnibox.onInputChanged.addListener(function( str ) {
 			window.alert( str );

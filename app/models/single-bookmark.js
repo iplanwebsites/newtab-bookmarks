@@ -66,6 +66,8 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 				id: "item-" + this.id
 			});
 			
+			this.set( 'thumbnail_url', this.get_thumb_url() );
+			
 			//TODO: remove these 2 lines in production; it's already done in the init...
 			this.set_content_type();
 			this.save();

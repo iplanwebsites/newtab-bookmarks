@@ -9,10 +9,16 @@ define([
 	"underscore",
 	"backbone",
 	"views/application",
-	"models/collection-bookmarks"
+	"models/collection-bookmarks",
+	"views/all-bookmarks"
 ],
-function( app, $, _, Backbone, applicationView, bookmarksCollection ) {
+function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmarksView ) {
 	"use strict";
+	
+	var MainLayout = Backbone.Layout.extend({
+		el: 'body'
+	});
+	var mainLayout = new MainLayout;
 	
 	var Router = Backbone.Router.extend({
 		
@@ -58,6 +64,9 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection ) {
 		
 		home: function() {
 			//@TODO: close popup
+			mainLayout.setViews({
+				'#stage': new AllBookmarksView({ el: "#bookmarks" })
+			}).render();
 			this.page('home');
 			this.clear_filters();
 		},

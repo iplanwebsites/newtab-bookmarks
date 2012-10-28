@@ -35,6 +35,33 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			'click .remove_all'        : 'remove_all'
 		},
 		
+		initialize: function() {
+			// @todo: a lot here would be much better in the render function
+			var that = this;
+			this.position3d();
+			this.render();
+		   
+			//wire zoom slider
+			$('#zoom_level').change(function() {
+				var val = $(this).val(); //vary from 0-100
+				that.set_zoom( val );
+				settings.set( 'zoomVal', val );
+				settings.save();
+			});
+			
+			// Apply 3d FX ?
+			if( $('body').hasClass('3dfx') ){
+				$(window).scroll(function( ev ) {
+					that.position3d();
+				});
+				this.position3d_t = _.throttle(that.position3d, 10);
+			}
+			
+			//wire Bootstrap
+			$('.tip').tooltip();
+			$('.bt_modal').modal();
+		},
+		
 		bt_copyright: function( ev ) {
 			console.log('copyright');
 			this.getUrl('http://iplanwebsites.com');
@@ -166,33 +193,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			//@todo: pass the event to the real link to handle ctrl-click? Or just wrap the LI in a A tag?
 			this.getUrl( u );
 			return false;
-		},
-		
-		initialize: function() {
-			// @todo: a lot here would be much better in the render function
-			var that = this;
-			this.position3d();
-			this.render();
-		   
-			//wire zoom slider
-			$('#zoom_level').change(function() {
-				var val = $(this).val(); //vary from 0-100
-				that.set_zoom( val );
-				settings.set( 'zoomVal', val );
-				settings.save();
-			});
-			
-			// Apply 3d FX ?
-			if( $('body').hasClass('3dfx') ){
-				$(window).scroll(function( ev ) {
-					that.position3d();
-				});
-				this.position3d_t = _.throttle(that.position3d, 10);
-			}
-			
-			//wire Bootstrap
-			$('.tip').tooltip();
-			$('.bt_modal').modal();
 		},
 		
 		position3d:function( ev ) {

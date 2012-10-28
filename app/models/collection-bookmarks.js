@@ -19,7 +19,6 @@ define([
 	"views/application",
 	"modules/utils",
 	"backbone.localStorage",
-	"jquery.lazyload",
 	"colorThief"
 ],
 function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
@@ -624,32 +623,32 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 				that.setBgColors();
 			});
 			
-			$('#bookmarks').empty();
-			
-			var items = _.sortBy( this.models, function( m ) { 
-				var s = m.get( that.sortOrder );
-				
-				if ( that.sortOrder === 'dateAdded' ) {
-					return s * -1; 
-				} else {
-					return s;
-				}
-			});
-			
-			var toAttach = [];
-			_.each( items, function( m ) {
-				// re-attach the items, we deffer it with true (so it return the rendered node...)
-				toAttach.push( m.v.attach(true) );
-			});
-			
-			$('#bookmarks').append( toAttach );
-			
-			_.delay(function() {
-				console.log('>>> ini images');
-				$(".thumb_wrap img").lazyload({
-					threshold: 500
-				});
-			}, 1 );
+			//$('#bookmarks').empty();
+			//
+			//var items = _.sortBy( this.models, function( m ) { 
+			//	var s = m.get( that.sortOrder );
+			//	
+			//	if ( that.sortOrder === 'dateAdded' ) {
+			//		return s * -1; 
+			//	} else {
+			//		return s;
+			//	}
+			//});
+			//
+			//var toAttach = [];
+			//_.each( items, function( m ) {
+			//	// re-attach the items, we deffer it with true (so it return the rendered node...)
+			//	toAttach.push( m.v.attach(true) );
+			//});
+			//
+			//$('#bookmarks').append( toAttach );
+			//
+			//_.delay(function() {
+			//	console.log('>>> ini images');
+			//	$(".thumb_wrap img").lazyload({
+			//		threshold: 500
+			//	});
+			//}, 1 );
 			
 		},
 		

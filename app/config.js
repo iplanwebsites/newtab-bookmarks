@@ -16,8 +16,10 @@ require.config({
 		jquery     : "../libs/jquery", // v 1.8.1
 		underscore : "../libs/underscore", // v 1.3.2
 		backbone   : "../libs/backbone", // v 0.9.2
+		handlebars : "../libs/handlebars", // v 1.0.beta.6
 		
 		// Backbone plugins
+		layoutmanager: "../libs/backbone.layoutmanager", // v 0.7.0
 		"backbone.localStorage": "../libs/backbone.localStorage",
 		
 		// jQuery plugins
@@ -38,6 +40,15 @@ require.config({
 		backbone: {
 			deps: [ "underscore", "jquery" ],
 			exports: "Backbone"
+		},
+		
+		
+		handlebars: {
+			exports: "Handlebars"
+		},
+		
+		layoutmanager: {
+			deps: [ "backbone" ]
 		},
 		
 		"backbone.localStorage": ["backbone"],
