@@ -27,7 +27,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 		events: {
 			'click .category .sites a' : 'favourites_sites',
 			'click .clearSearch'       : 'clearSearch',
-			'click #bookmarks li'      : 'click_item',
 			'click .viewmode .btn'     : 'viewmode',
 			'click  #options .delicious .btn.add'    : 'add_delicious',
 			'click  #options .delicious .btn.remove' : 'remove_delicious',
@@ -185,14 +184,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 		
 		top: function() {
 			$(window).scrollTop(0);
-		},
-		
-		click_item: function( ev ) {
-			ev.preventDefault();
-			var u = $(ev['currentTarget']).attr('data-url');
-			//@todo: pass the event to the real link to handle ctrl-click? Or just wrap the LI in a A tag?
-			this.getUrl( u );
-			return false;
 		},
 		
 		position3d:function( ev ) {
