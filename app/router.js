@@ -10,15 +10,16 @@ define([
 	"backbone",
 	"views/application",
 	"models/collection-bookmarks",
-	"views/all-bookmarks"
+	"views/all-bookmarks",
+	"views/options-page"
 ],
-function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmarksView ) {
+function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmarksView, OptionsPage ) {
 	"use strict";
 	
 	var MainLayout = Backbone.Layout.extend({
 		el: 'body'
 	});
-	var mainLayout = new MainLayout;
+	var mainLayout = new MainLayout();
 	
 	var Router = Backbone.Router.extend({
 		
@@ -31,6 +32,31 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmark
 			"source/:query"        : "source",   // #search/kiwis/p7
 			"type/:query"          : "content_type"
 		},
+		
+		
+		// ---
+		// Routes
+		
+		home: function() {
+			//@TODO: close popup
+			mainLayout.setViews({
+				'#stage': new AllBookmarksView()
+			}).render();
+			this.page('home');
+			this.clear_filters();
+		},
+		
+		options: function() {
+			mainLayout.setViews({
+				'#stage': new OptionsPage()
+			}).render();
+			this.page('options');
+			//applicationView.render_options();
+		},
+		
+		
+		// ---
+		// Helpers
 		
 		page: function( p ) {
 			
@@ -49,11 +75,6 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmark
 			}
 		},
 		
-		options: function() {
-			this.page('options');
-			applicationView.render_options();
-		},
-		
 		clear_seach: function() {
 			$('#search').val('');
 		},
@@ -62,14 +83,6 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmark
 			$('.content_types li.active').removeClass('active');
 		},
 		
-		home: function() {
-			//@TODO: close popup
-			mainLayout.setViews({
-				'#stage': new AllBookmarksView({ el: "#bookmarks" })
-			}).render();
-			this.page('home');
-			this.clear_filters();
-		},
 		
 		search: function( query, page ) {
 			//$('#options').hide();
@@ -94,7 +107,7 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmark
 			_.each( bookmarksCollection.models, function( m ) {
 				//if this model passes the truth test...
 				if ( comparator(m, query) ){
-				   toShow.push( m.v.$el[0] );
+					toShow.push( m.v.$el[0] );
 				} else {
 					toHide.push( m.v.$el[0] );
 				}
@@ -120,7 +133,7 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmark
 	});
 	
 	app.router = new Router();
-  
+	
 	return app.router;
 	
 });

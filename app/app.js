@@ -35,7 +35,7 @@ function( $, _, Backbone, Handlebars ) {
             var done;
 			
             // Add the html extension.
-            path = path + ".html";
+            path = path + ".hbs";
 			
             // If the template has not been loaded yet, then load.
             if (!JST[path]) {

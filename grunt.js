@@ -57,7 +57,7 @@ module.exports = function( grunt ) {
 					}
 				},
 				files: {
-					"dist/debug/templates.js": [ "app/templates/**/*.html" ]
+					"dist/debug/templates.js": [ "app/templates/**/*.hbs" ]
 				}
 			}
 		},
