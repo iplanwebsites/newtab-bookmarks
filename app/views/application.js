@@ -39,7 +39,7 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			var that = this;
 			this.position3d();
 			this.render();
-		   
+			
 			//wire zoom slider
 			$('#zoom_level').change(function() {
 				var val = $(this).val(); //vary from 0-100
@@ -89,14 +89,13 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 				
 				bookmarksCollection.addDelicious(handle, function(){
 					$(ev['currentTarget']).button('reset');
-					that.render_options();
 					$('#options .delicious .input').val('');
 				});
-			   
+				
 			}
 			
 		},
-		  
+		
 		remove_delicious: function( ev ) {
 			ev && ev.preventDefault();
 			
@@ -114,7 +113,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			
 			//refresh the page...
 			_.delay(function() {
-				that.render_options();
 				bookmarksCollection.render();
 				$('#options .delicious .input').val('');
 			}, 200);
@@ -129,31 +127,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 		
 		render: function() {
 			return this;
-		},
-		
-		render_options: function() {
-			// @todo: rewrite this section - way to much dom access
-			// options: templatize or join actions
-			$('#options .totals h1 strong').html(bookmarksCollection.length);
-			$('#options .chrome .count').html(bookmarksCollection.where({type: "chrome"}).length);
-			var delicious = bookmarksCollection.where({type: "delicious"}).length;
-			
-			if ( delicious ) {
-			  $('#options .delicious .count').html(delicious);
-			  $('#options .delicious .start').hide();
-			  $('#options .delicious .connected').show();
-			} else {
-			  $('#options .delicious .start').show();
-			  $('#options .delicious .connected').hide();
-			}
-			
-			//facebook connnect
-			var appId = 315929978515082;
-			var retUrl = window.location.href;
-			retUrl = 'http://www.facebook.com/connect/login_success.html';
-			var url = "https://www.facebook.com/dialog/oauth?client_id=" + appId + "&response_type=token&scope=email,read_stream,user_likes,friends_website&redirect_uri=" + retUrl;
-			$('#fb_connect').attr('href', url);
-		  
 		},
 		
 		viewmode: function( ev ) {
@@ -175,8 +148,8 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 		set_viewmode: function( mode ) {
 			this.top();
 			if( mode === 'list' ) {
-			   this.write_custom_css();//write the css rule for item height
-			   $('body').removeClass('grid').addClass('list');
+				this.write_custom_css();//write the css rule for item height
+				$('body').removeClass('grid').addClass('list');
 			} else {
 				$('body').addClass('grid').removeClass('list');
 			}
@@ -214,7 +187,7 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			
 			var min_cols = 2;
 			var max_cols = 10;
-			var slots =  (max_cols - min_cols); //100 / 8 cols = 
+			var slots =  (max_cols - min_cols); //100 / 8 cols =
 			var slotW = 100 / slots;
 			var zoom = (slots-Math.round(val / slotW)) +min_cols;
 			
@@ -243,9 +216,9 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			var digit;
 			
 			if ( num === undefined ) {
-			   digit = bookmarksCollection.length;
+				digit = bookmarksCollection.length;
 			} else {
-			   digit = num;
+				digit = num;
 			}
 			
 			if ( digit === 0 ) {
@@ -255,7 +228,7 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			}
 			
 			if ( digit === 0 ) {
-			   var search = $('#search').val();
+				var search = $('#search').val();
 				$('.no_results').removeClass('hide').find('strong').html( search );
 			} else {
 				$(window).trigger('scroll');//load new thumbnails
@@ -275,11 +248,11 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			app.router.filter_grid(search, function( m, search ) {
 				var SEARCH_KEYWORDS = true; //speed testing...
 				if ( search === '' ) {
-				   return true; //blank search, useless to fuss with searching...
+					return true; //blank search, useless to fuss with searching...
 				} else {
-				   var a = m.attributes;
-				   var content = ',' + a.url + ',' + a.domain + ',' + a.title.toLowerCase().split(' ').join(',');
-				   
+					var a = m.attributes;
+					var content = ',' + a.url + ',' + a.domain + ',' + a.title.toLowerCase().split(' ').join(',');
+					
 					if ( utils.matchKeywords(search, content) ) {
 						// m.v.setRank(1);
 						return true;

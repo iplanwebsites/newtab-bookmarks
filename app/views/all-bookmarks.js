@@ -17,6 +17,9 @@ function( app, $, _, Backbone, bookmarks, BookmarkView ) {
 	
 	var BookmarksView = Backbone.Layout.extend({
 		
+		id : "bookmarks",
+		tagName : "ul",
+		
 		beforeRender: function() {
 			bookmarks.each(function( model ) {
 				this.insertView( new BookmarkView({ model: model }) );
