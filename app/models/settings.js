@@ -18,7 +18,11 @@ function( app, $, _, Backbone ) {
 		
 		defaults: {
 			viewmode : 'grid',
-			zoomVal  : 70
+			zoomVal  : 5
+		},
+		
+		initialize: function() {
+			this.on('change', this.save, this);
 		},
 		
 		localStorage: new Backbone.LocalStorage('settings2')

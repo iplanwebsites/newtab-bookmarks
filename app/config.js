@@ -20,6 +20,7 @@ require.config({
 		
 		// Backbone plugins
 		layoutmanager: "../libs/backbone.layoutmanager", // v 0.7.0
+		stickit: "../libs/backbone.stickit", // 0.5.2
 		"backbone.localStorage": "../libs/backbone.localStorage",
 		
 		// jQuery plugins
@@ -47,9 +48,9 @@ require.config({
 			exports: "Handlebars"
 		},
 		
-		layoutmanager: {
-			deps: [ "backbone" ]
-		},
+		layoutmanager: [ "backbone" ],
+		
+		stickit: ["backbone"],
 		
 		"backbone.localStorage": ["backbone"],
 		

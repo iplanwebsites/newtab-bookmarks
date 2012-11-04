@@ -11,15 +11,19 @@ define([
 	"views/application",
 	"models/collection-bookmarks",
 	"views/all-bookmarks",
-	"views/options-page"
+	"views/options-page",
+	"views/footer"
 ],
-function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmarksView, OptionsPage ) {
+function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmarksView, OptionsPage, Footer ) {
 	"use strict";
 	
 	var MainLayout = Backbone.Layout.extend({
 		el: 'body'
 	});
 	var mainLayout = new MainLayout();
+	mainLayout.setViews({
+		"#footer": new Footer()
+	});
 	
 	var Router = Backbone.Router.extend({
 		

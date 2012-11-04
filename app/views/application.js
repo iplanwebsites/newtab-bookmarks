@@ -22,12 +22,9 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 	
 	var ApplicationView = Backbone.View.extend({
 		
-		zoomLevel: 5,//default number of col
-		
 		events: {
 			'click .category .sites a' : 'favourites_sites',
 			'click .clearSearch'       : 'clearSearch',
-			'click .viewmode .btn'     : 'viewmode',
 			'click  #options .delicious .btn.add'    : 'add_delicious',
 			'click  #options .delicious .btn.remove' : 'remove_delicious',
 			'click .footer .copyright' : 'bt_copyright',
@@ -39,14 +36,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			var that = this;
 			this.position3d();
 			this.render();
-			
-			//wire zoom slider
-			$('#zoom_level').change(function() {
-				var val = $(this).val(); //vary from 0-100
-				that.set_zoom( val );
-				settings.set( 'zoomVal', val );
-				settings.save();
-			});
 			
 			// Apply 3d FX ?
 			if( $('body').hasClass('3dfx') ){
@@ -64,14 +53,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 		bt_copyright: function( ev ) {
 			console.log('copyright');
 			this.getUrl('http://iplanwebsites.com');
-		},
-		
-		write_custom_css: function( numCol ) {
-			var grid_w = Math.floor( $('#bookmarks').first().innerWidth() / this.zoomLevel );
-			var css = '';
-			
-			css += '.grid #bookmarks >li{height:' + grid_w + 'px;}';
-			$('#write_custom_css').html( css );
 		},
 		
 		add_delicious: function( ev ) {
@@ -129,32 +110,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			return this;
 		},
 		
-		viewmode: function( ev ) {
-			var el = ev.currentTarget;
-			if ( $(el).hasClass('grid') ) {
-				this.set_viewmode('grid');
-				$('#zoom_level').show();
-				$(window).trigger('scroll');//for thumbs to load...
-				settings.set('viewmode', 'grid');
-				settings.save();
-			} else {
-				this.set_viewmode('list');
-				$('#zoom_level').hide();
-				settings.set('viewmode', 'list');
-				settings.save();
-			}
-		},
-		
-		set_viewmode: function( mode ) {
-			this.top();
-			if( mode === 'list' ) {
-				this.write_custom_css();//write the css rule for item height
-				$('body').removeClass('grid').addClass('list');
-			} else {
-				$('body').addClass('grid').removeClass('list');
-			}
-		},
-		
 		top: function() {
 			$(window).scrollTop(0);
 		},
@@ -180,27 +135,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			
 			$('#bookmarks').css('WebkitTransform', transform);
 			$('#bookmarks').css('transform', transform);
-			
-		},
-		
-		set_zoom: function( val ) { //receive a val between 0-100
-			
-			var min_cols = 2;
-			var max_cols = 10;
-			var slots =  (max_cols - min_cols); //100 / 8 cols =
-			var slotW = 100 / slots;
-			var zoom = (slots-Math.round(val / slotW)) +min_cols;
-			
-			//if we face a new number of col!
-			if( zoom !== this.zoomLevel ) {
-				this.top();
-				
-				var className = 'zoom' + zoom;
-				$('body').removeClass('zoom1 zoom2 zoom3 zoom4 zoom5 zoom6 zoom7 zoom8 zoom9 zoom10 zoom11 zoom12');
-				$('body').addClass(className);
-				this.zoomLevel = zoom; //save it
-				this.write_custom_css(); //we set the height of the grid rules...
-			}
 			
 		},
 		

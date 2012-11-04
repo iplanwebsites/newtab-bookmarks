@@ -23,18 +23,7 @@ function( app, $, _, Backbone, router, settings, bookmarksCollection, applicatio
 	// ---
 	// Get settings
 	
-	settings.fetch({
-		success: function( model, response ) {
-			var mode = settings.get('viewmode') || 'grid';
-			applicationView.set_viewmode( mode );
-			$('.viewmode .btn').removeClass('active');
-			$('.viewmode .btn.' + mode).addClass('active');
-			
-			var zoomVal = settings.get('zoomVal') || 50;
-			$('#zoom_level').val( zoomVal );
-			applicationView.set_zoom( zoomVal );
-		}
-	});
+	settings.fetch();
 	
 	
 	// ---
