@@ -139,7 +139,7 @@ ul#bookmarks >li .meta{display:inline;}
   	margin-top:9px;
 }
 
-.grid ul#bookmarks >li .meta .favicon{ opacity:1; margin-right:5px; }
+.grid ul#bookmarks >li .meta .favicon{ opacity:1; margin-right:5px; display:none;}
 .grid ul#bookmarks >li:hover .meta{opacity:1;  }
 
 .grid ul#bookmarks >li .meta a{color:#777; text-shadow: 0px 1px 0px #ffffff;}

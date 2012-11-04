@@ -84,7 +84,13 @@ var Bookmark = Backbone.Model.extend({
        // }else if(u.type =='facebook_friend'){
         //  return 'http://graph.facebook.com/'+u.uid+'/picture?height=360&width=480'; //http://pagepeeker.com/thumbs.php?size=x&url=www.weareacademy.com
          }else{
-            return 'http://pagepeeker.com/thumbs.php?size=x&url='+ u.url;
+           if(u.url.indexOf("https://") == 0){
+             return 'http://pagepeeker.com/thumbs.php?size=x&url='+ u.url;
+           }else{
+             return 'http://immediatenet.com/t/l?Size=1024x768&URL='+u.url;
+           }
+            
+            //
          }
     },
     thumb_ping: function(){
