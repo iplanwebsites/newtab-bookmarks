@@ -94,7 +94,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			
 			//refresh the page...
 			_.delay(function() {
-				bookmarksCollection.render();
 				$('#options .delicious .input').val('');
 			}, 200);
 			
@@ -171,47 +170,9 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			
 		},
 		
-		search: function( search ) {
-			// @todo: Remove all reference to router, view should know nothing outside their dom el
-			this.top();
-			
-			//quit option page, if it's the case...
-			app.router.page('search');
-			
-			//this functions takes a comparator function that receive the model as a param
-			app.router.filter_grid(search, function( m, search ) {
-				var SEARCH_KEYWORDS = true; //speed testing...
-				if ( search === '' ) {
-					return true; //blank search, useless to fuss with searching...
-				} else {
-					var a = m.attributes;
-					var content = ',' + a.url + ',' + a.domain + ',' + a.title.toLowerCase().split(' ').join(',');
-					
-					if ( utils.matchKeywords(search, content) ) {
-						// m.v.setRank(1);
-						return true;
-					} else {
-						if ( a.keywords && SEARCH_KEYWORDS ) {
-							if( utils.matchKeywords(search, a.keywords) ) {
-								// m.v.setRank(2);
-								return true;
-							}
-						}
-						return false;
-					}
-				}
-			});
-			
-		},
-		
 		setRank: function( r ) {
 			//Todo: make this less DOM consuming..., defer it?
 			//this.$el.attr('data-rank', r); //for sorting purpose (isotope)
-		},
-		
-		clearSearch: function( ev ) {
-			$('#search').val('');
-			this.search(''); //for sorting purpose (isotope)
 		},
 		
 		getUrl:function( u ) {

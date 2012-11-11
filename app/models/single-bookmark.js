@@ -1,6 +1,5 @@
 /**
  * Single Bookmark model
- * 
  */
 /*global require:true, define:true */
 
@@ -19,11 +18,11 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 	
 	var Bookmark = Backbone.Model.extend({
 		
-		defaults:{
-			hasHtml: false,
-			title: 'website',
-			url: '',
-			color: [200,200,200]//rgb
+		defaults: {
+			hasHtml : false,
+			title   : 'website',
+			url     : '',
+			color   : [ 200, 200, 200 ] //rgb
 		},
 		
 		localStorage: new Backbone.LocalStorage('whatever2'),
@@ -74,10 +73,6 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 			
 		},
 		
-		get_node: function() {
-			
-		},
-		
 		set_content_type: function() {
 			// @TODO add all types, find less awfull algorithm to sort websites...
 			var url = this.get('url');
@@ -113,7 +108,7 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 		},
 		
 		// Function that pings the tile server, so it prepares the thumbnail...
-		// We  ignore the response to save user's bandwith
+		// We ignore the response to save user's bandwith
 		thumb_ping: function() {
 			// @TODO: have the img server setted on different sub-domains,
 			// so more concurent AJAX calls can be made
@@ -181,6 +176,28 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 				that.set( 'hasHtml', 'error' );
 				that.save(); 
 			});
+		},
+		
+		
+		// ---
+		// Search Functions
+		
+		// Return true or false if view model match given value
+		matchKeyword: function( value ) {
+			
+			// Abort if invalid value
+			if ( !_.isString(value) || !value.length ) { return true; }
+			
+			// Check if value is contain in the model
+			if (
+					this.get('title').indexOf(value) >= 0
+				||  this.get('url').indexOf(value) >= 0
+			) {
+				return true;
+			}
+			
+			// Otherwise
+			return false;
 		}
 		
 	});

@@ -1,8 +1,5 @@
 /**
  * Footer view
- *
- * @info: bla bla
- * 
  */
 /*global require:true, define:true */
 

@@ -27,6 +27,7 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 	var Bookmarks = Backbone.Collection.extend({
 		
 		model: Bookmark,
+		sortOrder: 'dateAdded',
 		
 		localStorage : new Backbone.LocalStorage('whatever2'),
 		
@@ -272,7 +273,6 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 			chrome.bookmarks.getTree(function( bookmarkTreeNodes ) {
 				console.log( bookmarkTreeNodes );
 				that.parseChromeBookmarkTree( bookmarkTreeNodes, []); //start the recursive process
-				that.render();
 			});
 		},
 		
@@ -364,9 +364,6 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 				});
 				
 				cb();
-				
-				//refresh the collection, so these new elements appears!...
-				that.render();
 			});
 			
 		},
@@ -423,9 +420,6 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 				});
 				
 				cb();
-				
-				//refresh the collection, so these new elements appears!...
-				that.render();
 			});
 		},
 		
@@ -580,7 +574,6 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 			// optional callback
 			function(err, results){ //DONE!
 			  console.log('DONE FETCHING FB DATA');
-				that.render();
 				settings.set('hasFb', true);
 				callback();//call the big Callback!
 			});
@@ -600,90 +593,6 @@ function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
 		all: function( prop ) {
 			var that = this;
 			return _.uniq(_.pluck(_.pluck(that.models, 'attributes'), prop));
-		},
-		
-		
-		// ---
-		// Display
-	  
-		render: function() {
-			var that = this;
-			
-			//applicationView.set_title();
-			
-			//populate the dropdown for sites list
-			this.computeDomainCounts();
-			this.computeFolders();
-			this.computeSources();
-			
-			//header bar
-			this.computeContentTypes();
-			
-			_.defer(function() {
-				that.setBgColors();
-			});
-			
-			//$('#bookmarks').empty();
-			//
-			//var items = _.sortBy( this.models, function( m ) { 
-			//	var s = m.get( that.sortOrder );
-			//	
-			//	if ( that.sortOrder === 'dateAdded' ) {
-			//		return s * -1; 
-			//	} else {
-			//		return s;
-			//	}
-			//});
-			//
-			//var toAttach = [];
-			//_.each( items, function( m ) {
-			//	// re-attach the items, we deffer it with true (so it return the rendered node...)
-			//	toAttach.push( m.v.attach(true) );
-			//});
-			//
-			//$('#bookmarks').append( toAttach );
-			//
-			//_.delay(function() {
-			//	console.log('>>> ini images');
-			//	$(".thumb_wrap img").lazyload({
-			//		threshold: 500
-			//	});
-			//}, 1 );
-			
-		},
-		
-		sortOrder: 'dateAdded',
-		
-		setBgColors: function() { //get or analyse the dominant color of this favion img...
-			var that = this;
-			
-			$('img.favicon').each(function( me ) {
-				
-				var model = that.get( $(this).parent().parent().attr('data-id') ),
-					color;
-				
-				if ( model.get('dominantColor') ) {
-					//get saved color.
-					color = model.get('dominantColor');
-				} else {
-					console.log('COMPUTE COLOR2');
-					
-					color = window.getDominantColor( $(this) );
-					
-					// save color into the model...
-					model.set('dominantColor', color);
-					model.save();
-				}
-				
-				if ( color[0] === 148 && color[1] === 148 && color[2] === 148 ) {
-					//this is the default chrome icon... problem...
-				} else {
-					//just save it, show it next time...
-					//$(this).parent().parent().find('.thumb_wrap').css('background-color', "rgb("+color[0]+"," + color[1] + "," + color[2] + ")");
-				}
-			  
-			});
-		  
 		}
   
 	});

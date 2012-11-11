@@ -11,9 +11,10 @@ define([
 	"models/collection-bookmarks",
 	"models/settings",
 	"views/single-bookmark",
+	"models/searchCriterias",
 	"jquery.lazyload"
 ],
-function( app, $, _, Backbone, bookmarks, settings, BookmarkView ) {
+function( app, $, _, Backbone, bookmarks, settings, BookmarkView, searchCriterias ) {
 	"use strict";
 	
 	var BookmarksView = Backbone.Layout.extend({
@@ -28,14 +29,42 @@ function( app, $, _, Backbone, bookmarks, settings, BookmarkView ) {
 		},
 		
 		afterRender: function() {
+			
+			// Execute plugins
 			this.$el.find('img').lazyload({
 				threshold: 500
 			});
+			
+			// Set visual defaults
 			settings.on('change:zoomVal', this.setSize, this);
 			settings.on('change:viewmode', this.setViewmode, this);
 			this.setSize();
 			this.setViewmode();
+			
+			// Listen for search
+			searchCriterias.keywords.on('change:value', _.debounce(this.filter, 100), this);
 		},
+		
+		
+		// ---
+		// Search function
+		
+		filter: function( model, value ) {
+			// Loop over all subview to filter them
+			this.getViews(function( bookmarkView ) {
+				if ( bookmarkView.model.matchKeyword(value) ) {
+					bookmarkView.$el.show();
+					return true;
+				} else {
+					bookmarkView.$el.hide();
+					return false;
+				}
+			});
+		},
+		
+		
+		// ---
+		// Display helper functions
 		
 		setSize: function() {
 			// @todo: delete reference to body and keep zoom level local to the module

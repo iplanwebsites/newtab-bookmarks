@@ -37,7 +37,6 @@ function( app, $, _, Backbone, router, settings, bookmarksCollection, applicatio
 				bookmarksCollection.importChromeBookmarks();
 			} else {
 				console.log('Loading bookmarkss from Localstorage cache: '+ collection.length);
-				bookmarksCollection.render();
 				bookmarksCollection.importNewChromeBookmarks(); //check if new bookmarks have been added
 			}
 			modelsFetching.resolve();
