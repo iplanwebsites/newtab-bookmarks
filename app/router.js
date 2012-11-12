@@ -42,7 +42,11 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmark
 			//@TODO: close popup
 			mainLayout.setViews({
 				'#stage': new AllBookmarksView()
-			}).render();
+			}).render()
+				.then(function() {
+					// Trigger scroll to force start of lazyloading
+					$(window).trigger('scroll');
+				});
 			this.page('home');
 		},
 		

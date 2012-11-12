@@ -31,6 +31,7 @@ function( app, $, _, Backbone, bookmarks, settings, BookmarkView, searchCriteria
 		afterRender: function() {
 			
 			// Execute plugins
+			// @todo: would look better with fadeIn effect. But images first need to have a set size
 			this.$el.find('img').lazyload({
 				threshold: 500
 			});
@@ -60,6 +61,9 @@ function( app, $, _, Backbone, bookmarks, settings, BookmarkView, searchCriteria
 					return false;
 				}
 			});
+			
+			// Launch manually lazyload on images as there have been no scrolling
+			$(window).trigger('scroll');
 		},
 		
 		

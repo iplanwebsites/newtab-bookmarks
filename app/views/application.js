@@ -24,7 +24,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 		
 		events: {
 			'click .category .sites a' : 'favourites_sites',
-			'click .clearSearch'       : 'clearSearch',
 			'click  #options .delicious .btn.add'    : 'add_delicious',
 			'click  #options .delicious .btn.remove' : 'remove_delicious',
 			'click .footer .copyright' : 'bt_copyright',
