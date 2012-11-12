@@ -44,22 +44,30 @@ function( app, $, _, Backbone, bookmarks, settings, BookmarkView, searchCriteria
 			
 			// Listen for search
 			searchCriterias.keywords.on('change:value', _.debounce(this.filter, 100), this);
+			searchCriterias.category.on('change', _.debounce(this.filter, 100), this);
 		},
 		
 		
 		// ---
 		// Search function
 		
-		filter: function( model, value ) {
+		filter: function() {
+			var keywords = searchCriterias.keywords.get('value'),
+				filterBy = searchCriterias.category.get('filterBy'),
+				category = searchCriterias.category.get('value');
+
 			// Loop over all subview to filter them
 			this.getViews(function( bookmarkView ) {
-				if ( bookmarkView.model.matchKeyword(value) ) {
-					bookmarkView.$el.show();
-					return true;
-				} else {
+				var m = bookmarkView.model;
+				
+				// Filter out category
+				if ( !m.matchCategory(filterBy, category) || !m.matchKeyword(keywords) ) {
 					bookmarkView.$el.hide();
 					return false;
 				}
+				
+				bookmarkView.$el.show();
+				return true;
 			});
 			
 			// Launch manually lazyload on images as there have been no scrolling

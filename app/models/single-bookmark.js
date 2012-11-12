@@ -189,13 +189,25 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 			if ( !_.isString(value) || !value.length ) { return true; }
 			
 			// Check if value is contain in the model
-			if (
-					this.get('title').indexOf(value) >= 0
-				||  this.get('url').indexOf(value) >= 0
-			) {
+			if ( this.get('title').indexOf(value) >= 0 ||  this.get('url').indexOf(value) >= 0 ) {
 				return true;
 			}
 			
+			// Otherwise
+			return false;
+		},
+
+		matchCategory: function( filterBy, value ) {
+			if ( !_.isString(filterBy)
+				|| !_.isString(value)
+				|| !filterBy.length
+				|| !value.length ) { return true; }
+
+			// Check if value correspond to the filterBy dimension
+			if ( this.get( filterBy ) === value ) {
+				return true;
+			}
+
 			// Otherwise
 			return false;
 		}

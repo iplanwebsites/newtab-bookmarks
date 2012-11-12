@@ -10,12 +10,13 @@ define([
 	"backbone",
 	"views/application",
 	"models/collection-bookmarks",
+	"models/searchCriterias",
 	"views/all-bookmarks",
 	"views/options-page",
 	"views/footer",
 	"views/header"
 ],
-function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmarksView, OptionsPage, Footer, Header ) {
+function( app, $, _, Backbone, applicationView, bookmarksCollection, searchCriterias, AllBookmarksView, OptionsPage, Footer, Header ) {
 	"use strict";
 	
 	var MainLayout = Backbone.Layout.extend({
@@ -39,6 +40,8 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmark
 		// Routes
 		
 		home: function() {
+			searchCriterias.clear();
+
 			//@TODO: close popup
 			mainLayout.setViews({
 				'#stage': new AllBookmarksView()
@@ -69,12 +72,10 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, AllBookmark
 				$('#options').show();
 				$('#bookmarks').hide();
 				$('body').addClass('options');
-				$('.navbar li.options').addClass('active');
 			} else {
 				$('#options').hide();
 				$('#bookmarks').show();
 				$('body').removeClass('options');
-				$('.navbar li.options').removeClass('active');
 			}
 		}
 		

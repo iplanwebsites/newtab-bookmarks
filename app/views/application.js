@@ -26,7 +26,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			'click .category .sites a' : 'favourites_sites',
 			'click  #options .delicious .btn.add'    : 'add_delicious',
 			'click  #options .delicious .btn.remove' : 'remove_delicious',
-			'click .footer .copyright' : 'bt_copyright',
 			'click .remove_all'        : 'remove_all'
 		},
 		
@@ -34,7 +33,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			// @todo: a lot here would be much better in the render function
 			var that = this;
 			this.position3d();
-			this.render();
 			
 			// Apply 3d FX ?
 			if( $('body').hasClass('3dfx') ){
@@ -47,11 +45,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			//wire Bootstrap
 			$('.tip').tooltip();
 			$('.bt_modal').modal();
-		},
-		
-		bt_copyright: function( ev ) {
-			console.log('copyright');
-			this.getUrl('http://iplanwebsites.com');
 		},
 		
 		add_delicious: function( ev ) {
@@ -102,10 +95,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 			// @todo: where is localstorage defined ??
 			localStorage.clear();
 			bookmarksCollection.reset();
-		},
-		
-		render: function() {
-			return this;
 		},
 		
 		top: function() {
@@ -172,13 +161,6 @@ function( app, $, _, Backbone, router, utils, settings, bookmarksCollection ) {
 		setRank: function( r ) {
 			//Todo: make this less DOM consuming..., defer it?
 			//this.$el.attr('data-rank', r); //for sorting purpose (isotope)
-		},
-		
-		getUrl:function( u ) {
-			$('#cache').show();
-			window.location = u;
-			//@todo: do NOT populate the history stack (so we dont show a back BT)
-			//@note: shouldn't use router if you don't want to let history trace
 		}
 		
 	});

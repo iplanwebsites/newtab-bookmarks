@@ -22,8 +22,16 @@ function( app, $, _, Backbone ) {
 	var Criteria = Backbone.Model.extend({
 		
 		defaults: {
-			type  : "",
-			value : ""
+			type     : "",
+			filterBy : "",
+			value    : ""
+		},
+
+		clear: function() {
+			this.set({
+				filterBy : '',
+				value    : ''
+			});
 		}
 		
 	});
@@ -32,8 +40,14 @@ function( app, $, _, Backbone ) {
 	// Search Criterias
 	
 	app.Models.searchCriterias = {
+		
 		keywords : new Criteria({ type: "keyword" }),
-		category : new Criteria({ type: "category" })
+		category : new Criteria({ type: "category" }),
+
+		clear: function() {
+			this.keywords.clear();
+			this.category.clear();
+		}
 	};
 	
 	
