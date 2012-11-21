@@ -16,12 +16,11 @@ define([
 	"backbone",
 	"models/settings",
 	"models/single-bookmark",
-	"views/application",
 	"modules/utils",
 	"backbone.localStorage",
 	"colorThief"
 ],
-function( app, $, _, Backbone, settings, Bookmark, applicationView, utils ) {
+function( app, $, _, Backbone, settings, Bookmark, utils ) {
 	"use strict";
 	
 	var Bookmarks = Backbone.Collection.extend({

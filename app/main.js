@@ -14,10 +14,9 @@ define([
 	"backbone",
 	"router",
 	"models/settings",
-	"models/collection-bookmarks",
-	"views/application"
+	"models/collection-bookmarks"
 ],
-function( app, $, _, Backbone, router, settings, bookmarksCollection, applicationView ) {
+function( app, $, _, Backbone, router, settings, bookmarksCollection ) {
 	"use strict";
 	
 	// ---
@@ -54,24 +53,6 @@ function( app, $, _, Backbone, router, settings, bookmarksCollection, applicatio
 	
 	modelsFetching.done(function() {
 		
-		$('#search').bind('focus', function( ev ) {
-			if ( !$(this).hasClass('dirty') ) {
-				//manage the width better.
-				$(this).addClass('dirty');
-			}
-		});
-		
-		$('#search').bind('keyup change propertychange input paste', _.debounce(function( ev ) {
-			var s = $('#search').val();
-			s = s.toLowerCase();
-			console.log( s );
-			applicationView.search(s);
-		}, 100));
-		
-		$('.html-download .stop').click(function( ev ) {
-			bookmarksCollection.stopDownload();
-		});
-		
 		_.delay(function() {
 			//will start fetching HTML content, and indexing it...
 			var fbEnabled = bookmarksCollection.updateFacebookLinks();
@@ -79,20 +60,15 @@ function( app, $, _, Backbone, router, settings, bookmarksCollection, applicatio
 				// @TODO: show bar to incite user to add Facebook stuff!
 			}
 		}, 2000 );
-		
-		/*_.delay(function() {
-			//will start fetching HTML content, and indexing it...
-			bookmarksCollection.scheduleHtmlDownload();
-		}, 30000 );*/ //inactive 30 sec >>> index html content every 2 seconds...
-		
+
 		chrome.omnibox.onInputChanged.addListener(function( str ) {
 			window.alert( str );
 		});
 		
-		chrome.history.search({ text: '' }, function( items ) {
-			// @TODO: sort bookmarks that are recent or highlight them?
-			// http://developer.chrome.com/extensions/history.html
-		});
+		// chrome.history.search({ text: '' }, function( items ) {
+		// 		// @TODO: sort bookmarks that are recent or highlight them?
+		// 		// http://developer.chrome.com/extensions/history.html
+		// });
 	});
 	
 	

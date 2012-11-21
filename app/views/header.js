@@ -10,9 +10,12 @@ define([
 	"backbone",
 	"models/settings",
 	"models/collection-bookmarks",
-	"models/searchCriterias"
+	"models/searchCriterias",
+	"views/folders",
+	"views/options-menu",
+	"bootstrap"
 ],
-function( app, $, _, Backbone, settings, bookmarks, searchCriterias ) {
+function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDropdown, OptionsMenu ) {
 	"use strict";
 	
 
@@ -93,6 +96,8 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias ) {
 
 			this.setElement( newEl );
 			oldEl.replaceWith( newEl );
+
+			this.$('.tip').tooltip();
 		},
 
 
@@ -177,7 +182,7 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias ) {
 	// ---
 	// Main Header section
 	
-	var MainFooter = Backbone.View.extend({
+	var MainHeader = Backbone.View.extend({
 		
 		template: "header",
 
@@ -193,6 +198,10 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias ) {
 				".navbar-inner": [
 					new SearchBar(),
 					new TypeBar()
+				],
+				".dropdown-section" : [
+					new FoldersDropdown(),
+					new OptionsMenu()
 				]
 			});
 			
@@ -204,6 +213,8 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias ) {
 			bookmarks.computeDomainCounts();
 			bookmarks.computeFolders();
 			bookmarks.computeSources();
+
+			this.$('.tip').tooltip();
 			
 		},
 
@@ -216,6 +227,6 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias ) {
 	
 	
 	// Required, return the module for AMD compliance
-	return MainFooter;
+	return MainHeader;
 
 });

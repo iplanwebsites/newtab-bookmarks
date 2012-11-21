@@ -8,7 +8,6 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"views/application",
 	"models/collection-bookmarks",
 	"models/searchCriterias",
 	"views/all-bookmarks",
@@ -16,7 +15,7 @@ define([
 	"views/footer",
 	"views/header"
 ],
-function( app, $, _, Backbone, applicationView, bookmarksCollection, searchCriterias, AllBookmarksView, OptionsPage, Footer, Header ) {
+function( app, $, _, Backbone, bookmarksCollection, searchCriterias, AllBookmarksView, OptionsPage, Footer, Header ) {
 	"use strict";
 	
 	var MainLayout = Backbone.Layout.extend({
@@ -65,8 +64,7 @@ function( app, $, _, Backbone, applicationView, bookmarksCollection, searchCrite
 		// Helpers
 		
 		page: function( p ) {
-			// @todo: Delete this section (Change layout insted of show/hide)
-			applicationView.top();
+			$(window).scrollTop(0);
 			
 			if ( p === 'options' ) {
 				$('#options').show();
