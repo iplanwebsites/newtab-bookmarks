@@ -98,12 +98,14 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 		},
 		
 		get_thumb_url: function() {
-			var u = this.attributes;
-			
-			if ( u.type === 'facebook_like' || u.type === 'facebook_friend' ) {
-				return 'http://graph.facebook.com/' + u.uid + '/picture?height=360&width=480';
+			if ( _.indexOf(['facebook_like', 'facebook_friend'], this.get('type')) >= 0 ) {
+				return 'http://graph.facebook.com/' + this.get('uid') + '/picture?height=360&width=480';
 			} else {
-				return 'http://pagepeeker.com/thumbs.php?size=x&url=' + u.url;
+				if ( this.get('url').indexOf("https://") === 0 ) {
+					return 'http://pagepeeker.com/thumbs.php?size=x&url=' + this.get('url');
+				} else {
+					return 'http://immediatenet.com/t/l?Size=1024x768&URL=' + this.get('url');
+				}
 			}
 		},
 		
