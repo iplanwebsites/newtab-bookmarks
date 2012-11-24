@@ -19,24 +19,22 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 	var Bookmark = Backbone.Model.extend({
 		
 		defaults: {
-			hasHtml : false,
-			title   : 'website',
-			url     : '',
-			color   : [ 200, 200, 200 ] //rgb
+			url   : "",
+			title : "",
+			type  : "",
+			dateAdded : "",
+			folder    : [],
+			domain    : "",
+			content_type  : "",
+			thumbnail_url : ""
 		},
 		
 		localStorage: new Backbone.LocalStorage('whatever2'),
 		
-		promptColor: function() {
-			var cssColor = window.prompt("Please enter a CSS color:");
-			this.set({ color: cssColor });
-		},
-		
 		initialize: function() {
 			
 			//set the domain if it's a new object...
-			if ( this.get('domain') === undefined || this.get('content_type') === undefined ) {
-				
+			if ( this.isNew() ) {
 				var url = this.get('url');
 				if ( utils.isURL(url) ) {
 					this.set( 'domain', utils.getDomain(url) );
@@ -49,26 +47,14 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 				//set the main set_content_type
 				this.set_content_type();
 				
-				//if there's no title, set the domain name or URL?
-				
-				//save it to LocalStorage right away.
-				this.save();
-				
-				// tell the server we'll need the thumb one day...
-				this.thumb_ping();
-				
+			}
+
+			//if there's no title, use domain name
+			if ( !this.get('title').length ) {
+				this.set( 'title', this.get('domain') );
 			}
 			
-			//attach the corresponding view
-			this.v = new BookmarkView({
-				model: this,
-				id: "item-" + this.id
-			});
-			
 			this.set( 'thumbnail_url', this.get_thumb_url() );
-			
-			//TODO: remove these 2 lines in production; it's already done in the init...
-			this.set_content_type();
 			this.save();
 			
 		},
@@ -107,77 +93,6 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 					return 'http://immediatenet.com/t/l?Size=1024x768&URL=' + this.get('url');
 				}
 			}
-		},
-		
-		// Function that pings the tile server, so it prepares the thumbnail...
-		// We ignore the response to save user's bandwith
-		thumb_ping: function() {
-			// @TODO: have the img server setted on different sub-domains,
-			// so more concurent AJAX calls can be made
-			
-			var thumb_url = this.get_thumb_url();
-			
-			var a = new XMLHttpRequest();
-			
-			a.onreadystatechange = function () {
-				if ( a.readyState === a.HEADERS_RECEIVED ) {
-					a.abort();
-					console.log( a, 'tile server responded with headers for ' + thumb_url );
-				}
-			};
-			a.open( "GET", thumb_url );
-			a.send( null );
-		},
-		
-		downloadHTML: function( cb ) {
-			var that = this;
-			
-			if ( !cb ) {
-				cb = function() {};
-			}
-			
-			console.log(this.get('url'));
-			
-			$.get( this.get('url') )
-			.done(function( data, textStatus, jqXHR ) {
-				that.set( 'hasHtml', true );
-				
-				var dom = new DOMParser().parseFromString( data, 'text/html' );
-				var body = dom.body;
-				var includeWhitespace = false;
-				
-				//get all text nodes from the fetched DOM
-				var textNodes = getTextNodesIn( body, includeWhitespace );
-				
-				//array of all text STR
-				var texts = _.pluck( textNodes, 'data' );
-				
-				var arrays = _.map(texts, function(t){ return t.split(' ') });
-				
-				//merge all words arrays into one
-				var words =_.uniq(_.flatten( arrays ));
-				
-				//lowercase, trim, and exclude punctuation
-				var keywords = _.uniq(_.map( words, function( w ) {
-					w = w.replace(/[\.,\/#!?$%\^&\*;:{}=\_`~()]/g,"").toLowerCase();
-					w = w.replace(/\s{2,}/g," ");
-					w = w.replace(' ',"").replace(' ',"").replace(' ',"");
-					w = w.replace(' ',"");
-					return w;
-				}));
-				
-				console.log(keywords.length+' keywords found for '+that.get('url'));
-				
-				that.set( 'keywords', keywords.join(',') );
-				that.set( 'hasKeywords', true );
-				that.save();
-			})
-			.fail(function() { 
-				console.log( 'error found!' );
-				that.set( 'html', '' );
-				that.set( 'hasHtml', 'error' );
-				that.save(); 
-			});
 		},
 		
 		
