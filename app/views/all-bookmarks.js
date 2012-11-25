@@ -25,13 +25,13 @@ function( app, $, _, Backbone, allBookmarks, settings, BookmarkView, searchCrite
 		initialize: function() {
 			this.collection = allBookmarks;
 
-			// Set visual defaults
+			// Listen for change on visual settings
 			settings.on('change:zoomVal', this.setSize, this);
 			settings.on('change:viewmode', this.setViewmode, this);
 			
 			// Listen for search
-			searchCriterias.keywords.on('change:value', _.debounce(this.filter, 500), this);
-			searchCriterias.category.on('change', _.debounce(this.filter, 500), this);
+			searchCriterias.keywords.on('change:value', _.debounce(this.filter, 300), this);
+			searchCriterias.category.on('change', this.filter, this);
 		},
 		
 		beforeRender: function() {
