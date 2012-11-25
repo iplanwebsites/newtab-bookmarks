@@ -67,6 +67,16 @@ TODO
 - Feature idea: pin website (for speedial-like feature)
 - discovery options (website suggestions?)
 
+
+
+DMOZ data structure
+========================
+**We have an output JSON from DMOZ with 1gb of these records (one per line):**
+
+{"topic": "Top/Arts/Animation/Anime/Fandom/Fan_Subtitled/Web_Rings", "d:Description": "Open to actively trading website owners.", "d:Title": "The Fansub Traders Web Ring", "url": "http://d.webring.com/hub?index&ring=fansub_traders"}
+
+
+
 Liscence
 =========================
 (c) iplanwebsites.com
