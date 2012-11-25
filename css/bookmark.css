@@ -27,7 +27,6 @@ body{
  .dropdown-toggle >i {opacity:0.5}
 li:hover .dropdown-toggle >i {opacity:1}
 
-.navbar .options a{height:46px}
 .navbar .cog, .navbar .folder{height:30px; margin-top:-6px; margin-bottom:-10px; margin-right:10px; margin-left:20px; opacity:0.8; }
 .navbar .cog:hover, .navbar li.active .cog, .navbar .folder:hover, .navbar li.active .folder{opacity:1;}
 
