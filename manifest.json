@@ -1,33 +1,38 @@
 {
-  "name": "Bookmarks  ★ ★ ★",
-  "version": "0.11",
-  "description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
-  "permissions": [
-    "bookmarks", 
-    "tabs",
-    "history",
-    "storage",
-    "unlimitedStorage",
-    "chrome://favicon/",
-    "http://*/*",
-    "https://*/*",
-    "http://*.facebook.com/*",
-    "https://connect.facebook.net/*",
-    "https://graph.facebook.com/oauth/access_token"
-  ],
-  "browser_action": {
-      "default_title": "My Bookmarks.",
-      "default_icon": "img/icon16.png",
-      "default_popup": "pages/newtab.html"
-  },
-  "options_page": "pages/newtab.html#options",
-  "icons": { "16": "img/icon16.png"  },
-  "chrome_url_overrides": { "newtab": "pages/newtab.html" },
-  "manifest_version": 2,
-  "content_security_policy": "script-src 'self'  https://connect.facebook.net https://ajax.googleapis.com https://connect.facebook.net/en_US/all.js; object-src 'self' ",
-  "omnibox":{ "keyword": "*" },
-  "background": 
-  {"page":"pages/background.html"
-  }
- 
+	"manifest_version": 2,
+	"name": "Bookmarks  ★ ★ ★",
+	"version": "0.11",
+	"description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
+	"permissions": [
+		"bookmarks", 
+		"tabs",
+		"history",
+		"storage",
+		"unlimitedStorage",
+		"chrome://favicon/",
+		"http://*/*",
+		"https://*/*",
+		"http://*.facebook.com/*",
+		"https://connect.facebook.net/*",
+		"https://graph.facebook.com/oauth/access_token"
+	],
+	"browser_action": {
+		"default_title": "My Bookmarks.",
+		"default_icon": "img/icon16.png",
+		"default_popup": "pages/newtab.html"
+	},
+	"options_page": "pages/newtab.html#options",
+	"icons": {
+		"16": "img/icon16.png"
+	},
+	"chrome_url_overrides": {
+		"newtab": "pages/newtab.html"
+	},
+	"content_security_policy": "script-src 'self'  https://connect.facebook.net https://ajax.googleapis.com https://connect.facebook.net/en_US/all.js; object-src 'self' ",
+	"omnibox" : {
+		"keyword": "*"
+	},
+	"background" : {
+		"page":"pages/background.html"
+	}
 }

@@ -3,14 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <title> ★ </title>
-<link rel="stylesheet" type="text/css" media="all" href="../css/bootstrap.css">  
-<link rel="stylesheet" type="text/css" media="all" href="../css/bookmark.css">  
-
-<!-- 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.0/jquery.min.js" type="text/javascript" charset="utf-8"></script>
--->
-<script src="../lib/jquery-1.8.2.min.js"></script>
-
+  <link rel="stylesheet" type="text/css" media="all" href="../css/bootstrap.css">  
+  <link rel="stylesheet" type="text/css" media="all" href="../css/bookmark.css">  
 </head>
 <body id="body" class=""> <!-- <body id="body" class="3dfx">-->
   <style id="write_custom_css">
@@ -27,159 +21,12 @@
      <img src="../img/grey_video.gif" >
      <img src="../img/grey.gif" >
   </div>
- 
-  
- 
-  
+
   <div id="fb-root"></div>
 
-  
-  
-  
-  <div class="navbar top navbar-inverse navbar-fixed-top">
-    <div class="navbar-inner">
-      <!-- 
-      <a class="branding clearSearch" href="#">Everymarks</a>-->
-      
-       <a href="#" class="clearSearch starlogo tip"  rel="tooltip" data-placement="left" data-original-title="All Bookmarks"><img src="../img/logo2.png" ></a>
-       
-       
-       
-       
-       
-       <ul class="nav pull-left">
-      <li class="">
-        <div class="input-append search_form">
-          <input id="search"  type="search" placeholder="Search " >
-          <button class="btn btn-success" type="button"><i class="icon-search icon-white"></i></button>
-        </div>
-        
-      
-      </li>
-      </ul>
-     <!--  <img class="star clearSearch" src="../img/white/28-star@2x.png" />-->
-      <ul class="nav pull-right">
-        
-        
-        <!-- STILL IN development
-        <li class="active"><a href="#">Bookmarks</a></li>
-        <li><a href="#">History</a></li>
-        <li><a href="#">Delicious</a></li> -->
-        
-        <li class="dropdown categories_drop">
-            <a class="dropdown-toggle tip" data-toggle="dropdown"   href="#"  rel="tooltip" data-placement="bottom" data-original-title="Select Folder">
-              
-                <!-- 
-                Select Folder
-                 <b class="caret"></b>
-                <i class="icon-folder-close icon-white"></i>
-                -->
-                
-                
-                <img src="../img/white/33-cabinet@2x.png" class="folder">
-                
-              </a>
-              <ul class="dropdown-menu category">
-                                <li class="all_bookmarks"><a href="#"><i class="icon-home"></i>View all</a></li><li class="divider"></li>
-                                <div class="folders">
-                                <li><a href="#"><i class="icon-folder-close"></i>My folder</a></li>
-                                </div>
-                                
-                                 <!-- 
-                                  <li class="divider"></li>
-                                  <li><a href="#"><i class="icon-user"></i>People</a></li>
-                                  <li><a href="#"><i class="icon-picture"></i>Photos</a></li>
-                                  <li><a href="#"><i class="icon-film"></i>Video</a></li>
-                                  <li><a href="#"><i class="icon-music"></i>Music</a></li>-->
-                                  
-                                <li class="divider"></li>
-                                <div class="sources">
-                                <li><a href="#source/chrome" class="type_chrome"><i class="icon-star"></i>Browser Bookmarks</a></li>
-                                <li><a href="#source/twitter" class="type_chrome"><i class="icon-retweet"></i>Twitter</a></li>
-                                <li><a href="#source/delicious" class="type_chrome"><i class="icon-th-large"></i>Delicious</a></li>
-                                </div>
-                                
-                                <li class="divider"></li>
-                                <div class="sites">
-                                <li><a href="#"><i class="icon-globe"></i>github.com</a></li>
-                                <li><a href="#"><i class="icon-globe"></i>test</a></li>
-                                <li><a href="#"><i class="icon-globe"></i>test</a></li>
-                                </div>
-              </ul>
-          </li>
-          
-        
+  <div id="header"></div>
 
-           <li class="options">
-             <a class="dropdown-toggle tip" data-toggle="dropdown"   href="#"  rel="tooltip" data-placement="bottom" data-original-title="Add source">
-                 <img src="../img/white/19-gear@2x.png" class="cog">
-               </a>
-               
-             
-              <ul class="dropdown-menu options_menu">
-               
-                 <li class="all_bookmarks"> <a href="#option"><i class="icon-home"></i>Stats (former option page)</a></li>
-                   <li class="divider"></li>
-                   
-                   
-                   
-                                <li class="all_bookmarks"><a href="#"><i class="icon-home"></i>View all</a></li>
-                                <li class="divider"></li>
-                                
-                               
-                                <li><a href="#twitter_modal" role="button" data-toggle="modal" class="btn2" class="bt_modal222"><i class="icon-star"></i>Add Twitter</a></li>
-                                <li><a  href="#fb_modal" role="button" data-toggle="modal"  ><i class="icon-retweet"></i>Add Facebook</a></li>
-                                <li><a  href="#delicious_modal" role="button" data-toggle="modal"  ><i class="icon-th-large"></i>Add Delicious</a></li>
-                                <li><a  href="#pinboard_modal" role="button" data-toggle="modal"  ><i class="icon-th-large"></i>Add Pinboard</a></li>
-                                
-                                <li class="divider"></li>
-                                 <li><a href="#"><i class="icon-trash"></i>Delete all bookmarks</a></li>
-                                <li><a href="#"><i class="icon-info"></i>About... (modal)</a></li>
-                               
-                                
-              </ul>
-             
-             </li>
-
-
-               
-        
-      </ul>
-      
-      <div class="content_types pull-right">
-
-        </div>
-
-
-    </div>
-  </div>
-  
-  
-
-  
-<div>
-  
-   
-</div>
-
-
-  <style>
- 
-  </style>
-
-
- <!-- 
-  <script src="../app/adsense.js"></script>
- 
-  <script src="https://pagead2.googlesyndication.com/pagead/show_ads.js"></script>
-  <script src="https://pagead2.googlesyndication.com/pagead/js/r20121008/r20120730/show_ads_impl.js"></script>
-  
-  Ad-sense testing... -->
-
-<div id="stage">
-  <ul id="bookmarks"></ul>
-</div>
-
+  <div id="stage"></div>
 
 <div class="alert alert-block no_results hide">
   <button type="button" class="close" data-dismiss="alert">×</button>
@@ -187,134 +34,13 @@
   Best check Google for <strong>your query</strong>...
 </div>
 
-
-
-
-<section id="options">
-  <div class="container">
-  
-  <br><br>
-  
-  
-  <div class="well totals span12">
-    
-    <h1><strong>258</strong> sites and articles</h1>
-    <p>Add Tweeted articles and websites</p>
-   
-  </div>
-  
-  
-  <div class="alert alert-info service chrome span7">
-    <img src="../img/chrome logo.png" class="logo pull-left span1" />
-    <h4>Chrome</h4>
- 
-      <p><strong class="count">222</strong> browser bookmarks indexed</p>
-      <button class="btn btn-mini refresh"><i class="icon-refresh  "></i>Refresh</button>
-     
-  </div>
-  
-  
-  
-   <p><a target="_blank" id="fb_connect" href="#facebook" class="btn btn-primary"><i class="icon-user icon-white"></i>Facebook Connect</a></p>
-  
-  
-  
-  <div class="alert alert-info service twitter span7">
-    <img src="../img/twitter-bird-light-bgs.png" class="logo pull-left span1" />
-    <h4>Twitter</h4>
-    <p>Add Tweeted articles and websites</p>
-    <form class="form-search">
-    <input type="text" class="input-medium input search-query" placeholder="@you">
-    <button class="btn btn-info add"><i class="icon-plus icon-white"></i>Add Twitter</button>
-    </form>
-  </div>
-  
-  
-  <div class="alert alert-success service delicious span7">
-    <img src="../img/del_logo.png" class="logo pull-left span1" />
-    <h4>Delicious</h4>
-    
-    <div class="start">
-      <p>Include your public Delicious bookmarks</p>
-      <input type="text" class="input-medium input search-query" placeholder="userlicious">
-      <button class="btn btn-success add" data-loading-text="Importing..."><i class="icon-plus icon-white"></i>Add it</button>
-    </div>
-  
-    <div class="connected">
-      <p><strong class="count">###</strong> Delicious bookmarks indexed</p>
-      <button class="btn btn-mini  remove"><i class="icon-trash "></i>Remove</button>
-    </div>
-  </div>
-  
-  <button class="btn btn-mini  remove_all"><i class="icon-trash "></i>Reset everything</button>
-  
-  config: toggle class "3dfx" on body to disable crazy 3d FX
-  
-  </div>
-</section>
-
 <div id="editdialog"></div>
 <div id="deletedialog"></div>
 <div id="adddialog"></div>
 
-
-<div class="navbar navbar-fixed-bottom footer" >
-  <div class="navbar-inner">
-    <!-- 
-    <a class="brand" href="#">Bookmarks</a>
-    <input id="search" placeholder="Search Bookmarks">-->
-    
-    
-    <div class="copyright">
-      Made with ♥ by THIN
-      </div>
-    
-    <div class="alert alert-info html-download span5 pull-left hide">
-      <!--  <i class="icon-time"></i>-->
-       <button type="button" class="close stop" >×</a>
-      <div class="progress progress-striped active download">
-        <div class="bar" style="width: 1%;"></div>
-      </div>
-      Indexing websites for full text search ~ <strong>count</strong>
-      
-     
-    </div>
-    
-     <div class="alert alert-success html-download-complete span5 pull-left hide">
-        <i class="icon-ok"></i><strong>count</strong> pages indexed!
-       <button type="button" class="close" data-dismiss="alert">×</button>
-      </div>
-      
-    
-    <!--<img class="star clearSearch" src="../img/black/28-star@2x.png" /> -->
-    <ul class="nav pull-right">
-     
-  
-    
-      <!-- 
-      <li class="active"><a href="#">Popular</a></li>
-      <li><a href="#">Favourites</a></li>
-      <li><a href="#">Recent</a></li>-->
-       <li><input type="range"  min="0" max="100" id="zoom_level" value="50" /></li>
-       
-       
-         <li>
-         <div class="btn-group viewmode" data-toggle="buttons-radio">
-           <button type="button" class="btn grid "><i class="icon-th-large"></i>Grid</button>
-           <button type="button" class="btn  list active"><i class="icon-th-list"></i>List</button>
-         </div>
-         </li>
-         
-    </ul>
-  </div>
-</div>
-
+<div id="footer" class="navbar navbar-fixed-bottom footer"></div>
 
 <!-- MODALS -->
-<!-- Button to trigger modal -->
-
-
-
 <div class="modal hide fade twitter" id="twitter_modal">
   <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -340,35 +66,8 @@
   </div>
 </div>
 
-
-
-
-
-
-
-<!--<script src="../lib/zepto.min.js"></script>-->
-<script src="../lib/underscore.js"></script>
-<script src="../lib/underscore.string.js"></script>
-<script src="../lib/domparser.js"></script>
-<script src="../lib/jquery.scrollstop.js"></script>
-<script src="../lib/jquery.lazyload.js?v=4" ></script>
-<script src="../lib/backbone.min.js"></script>
-<script src="../lib/async.js"></script>
-
-<script src="../lib/backbone.localStorage.js"></script>
-<!-- <script src="../lib/backbone-websql.js"></script>-->
-<script src="../lib/bootstrap.min.js"></script>
-<script src="../lib/quantize.js"></script>
-<script src="../lib/color-thief.js"></script>
-
-
-<script src="../app/utils.js"></script>
-<script src="../app/router.js"></script>
-<script src="../app/models.js?cache=rnd234"></script>
-<script src="../app/ui.view.js?cache=rnd234"></script>
-<script src="../app/item.view.js"></script>
-
-<script src="../app/app.js?cache=4324"></script>
+<script src="/app/app_build.js"></script>
+<!--<script data-main="/app/config" src="/libs/require.js"></script>-->
 
 </body>
 </html>
