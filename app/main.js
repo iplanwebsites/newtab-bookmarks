@@ -14,7 +14,7 @@ define([
 	"backbone",
 	"router",
 	"models/settings",
-	"models/collection-bookmarks"
+	"instances/all-bookmarks"
 ],
 function( app, $, _, Backbone, router, settings, bookmarksCollection ) {
 	"use strict";

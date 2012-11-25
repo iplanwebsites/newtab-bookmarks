@@ -8,7 +8,7 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"models/collection-bookmarks",
+	"instances/all-bookmarks",
 	"models/searchCriterias",
 	"views/all-bookmarks",
 	"views/options-page",

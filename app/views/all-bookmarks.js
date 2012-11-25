@@ -8,22 +8,34 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"models/collection-bookmarks",
+	"instances/all-bookmarks",
 	"models/settings",
 	"views/single-bookmark",
 	"models/searchCriterias",
 	"jquery.lazyload"
 ],
-function( app, $, _, Backbone, bookmarks, settings, BookmarkView, searchCriterias ) {
+function( app, $, _, Backbone, allBookmarks, settings, BookmarkView, searchCriterias ) {
 	"use strict";
 	
 	var BookmarksView = Backbone.Layout.extend({
 		
 		id : "bookmarks",
 		tagName : "ul",
+
+		initialize: function() {
+			this.collection = allBookmarks;
+
+			// Set visual defaults
+			settings.on('change:zoomVal', this.setSize, this);
+			settings.on('change:viewmode', this.setViewmode, this);
+			
+			// Listen for search
+			searchCriterias.keywords.on('change:value', _.debounce(this.filter, 500), this);
+			searchCriterias.category.on('change', _.debounce(this.filter, 500), this);
+		},
 		
 		beforeRender: function() {
-			bookmarks.each(function( model ) {
+			this.collection.each(function( model ) {
 				this.insertView( new BookmarkView({ model: model }) );
 			}, this);
 		},
@@ -36,15 +48,9 @@ function( app, $, _, Backbone, bookmarks, settings, BookmarkView, searchCriteria
 				threshold: 500
 			});
 			
-			// Set visual defaults
-			settings.on('change:zoomVal', this.setSize, this);
-			settings.on('change:viewmode', this.setViewmode, this);
 			this.setSize();
 			this.setViewmode();
-			
-			// Listen for search
-			searchCriterias.keywords.on('change:value', _.debounce(this.filter, 100), this);
-			searchCriterias.category.on('change', _.debounce(this.filter, 100), this);
+			$(window).trigger('scroll');
 		},
 		
 		
@@ -52,26 +58,8 @@ function( app, $, _, Backbone, bookmarks, settings, BookmarkView, searchCriteria
 		// Search function
 		
 		filter: function() {
-			var keywords = searchCriterias.keywords.get('value'),
-				filterBy = searchCriterias.category.get('filterBy'),
-				category = searchCriterias.category.get('value');
-
-			// Loop over all subview to filter them
-			this.getViews(function( bookmarkView ) {
-				var m = bookmarkView.model;
-				
-				// Filter out category
-				if ( !m.matchCategory(filterBy, category) || !m.matchKeyword(keywords) ) {
-					bookmarkView.$el.hide();
-					return false;
-				}
-				
-				bookmarkView.$el.show();
-				return true;
-			});
-			
-			// Launch manually lazyload on images as there have been no scrolling
-			$(window).trigger('scroll');
+			this.collection = allBookmarks.matchSearch( searchCriterias );
+			this.render();
 		},
 		
 		

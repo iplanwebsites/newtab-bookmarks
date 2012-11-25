@@ -17,6 +17,7 @@ require.config({
 		underscore : "../libs/underscore", // v 1.3.2
 		backbone   : "../libs/backbone", // v 0.9.2
 		handlebars : "../libs/handlebars", // v 1.0.beta.6
+		fuzzy      : "../libs/fuzzy",
 		
 		// Backbone plugins
 		layoutmanager: "../libs/backbone.layoutmanager", // v 0.7.0
@@ -25,11 +26,8 @@ require.config({
 		
 		// jQuery plugins
 		bootstrap: "../libs/bootstrap",
-		"jquery.lazyload": "../libs/jquery.lazyload",
+		"jquery.lazyload": "../libs/jquery.lazyload"
 		
-		// plugins
-		colorThief: "../libs/color-thief",
-		domparser: "../libs/domparser"
 	},
 	
 	shim: {
@@ -56,11 +54,9 @@ require.config({
 		
 		bootstrap: ["jquery"],
 		"jquery.lazyload": ["jquery"],
-		
-		colorThief: ["../libs/quantize"],
-		
-		domparser: {
-			exports: "DOMParser"
+
+		fuzzy: {
+			exports: "fuzzy"
 		}
 		
 	}

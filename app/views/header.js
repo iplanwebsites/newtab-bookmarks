@@ -9,7 +9,7 @@ define([
 	"underscore",
 	"backbone",
 	"models/settings",
-	"models/collection-bookmarks",
+	"instances/all-bookmarks",
 	"models/searchCriterias",
 	"views/folders",
 	"views/options-menu",

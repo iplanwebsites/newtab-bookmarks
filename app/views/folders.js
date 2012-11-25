@@ -8,7 +8,7 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"models/collection-bookmarks",
+	"instances/all-bookmarks",
 	"models/searchCriterias"
 ],
 function( app, $, _, Backbone, bookmarks, searchCriterias ) {

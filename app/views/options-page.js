@@ -9,7 +9,7 @@ define([
 	"underscore",
 	"backbone",
 	"models/settings",
-	"models/collection-bookmarks"
+	"instances/all-bookmarks"
 ],
 function( app, $, _, Backbone, settings, bookmarksCollection ) {
 	"use strict";

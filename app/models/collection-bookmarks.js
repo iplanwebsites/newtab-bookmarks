@@ -16,23 +16,82 @@ define([
 	"backbone",
 	"models/settings",
 	"models/single-bookmark",
+	"fuzzy",
 	"modules/utils",
 	"backbone.localStorage"
 ],
-function( app, $, _, Backbone, settings, Bookmark, utils ) {
+function( app, $, _, Backbone, settings, Bookmark, fuzzy, utils ) {
 	"use strict";
 	
 	var Bookmarks = Backbone.Collection.extend({
 		
 		model: Bookmark,
-		sortOrder: 'dateAdded',
+		sortOrder: 'score',
 		
 		localStorage : new Backbone.LocalStorage('whatever2'),
 		
+		
+		// ---
+		// Filtering
+
+		matchSearch: function( searchCriterias ) {
+
+			var self     = this,
+				keyword  = searchCriterias.keywords.get('value'),
+				filterBy = searchCriterias.category.get('filterBy'),
+				category = searchCriterias.category.get('value'),
+				catFilter = {},
+				filtered;
+
+			if ( _.isString(filterBy) && _.isString(category) && filterBy.length && category.length ) {
+				// If there's category filtering info
+				catFilter[filterBy] = category;
+				filtered = self.where( catFilter );
+			} else if( keyword.length ) {
+				// If we have no category but a keyword, transform collection in array
+				filtered = self.toArray();
+			} else {
+				// Else, just return the collection as nothing is being searched
+				return self;
+			}
+
+			// If no keyword is provided, return category filtered collection
+			if ( !keyword.length ) {
+				return new Bookmarks( filtered );
+			}
+
+			filtered = fuzzy.filter( keyword, filtered, {
+				// Setup the searchable string
+				extract: function( model ) {
+					return model.get('title') + " " + model.get('url');
+				}
+			});
+
+			filtered = _.map( filtered, function( result ) {
+				return result.original.set('score', result.score);
+			});
+
+			return new Bookmarks( filtered );
+
+		},
+
+		// ---
+		// Tools
+
 		saveAll: function() {
 			this.each(function( m ) {
 				m.save();
 			});
+		},
+		
+		comparator: function( m ) {
+			return m.get( this.sortOrder ) * -1;
+		},
+		
+		// return all props
+		all: function( prop ) {
+			var that = this;
+			return _.uniq(_.pluck(_.pluck(that.models, 'attributes'), prop));
 		},
 		
 		
@@ -351,27 +410,11 @@ function( app, $, _, Backbone, settings, Bookmark, utils ) {
 			});
 			
 			
-		},
-		
-		
-		// ---
-		// Tools
-		
-		comparator: function( m ) {
-			return m.get( this.sortOrder ) * -1;
-		},
-		
-		//return all props
-		all: function( prop ) {
-			var that = this;
-			return _.uniq(_.pluck(_.pluck(that.models, 'attributes'), prop));
 		}
 
 	});
 	
-	app.Models.bookmarksCollection = new Bookmarks();
 	
-	
-	return app.Models.bookmarksCollection;
+	return Bookmarks;
 	
 });

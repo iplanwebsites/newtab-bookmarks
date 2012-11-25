@@ -25,7 +25,8 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 			folder    : [],
 			domain    : "",
 			content_type  : "",
-			thumbnail_url : ""
+			thumbnail_url : "",
+			score: 0
 		},
 		
 		localStorage: new Backbone.LocalStorage('whatever2'),
@@ -92,40 +93,6 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 					return 'http://immediatenet.com/t/l?Size=1024x768&URL=' + this.get('url');
 				}
 			}
-		},
-		
-		
-		// ---
-		// Search Functions
-		
-		// Return true or false if view model match given value
-		matchKeyword: function( value ) {
-			
-			// Abort if invalid value
-			if ( !_.isString(value) || !value.length ) { return true; }
-			
-			// Check if value is contain in the model
-			if ( this.get('title').indexOf(value) >= 0 ||  this.get('url').indexOf(value) >= 0 ) {
-				return true;
-			}
-			
-			// Otherwise
-			return false;
-		},
-
-		matchCategory: function( filterBy, value ) {
-			if ( !_.isString(filterBy)
-				|| !_.isString(value)
-				|| !filterBy.length
-				|| !value.length ) { return true; }
-
-			// Check if value correspond to the filterBy dimension
-			if ( this.get( filterBy ) === value ) {
-				return true;
-			}
-
-			// Otherwise
-			return false;
 		}
 		
 	});
