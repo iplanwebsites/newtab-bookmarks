@@ -10,10 +10,9 @@ define([
 	"backbone",
 	"modules/utils",
 	"views/single-bookmark",
-	"domparser",
 	"backbone.localStorage"
 ],
-function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
+function( app, $, _, Backbone, utils, BookmarkView ) {
 	"use strict";
 	
 	var Bookmark = Backbone.Model.extend({
@@ -79,7 +78,7 @@ function( app, $, _, Backbone, utils, BookmarkView, DOMParser ) {
 			} else {
 				t = 'web';
 			}
-		   
+			
 			this.set('content_type', t);
 		},
 		

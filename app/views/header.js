@@ -208,11 +208,6 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDrop
 		},
 		
 		afterRender: function() {
-			
-			// @todo: Add these function in here instead of in the collection
-			bookmarks.computeDomainCounts();
-			bookmarks.computeFolders();
-			bookmarks.computeSources();
 
 			this.$('.tip').tooltip();
 			

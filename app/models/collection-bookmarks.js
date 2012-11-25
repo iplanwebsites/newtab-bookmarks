@@ -17,8 +17,7 @@ define([
 	"models/settings",
 	"models/single-bookmark",
 	"modules/utils",
-	"backbone.localStorage",
-	"colorThief"
+	"backbone.localStorage"
 ],
 function( app, $, _, Backbone, settings, Bookmark, utils ) {
 	"use strict";
@@ -34,167 +33,6 @@ function( app, $, _, Backbone, settings, Bookmark, utils ) {
 			this.each(function( m ) {
 				m.save();
 			});
-		},
-		
-		scheduleHtmlDownload: function() {
-			var that = this;
-			this.htmlInterval = window.setInterval(function() {
-				
-				//find a model with no HTML
-				var todo = _.filter( that.models, function( m ) { 
-					if ( !m.get('hasHtml') && m.get('type') !== 'facebook_friend' ) {
-						return true;
-					}
-					return false;
-				});
-				
-				if( todo.length > 1 ) {
-				  
-				var remaining = (todo.length - that.length) * -1;
-				var pcnt = Math.floor( (remaining / that.length) * 100 );
-				
-				that.show_html_download_notice(pcnt, remaining, that.length);
-				
-				//pick a random one...
-				var model = todo[Math.floor( Math.random() * todo.length - 1 )];
-				
-				model.downloadHTML();
-				
-				} else {
-					that.stopDownload();
-					that.show_html_download_complete();
-				}
-			
-			}, 1000 );
-		},
-		
-		stopDownload: function() {
-			window.clearInterval( this.htmlInterval ); 
-			$('.html-download').hide();
-		},
-		
-		show_html_download_notice: function( pcnt, remaining, all ) { //VIEW
-			$('.html-download').show();
-			$('.html-download strong').html( pcnt + '% (' + remaining + '/' + all + ')' );
-			$('.html-download .bar').css( 'width', pcnt + '%' );
-		},
-		
-		show_html_download_complete: function( count ) { //VIEW
-			$('.html-download-complete').show();
-			$('.html-download-complete strong').html( count || this.length );
-		},
-		
-		
-		// ---
-		// Meta data
-		
-		computeDomainCounts: function() {
-			var models  = _.pluck( this.models, 'attributes' );
-			var domains = _.pluck( models, 'domain' );
-			var i;
-			
-			var result = {};
-			
-			for( i = 0; i < domains.length; i += 1 ) {
-				if ( !result[ domains[i] ] ) {
-					result[ domains[i] ] = 0;
-				}
-				result[ domains[i] ] += 1;
-			}
-			
-			var sorted = utils.sortObject( result ).reverse();
-			this.domains = sorted;
-			
-			var html = '';
-			_.each(_.first( this.domains, 5 ), function( d ) {
-				//console.log(d);
-				if( d.value > 1 ) {
-					html += '<li data-domain="'+d.key+'"><a><i class="icon-globe"></i>'+d.key+' <em>('+d.value+')'+'</em></a></li>';
-				}
-			});
-			
-			$('.category .sites').html( html );
-			
-			return sorted;
-		},
-		
-		computeFolders: function() {
-			var foldersArray = this.all('folder');
-			
-			var stringnified = _.map( foldersArray, function( f ) {
-				if ( f ) {
-					return f.join(' > ');
-				}
-				return '';
-			});
-			
-			var html = '';
-			var folders = _.uniq( stringnified ).sort();
-			
-			folders = _.first( folders, 15 );
-			
-			_.each( folders, function( f ) {
-				if ( f ) {
-					html+= ' <li><a href="#folder/'+f+'" data-folder="'+f+'"><i class="icon-folder-close"></i>'+f+'</a></li>';
-				}
-			});
-			
-			$('.category .folders').html( html );
-			
-			return stringnified;
-		},
-		
-		computeSources: function() {
-			
-			var that = this;
-			var types = this.all('type');
-			
-			var source = {
-				chrome: {
-					label: 'Chrome',
-					icon: '<i class="icon-star"></i>'
-				},
-				twitter: {
-					label: 'Twitter',
-					icon: '<i class="icon-retweet"></i>'
-				},
-				delicious: {
-					label: 'Delicious',
-					icon: '<i class="icon-th-large"></i>'
-				},
-				facebook: {
-					label: 'Facebook Posts',
-					icon: '<i class="icon-comment"></i>'
-				},
-				facebook_like: {
-					label: 'Facebook Likes',
-					icon: '<i class="icon-thumbs-up"></i>'
-				},
-				facebook_friend: {
-					label: 'Facebook Friends',
-					icon: '<i class="icon-user"></i>'
-				}
-			};
-			
-			var html='';
-			
-			_.each( types, function( t ) {
-				var data = source[ t ];
-				var count = that.where({ type: t }).length;
-				if ( t ) {
-					html += ' <li><a href="#source/'+t+'" data-source="'+t+'">'+ data.icon + data.label +' <em>('+count+')'+'</em></a></li>';
-				}
-			});
-			
-			$('.category .sources').html( html );
-			
-			return types;
-		},
-		
-		computeKeywords: function() {
-			var models        = _.pluck(this.models, 'attributes');
-			var keywords      = _.flatten(_.pluck(models, 'keywords'));
-			var keywords_uniq = _.uniq(keywords);
 		},
 		
 		
@@ -253,7 +91,7 @@ function( app, $, _, Backbone, settings, Bookmark, utils ) {
 			console.log( alreadyThere.length + ' chrome bookmarks already there...' );
 		},
 		
-	  
+	
 		// ---
 		// Delicious
 		
@@ -317,7 +155,7 @@ function( app, $, _, Backbone, settings, Bookmark, utils ) {
 			var url = delicious_url + handle + del_count;
 			
 			$.getJSON( url, function( data ) {
-			  
+			
 				_.each( data, function( d ) {
 					//check if tweet has url
 					if ( d.entities.urls.length > 0 ) {
@@ -348,7 +186,7 @@ function( app, $, _, Backbone, settings, Bookmark, utils ) {
 							} else {
 								console.log( 'not importing duplicate:', d.u );
 							}
-						  
+						
 						});
 					}
 				});
@@ -520,7 +358,7 @@ function( app, $, _, Backbone, settings, Bookmark, utils ) {
 		// Tools
 		
 		comparator: function( m ) {
-		   return m.get( this.sortOrder ) * -1;
+			return m.get( this.sortOrder ) * -1;
 		},
 		
 		//return all props
@@ -528,7 +366,7 @@ function( app, $, _, Backbone, settings, Bookmark, utils ) {
 			var that = this;
 			return _.uniq(_.pluck(_.pluck(that.models, 'attributes'), prop));
 		}
-  
+
 	});
 	
 	app.Models.bookmarksCollection = new Bookmarks();
