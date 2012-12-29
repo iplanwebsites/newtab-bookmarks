@@ -3,15 +3,13 @@
  * https://github.com/jeromegn/Backbone.localStorage
  */
 
-(function() {
+(function(_, Backbone) {
 // A simple module to replace `Backbone.sync` with *localStorage*-based
 // persistence. Models are given GUIDS, and saved into a JSON object. Simple
 // as that.
 
 // Hold reference to Underscore.js and Backbone.js in the closure in order
 // to make things work even if they are removed from the global namespace
-var _ = this._;
-var Backbone = this.Backbone;
 
 // Generate four random hex digits.
 function S4() {
@@ -89,18 +87,10 @@ _.extend(Backbone.LocalStorage.prototype, {
 // localSync delegate to the model or collection's
 // *localStorage* property, which should be an instance of `Store`.
 // window.Store.sync and Backbone.localSync is deprectated, use Backbone.LocalStorage.sync instead
-Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(method, model, options, error) {
+Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(method, model, options) {
   var store = model.localStorage || model.collection.localStorage;
 
-  // Backwards compatibility with Backbone <= 0.3.3
-  if (typeof options == 'function') {
-    options = {
-      success: options,
-      error: error
-    };
-  }
-
-  var resp;
+  var resp, syncDfd = $.Deferred && $.Deferred(); //If $ is having Deferred - use it. 
 
   switch (method) {
     case "read":    resp = model.id != undefined ? store.find(model) : store.findAll(); break;
@@ -110,27 +100,31 @@ Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function(m
   }
 
   if (resp) {
-    options.success(resp);
+    if (options && options.success) options.success(resp);
+    if (syncDfd) syncDfd.resolve();
   } else {
-    options.error("Record not found");
+    if (options && options.error) options.error("Record not found");
+    if (syncDfd) syncDfd.reject();
   }
+
+  return syncDfd && syncDfd.promise();
 };
 
 Backbone.ajaxSync = Backbone.sync;
 
 Backbone.getSyncMethod = function(model) {
-	if(model.localStorage || (model.collection && model.collection.localStorage))
-	{
-		return Backbone.localSync;
-	}
+  if(model.localStorage || (model.collection && model.collection.localStorage))
+  {
+    return Backbone.localSync;
+  }
 
-	return Backbone.ajaxSync;
+  return Backbone.ajaxSync;
 };
 
 // Override 'Backbone.sync' to default to localSync,
 // the original 'Backbone.sync' is still available in 'Backbone.ajaxSync'
-Backbone.sync = function(method, model, options, error) {
-	return Backbone.getSyncMethod(model).apply(this, [method, model, options, error]);
+Backbone.sync = function(method, model, options) {
+  return Backbone.getSyncMethod(model).apply(this, [method, model, options]);
 };
 
-})();
+})(_, Backbone);

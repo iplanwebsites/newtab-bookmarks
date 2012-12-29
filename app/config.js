@@ -13,14 +13,14 @@ require.config({
 	
 	paths: {
 		// Libraries.
-		jquery     : "../libs/jquery", // v 1.8.1
-		underscore : "../libs/underscore", // v 1.3.2
-		backbone   : "../libs/backbone", // v 0.9.2
+		jquery     : "../libs/jquery", // v 1.8.3
+		lodash     : "../libs/lodash.underscore", // v 1.0.0-rc.3
+		backbone   : "../libs/backbone", // v 0.9.9
 		handlebars : "../libs/handlebars", // v 1.0.beta.6
 		fuzzy      : "../libs/fuzzy",
 		
 		// Backbone plugins
-		layoutmanager: "../libs/backbone.layoutmanager", // v 0.7.0
+		layoutmanager: "../libs/backbone.layoutmanager", // v 0.7.5
 		stickit: "../libs/backbone.stickit", // 0.5.2
 		"backbone.localStorage": "../libs/backbone.localStorage",
 		
@@ -29,10 +29,14 @@ require.config({
 		"jquery.lazyload": "../libs/jquery.lazyload"
 		
 	},
+
+	map: {
+		"*": { "underscore" : "lodash" }
+	},
 	
 	shim: {
-		
-		underscore: {
+
+		lodash: {
 			exports: "_"
 		},
 		
