@@ -1,93 +1,86 @@
-var Router = Backbone.Router.extend({
+/**
+ * Router
+ */
+/*global require:true, define:true */
 
-  routes: {
-    "":                 "home",
-    "":                 "home",
-    "option":                 "options",    // #help
-    "options":                 "options",    // #help
-    "search/:query":        "search",  // #search/kiwis
-    "search/:query/p:page": "search",   // #search/kiwis/p7
-    "source/:query": "source",   // #search/kiwis/p7
-    "type/:query": "content_type"
-  },
-  page: function(p){
-    app.ui.top();
-    if(p == 'options'){
-      $('#options').show();
-      $('#bookmarks').hide();
-      $('body').addClass('options');
-      $('.navbar li.options').addClass('active');
-    }else{
-      $('#options').hide();
-       $('#bookmarks').show();
-       $('body').removeClass('options');
-       $('.navbar li.options').removeClass('active');
-    }
-  },
-  options: function() {
-    this.page('options');
-    app.ui.render_options();
-   // alert('opt');
-  },
-  clear_seach: function() {
-    $('#search').val('');
-  },  
-  clear_filters: function(){
-    $('.content_types li.active').removeClass('active');
-  },
-  home: function() {
-    //TODO: close popup
-    this.page('home');
-    this.clear_filters();
-    // alert('H');
-    // alert('options!');
-  },
+define([
+	"app",
+	"jquery",
+	"underscore",
+	"backbone",
+	"instances/all-bookmarks",
+	"models/searchCriterias",
+	"views/all-bookmarks",
+	"views/options-page",
+	"views/footer",
+	"views/header"
+],
+function( app, $, _, Backbone, bookmarksCollection, searchCriterias, AllBookmarksView, OptionsPage, Footer, Header ) {
+	"use strict";
+	
+	var MainLayout = Backbone.Layout.extend({
+		el: 'body'
+	});
+	var mainLayout = new MainLayout();
+	mainLayout.setViews({
+		"#header": new Header(),
+		"#footer": new Footer()
+	});
+	
+	var Router = Backbone.Router.extend({
+		
+		routes: {
+			""        : "home",
+			"options" : "options"    // #help
+		},
+		
+		
+		// ---
+		// Routes
+		
+		home: function() {
+			searchCriterias.clear();
 
-  search: function(query, page) {
-   /* $('#options').hide();
-     $('#bookmarks').show();
-     $('body').removeClass('options');*/
-  },
-  source: function(query) {
-    this.clear_seach();
-    this.clear_filters();
-    console.log('source: '+query)
-     this.filter_grid(query, function(m, query){ //this functions takes a comparator function that receive the model as a param
-       console.log(m.get('type') +'=='+ query);
-       console.log(m.get('type') == query);
-       return m.get('type') == query; //returns true/false
-     });
-  },
-  filter_grid: function(query, comparator){
-    var toShow = [];
-      var toHide = [];
-     _.each(app.collection.models, function(m){
-      if( comparator(m, query) ){//if this model passes the truth test...
-         toShow.push(m.v.$el[0]);
-      }else{
-        toHide.push(m.v.$el[0]);
-      }
-      /* if(m.get('content_type') == query){
-         toShow.push(m.v.$el[0]);
-       }else{
-         toHide.push(m.v.$el[0]);
-       }*/
-     });//eo each
-     console.log('show', toShow);
-     console.log('HIDE ', toHide);
-     $(toShow).show();
-      $(toHide).hide();
-      app.ui.set_title(toShow.length);
-  },
-  content_type: function(query) { //TODO: refactor to include search and types, no copypasta
-    this.clear_seach();
-    this.clear_filters();
-    
-    $('.content_types li.'+query).addClass('active');
-    this.filter_grid(query, function(m, query){ //this functions takes a comparator function that receive the model as a param
-       return m.get('content_type') == query; //returns true/false
-     });
-  }
-  
-
+			//@TODO: close popup
+			mainLayout.setViews({
+				'#stage': new AllBookmarksView()
+			}).render()
+				.then(function() {
+					// Trigger scroll to force start of lazyloading
+					$(window).trigger('scroll');
+				});
+			this.page('home');
+		},
+		
+		options: function() {
+			mainLayout.setViews({
+				'#stage': new OptionsPage()
+			}).render();
+			this.page('options');
+		},
+		
+		
+		// ---
+		// Helpers
+		
+		page: function( p ) {
+			$(window).scrollTop(0);
+			
+			if ( p === 'options' ) {
+				$('#options').show();
+				$('#bookmarks').hide();
+				$('body').addClass('options');
+			} else {
+				$('#options').hide();
+				$('#bookmarks').show();
+				$('body').removeClass('options');
+			}
+		}
+		
+	});
+	
+	app.router = new Router();
+	
+	return app.router;
+	
 });
