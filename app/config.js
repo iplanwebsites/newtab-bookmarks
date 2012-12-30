@@ -16,7 +16,7 @@ require.config({
 		jquery     : "../libs/jquery", // v 1.8.3
 		lodash     : "../libs/lodash.underscore", // v 1.0.0-rc.3
 		backbone   : "../libs/backbone", // v 0.9.9
-		handlebars : "../libs/handlebars", // v 1.0.beta.6
+		handlebars : "../libs/handlebars", // v 1.0.rc.1
 		fuzzy      : "../libs/fuzzy",
 		
 		// Backbone plugins

@@ -4,7 +4,7 @@
 	"version": "0.11",
 	"description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
 	"permissions": [
-		"bookmarks", 
+		"bookmarks",
 		"tabs",
 		"history",
 		"storage",
@@ -28,7 +28,7 @@
 	"chrome_url_overrides": {
 		"newtab": "pages/newtab.html"
 	},
-	"content_security_policy": "script-src 'self'  https://connect.facebook.net https://ajax.googleapis.com https://connect.facebook.net/en_US/all.js; object-src 'self' ",
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self' ",
 	"omnibox" : {
 		"keyword": "*"
 	},

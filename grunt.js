@@ -111,13 +111,13 @@ module.exports = function( grunt ) {
 						facebook: "empty:",
 						
 						// Only replace Handlebars with the runtime if you're not loading any template after builds
-						handlebars  : "../libs/handlebars.runtime", // v 1.0.beta.6
+						handlebars  : "../libs/handlebars.runtime",
 						
 					},
 					
 					// Includes script to inline
 					include: [
-						
+						"modules/bookmarks.chrome"
 					],
 					
 					//findNestedDependencies: true,
@@ -198,7 +198,6 @@ module.exports = function( grunt ) {
 	});
 	
 	grunt.loadNpmTasks('grunt-contrib');
-	grunt.loadNpmTasks('grunt-smushit');
 	
 	// @todo: add back `lint` task sometime
 	grunt.registerTask("default", "clean:all handlebars requirejs concat clean:build");

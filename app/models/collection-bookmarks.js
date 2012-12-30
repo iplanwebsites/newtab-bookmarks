@@ -94,62 +94,6 @@ function( app, $, _, Backbone, settings, Bookmark, fuzzy, utils ) {
 			return _.uniq(_.pluck(_.pluck(that.models, 'attributes'), prop));
 		},
 		
-		
-		// ---
-		// Chrome importer
-		
-		importChromeBookmarks: function() {
-			var that = this;
-		   
-			chrome.bookmarks.getTree(function( bookmarkTreeNodes ) {
-				console.log( bookmarkTreeNodes );
-				that.parseChromeBookmarkTree( bookmarkTreeNodes, []); //start the recursive process
-			});
-		},
-		
-		//recursive function
-		parseChromeBookmarkTree: function( tree, folder ) {
-			var that= this;
-			console.log(folder.join('>'));
-			console.log('tree',tree);
-			_.each( tree, function( n ) {
-				if ( n.children && n.children.length > 0 ) {
-					//it's a folder
-					var path = _.uniq( folder );
-					if ( n.title ) {
-						//add the folder name to the list
-						path.push( n.title );
-					}
-					that.parseChromeBookmarkTree( n.children, path );
-				} else {
-					//it's a URL
-					that.addChromeBookmark( n, folder );
-				}
-			});
-		},
-		
-		addChromeBookmark: function( tree, folder ) {
-			// @TODO: cleanup the garbage in this object...
-			// @TODO: only add if it doesn't exists...
-			
-			//add to collection
-			this.add({
-				title     : tree.title,
-				url       : tree.url,
-				id        : tree.id,
-				type      : 'chrome',
-				dateAdded : tree.dateAdded,
-				folder    : folder
-			});
-			
-		},
-		
-		// a collection is present, we check if the counts match...
-		importNewChromeBookmarks: function() {
-			var alreadyThere = this.where({ type: "chrome" });
-			console.log( alreadyThere.length + ' chrome bookmarks already there...' );
-		},
-		
 	
 		// ---
 		// Delicious

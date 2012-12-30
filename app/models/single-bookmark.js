@@ -18,36 +18,32 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 	var Bookmark = Backbone.Model.extend({
 		
 		defaults: {
-			url   : "",
-			title : "",
-			type  : "",
-			dateAdded : "",
-			folder    : [],
-			domain    : "",
-			content_type  : "",
+			url           : "",
+			title         : "",
+			type          : "",
+			dateAdded     : "",
+			folder        : [],
+			domain        : false,
+			content_type  : "web",
 			thumbnail_url : "",
-			score: 0
+			score         : 0,
+			keep          : false
 		},
 		
 		localStorage: new Backbone.LocalStorage('whatever2'),
 		
 		initialize: function() {
 			
-			//set the domain if it's a new object...
-			if ( this.isNew() ) {
-				var url = this.get('url');
-				if ( utils.isURL(url) ) {
-					this.set( 'domain', utils.getDomain(url) );
-				} else {
-					//this can be a bookmarklet, a FTP, or special page bookmark...
-					this.set( 'domain', false );
-					console.log( 'not a URL:', url );
-				}
-				
-				//set the main set_content_type
-				this.set_content_type();
-				
+			var url = this.get('url');
+			if ( utils.isURL(url) ) {
+				this.set( 'domain', utils.getDomain(url) );
+			} else {
+				//this can be a bookmarklet, a FTP, or special page bookmark...
+				this.set( 'domain', false );
 			}
+			
+			//set the main set_content_type
+			this.set_content_type();
 
 			//if there's no title, use domain name
 			if ( !this.get('title').length ) {
@@ -57,6 +53,21 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 			this.set( 'thumbnail_url', this.get_thumb_url() );
 			this.save();
 			
+		},
+
+		save: function(attrs, options) {
+			options || (options = {});
+			
+			attrs = attrs || this.toJSON();
+
+			// Filter the data to send to the server
+			delete attrs.keep;
+
+			// Set data to be saved
+			options.data = JSON.stringify(attrs);
+
+			// Proxy the call to the original save function
+			Backbone.Model.prototype.save.call(this, attrs, options);
 		},
 		
 		set_content_type: function() {

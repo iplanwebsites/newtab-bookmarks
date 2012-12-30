@@ -31,44 +31,23 @@ function( app, $, _, Backbone, router, settings, bookmarksCollection ) {
 	var modelsFetching = new $.Deferred();
 	bookmarksCollection.fetch({
 		success: function( collection, response ) {
-			if ( collection.length < 1 ) {
-				console.log('Empty local Collection, fetch Chrome books: ', response);
-				bookmarksCollection.importChromeBookmarks();
-			} else {
-				console.log('Loading bookmarkss from Localstorage cache: '+ collection.length);
-				bookmarksCollection.importNewChromeBookmarks(); //check if new bookmarks have been added
-			}
-			modelsFetching.resolve();
-		},
-		error: function( collection, response ) {
-			console.log('Error in fetching Collection: ', response);
-			bookmarksCollection.importChromeBookmarks();
-			modelsFetching.reject();
+			require(["modules/bookmarks.chrome"], function( chromeBookmarks ) {
+				chromeBookmarks.fetch().then(function() {
+					modelsFetching.resolve();
+				});
+
+			});
 		}
 	});
-	
+
 	
 	// ---
 	// Fetch data
 	
 	modelsFetching.done(function() {
 		
-		_.delay(function() {
-			//will start fetching HTML content, and indexing it...
-			var fbEnabled = bookmarksCollection.updateFacebookLinks();
-			if ( !fbEnabled ) {
-				// @TODO: show bar to incite user to add Facebook stuff!
-			}
-		}, 2000 );
-
-		chrome.omnibox.onInputChanged.addListener(function( str ) {
-			window.alert( str );
-		});
+		//bookmarksCollection.updateFacebookLinks();
 		
-		// chrome.history.search({ text: '' }, function( items ) {
-		// 		// @TODO: sort bookmarks that are recent or highlight them?
-		// 		// http://developer.chrome.com/extensions/history.html
-		// });
 	});
 	
 	
