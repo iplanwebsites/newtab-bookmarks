@@ -14,7 +14,10 @@ function( app, $, _, Backbone ) {
 	"use strict";
 	
 	var Settings = Backbone.Model.extend({
-		id: 1, //there's duplicates otherwise...
+		
+		localStorage: new Backbone.LocalStorage('settings'),
+
+		id: 1, // Make sure to only keep one canonical settings object
 		
 		defaults: {
 			viewmode : 'grid',
@@ -22,14 +25,13 @@ function( app, $, _, Backbone ) {
 		},
 		
 		initialize: function() {
-			this.on('change', this.save, this);
-		},
+			this.on( 'change', function() {
+				this.save();
+			}, this );
+		}
 		
-		localStorage: new Backbone.LocalStorage('settings2')
 	});
 	
-	app.Models.settings = new Settings();
-	
-	return app.Models.settings;
+	return Settings;
 	
 });

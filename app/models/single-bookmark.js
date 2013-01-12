@@ -17,6 +17,9 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 	
 	var Bookmark = Backbone.Model.extend({
 		
+		// Identify model via their URL as this is their canonical/unique reference
+		idAttribute: "url",
+
 		defaults: {
 			url           : "",
 			title         : "",
@@ -62,6 +65,9 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 
 			// Filter the data to send to the server
 			delete attrs.keep;
+			delete attrs.score;
+			delete attrs.thumbnail_url;
+			delete attrs.content_type;
 
 			// Set data to be saved
 			options.data = JSON.stringify(attrs);

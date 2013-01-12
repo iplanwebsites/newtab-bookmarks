@@ -33,6 +33,10 @@ function( app, $, _, Backbone, bookmarksCollection, searchCriterias, AllBookmark
 			""        : "home",
 			"options" : "options"    // #help
 		},
+
+		initialize: function() {
+			Backbone.history.start();
+		},
 		
 		
 		// ---
@@ -79,8 +83,6 @@ function( app, $, _, Backbone, bookmarksCollection, searchCriterias, AllBookmark
 		
 	});
 	
-	app.router = new Router();
-	
-	return app.router;
+	return Router;
 	
 });

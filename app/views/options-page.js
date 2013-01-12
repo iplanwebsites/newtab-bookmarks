@@ -8,7 +8,7 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"models/settings",
+	"instances/settings",
 	"instances/all-bookmarks"
 ],
 function( app, $, _, Backbone, settings, bookmarksCollection ) {
@@ -21,8 +21,8 @@ function( app, $, _, Backbone, settings, bookmarksCollection ) {
 		template : "options-page",
 		
 		events: {
-			'click  #options .delicious .btn.add'    : 'add_delicious',
-			'click  #options .delicious .btn.remove' : 'remove_delicious',
+			'click .delicious .js-add'    : 'add_delicious',
+			'click .delicious .js-remove' : 'remove_delicious',
 			'click .remove_all' : 'remove_all'
 		},
 		
@@ -35,61 +35,38 @@ function( app, $, _, Backbone, settings, bookmarksCollection ) {
 				facebookAuthUrl : this.getFacebookLoginUrl()
 			};
 		},
+
+		initialize: function() {
+			this.listenTo( settings, 'change', this.render );
+		},
 		
 		
 		// ---
 		// UI relation
 		
-		add_delicious: function( ev ) {
-			ev.preventDefault();
-			
-			var that = this;
+		add_delicious: function() {
 			var handle = $('#options .delicious .input').val();
 			
 			if ( handle === '' ) {
-				window.alert('please enter your delicious username here');
-			} else {
-				
-				console.log('importing delicious user: ' + handle); //ayudantegrafico
-				$(ev.currentTarget).button('loading');
-				
-				bookmarksCollection.addDelicious(handle, function(){
-					$(ev.currentTarget).button('reset');
-					that.render_options();
-					$('#options .delicious .input').val('');
-				});
-				
+				return;
 			}
+
+			settings.set( 'delicious_user', handle );
 			
 		},
 		
-		remove_delicious: function( ev ) {
-			ev && ev.preventDefault();
+		remove_delicious: function() {
+
+			settings.set('delicious_user', undefined);
+
+			_.invoke( bookmarksCollection.where({ type: "delicious" }), 'destroy' );
 			
-			var that= this;
-			var delicious = bookmarksCollection.where({type: "delicious"});
-			
-			console.log( 'rm', delicious );
-			
-			_.each( delicious, function( m ) {
-				console.log( 'destroy delicious model1:', m );
-				m.destroy({ wait: true });
-			});
-			
-			settings.set('delicious_user', false);
-			
-			//refresh the page...
-			_.delay(function() {
-				that.render_options();
-				bookmarksCollection.render();
-				$('#options .delicious .input').val('');
-			}, 200);
+			this.$('.delicious .input').val('');
 			
 		},
 		
 		remove_all: function() {
-			// @todo: where is localstorage defined ??
-			localStorage.clear();
+			window.localStorage.clear();
 			bookmarksCollection.reset();
 		},
 		

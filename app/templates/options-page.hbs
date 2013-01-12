@@ -47,9 +47,9 @@
 			<div class="connected">
 				<p>
 					<strong class="count">{{deliciousCount}}</strong>
-					Delicious bookmarks indexed
+					Delicious bookmarks indexed from account {{delicious_user}}
 				</p>
-				<button class="btn btn-mini  remove"><i class="icon-trash "></i>Remove</button>
+				<button class="btn btn-mini js-remove"><i class="icon-trash "></i>Remove</button>
 			</div>
 		{{else}}
 			<div class="start">
@@ -57,7 +57,7 @@
 					Include your public Delicious bookmarks
 				</p>
 				<input type="text" class="input-medium input search-query" placeholder="userlicious">
-				<button class="btn btn-success add" data-loading-text="Importing...">
+				<button class="btn btn-success js-add">
 					<i class="icon-plus icon-white"></i>
 					Add it
 				</button>

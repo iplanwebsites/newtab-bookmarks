@@ -13,10 +13,10 @@ define([
 	"underscore",
 	"backbone",
 	"router",
-	"models/settings",
+	"instances/settings",
 	"instances/all-bookmarks"
 ],
-function( app, $, _, Backbone, router, settings, bookmarksCollection ) {
+function( app, $, _, Backbone, Router, settings, bookmarksCollection ) {
 	"use strict";
 	
 	// ---
@@ -28,32 +28,32 @@ function( app, $, _, Backbone, router, settings, bookmarksCollection ) {
 	// ---
 	// Get Bookmarks
 	
-	var modelsFetching = new $.Deferred();
 	bookmarksCollection.fetch({
-		success: function( collection, response ) {
-			require(["modules/bookmarks.chrome"], function( chromeBookmarks ) {
-				chromeBookmarks.fetch().then(function() {
-					modelsFetching.resolve();
-				});
-
-			});
-		}
+		success: fetchSources
 	});
 
 	
 	// ---
-	// Fetch data
-	
-	modelsFetching.done(function() {
-		
-		//bookmarksCollection.updateFacebookLinks();
-		
-	});
-	
-	
+	// Check bookmarks sources updates
+	// @info: triggered after bookmarksCollection fetch is done
+	// TODO: Transfer to an event/background page
+
+	function fetchSources() {
+
+		// Fetch Chrome bookmarks
+		require([ "modules/bookmarks.chrome" ], function( chromeBookmarks ) {
+			chromeBookmarks.fetch();
+		});
+
+		require([ "modules/bookmarks.delicious" ], function( deliciousBookmarks ) {
+			deliciousBookmarks.fetch();
+		});
+
+	}
+
 	// ---
-	// Launch Router
+	// Create router
 	
-	Backbone.history.start();
+	app.router = new Router();
 	
 });

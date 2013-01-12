@@ -14,7 +14,7 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"models/settings",
+	"instances/settings",
 	"models/single-bookmark",
 	"fuzzy",
 	"modules/utils",
@@ -75,13 +75,12 @@ function( app, $, _, Backbone, settings, Bookmark, fuzzy, utils ) {
 
 		},
 
+
 		// ---
 		// Tools
 
 		saveAll: function() {
-			this.each(function( m ) {
-				m.save();
-			});
+			this.invoke( 'save' );
 		},
 		
 		comparator: function( m ) {
@@ -92,55 +91,6 @@ function( app, $, _, Backbone, settings, Bookmark, fuzzy, utils ) {
 		all: function( prop ) {
 			var that = this;
 			return _.uniq(_.pluck(_.pluck(that.models, 'attributes'), prop));
-		},
-		
-	
-		// ---
-		// Delicious
-		
-		addDelicious: function( deliciousUser, cb ) {
-			// @TODO: there's a maximum of 100 entries...
-			var that = this;
-			
-			settings.set( 'delicious_user', deliciousUser );
-			
-			var delicious_url = 'http://feeds.delicious.com/v2/json';
-			var del_count = '?count=9999';
-			var url = delicious_url + '/' + deliciousUser + del_count;
-			
-			console.log(url);
-			
-			$.getJSON( url, function( data ) {
-				_.each( data, function( d ) {
-					// Make sure the URL is NOT already indexed... avoid duplicates...
-					if ( that.where({ url: d.u }).length === 0 ) {
-						var dateAdded = new Date( d.dt ).getTime();
-						var keywords = d.t;
-						
-						// Check type and act accordingly
-						if ( typeof keywords === 'string' || !keywords ) {
-							keywords = keywords + ',delicious';
-						} else {
-							keywords = keywords.join(',') + ',delicious';
-						}
-						
-						//add to collection
-						that.add({
-							title: d.d,
-							url:d.u ,
-							type:'delicious',
-							dateAdded: dateAdded,
-							keywords: keywords
-						});
-						
-					} else {//end if
-						console.log('not importing duplicate:',d.u);
-					}
-				});
-				
-				cb();
-			});
-			
 		},
 		
 		

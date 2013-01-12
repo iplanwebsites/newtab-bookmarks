@@ -8,7 +8,7 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"models/settings"
+	"instances/settings"
 ],
 function( app, $, _, Backbone, settings ) {
 	"use strict";

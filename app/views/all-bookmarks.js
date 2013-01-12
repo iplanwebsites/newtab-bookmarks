@@ -9,7 +9,7 @@ define([
 	"underscore",
 	"backbone",
 	"instances/all-bookmarks",
-	"models/settings",
+	"instances/settings",
 	"views/single-bookmark",
 	"models/searchCriterias",
 	"jquery.lazyload"

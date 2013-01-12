@@ -117,7 +117,8 @@ module.exports = function( grunt ) {
 					
 					// Includes script to inline
 					include: [
-						"modules/bookmarks.chrome"
+						"modules/bookmarks.chrome",
+						"modules/bookmarks.delicious"
 					],
 					
 					//findNestedDependencies: true,
@@ -190,8 +191,8 @@ module.exports = function( grunt ) {
 		// Recompile when files changes
 		watch: {
 			source: {
-				files: ['app/**/*'],
-				tasks: ['debug']
+				files: [ 'app/**/*', 'grunt.js' ],
+				tasks: [ 'debug' ]
 			}
 		}
 		

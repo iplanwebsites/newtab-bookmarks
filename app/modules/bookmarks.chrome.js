@@ -69,23 +69,16 @@ function( $, _, allBookmarks ) {
 		},
 		
 		addChromeBookmark: function( bookmark, folder ) {
-			var actual = allBookmarks.where({ url: bookmark.url })[0],
-				data   = {
+			var data   = {
 					title     : bookmark.title,
 					url       : bookmark.url,
-					id        : bookmark.id,
 					type      : 'chrome',
 					dateAdded : bookmark.dateAdded,
 					folder    : folder,
 					keep      : true // mark this model to be kept
 				};
-			
-			// Add or update collection
-			if ( actual ) {
-				actual.set( data );
-			} else {
-				allBookmarks.add( data );
-			}
+
+			allBookmarks.add( data, { merge: true });
 			
 		}
 	};
