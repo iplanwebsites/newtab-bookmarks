@@ -1,0 +1,20 @@
+{
+	"manifest_version": 2,
+	"name": "Bookmarks  ★ ★ ★",
+	"version": "0.11",
+	"description": "A browser action with a popup dump of all bookmarks, including search, add, edit and delete.",
+	"permissions": [
+		"bookmarks",
+		"storage",
+		"chrome://favicon/"
+	],
+	"browser_action": {
+		"default_title": "My Bookmarks",
+		"default_icon": "img/icon16.png",
+		"default_popup": "pages/newtab.html"
+	},
+	"icons": {
+		"16": "img/icon16.png"
+	},
+	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self' "
+}
