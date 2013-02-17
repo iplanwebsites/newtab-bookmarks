@@ -105,14 +105,15 @@ function( app, $, _, Backbone, settings ) {
 	var MainFooter = Backbone.View.extend({
 		
 		template: "footer",
+		el: false,
 		
 		beforeRender: function() {
 			
 			// @todo: add all modules
 			
-			this.insertViews({
-				".navbar-inner": new ModulesSection()
-			});
+			// this.insertViews({
+			// 	".navbar-inner": new ModulesSection()
+			// });
 			
 		}
 		

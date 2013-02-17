@@ -1,11 +1,15 @@
-<a href="{{url}}">
-	<div class="thumb_wrap">
-		<img src="../assets/img/grey_photo.gif" data-original="{{thumbnail_url}}" class="thumb" width="205" height="154">
-	</div>
-	<div class="meta">
-		<img src="chrome://favicon/{{url}}" class="favicon" />
-		{{title}}
-		~
-		<em class="domain">{{domain}}</em>
-	</div>
-</a>
+<li class="single-bookmarks">
+	<a href="{{url}}" class="single-bookmarks-inner">
+		<div class="icon">
+			<img src="chrome://favicon/{{url}}" width=16 height=16 class="favicon" />
+		</div>
+		<div class="meta">
+			<h2 class="bookmark-title">
+				{{title}}
+			</h2>
+			<h3 class="bookmark-domain">
+				{{domain}}
+			</h3>
+		</div>
+	</a>
+</li>

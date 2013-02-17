@@ -17,9 +17,8 @@ function( app, $, _, Backbone ) {
 	
 	var BookmarkView = Backbone.View.extend({
 		
-		tagName: 'li',
-		
 		template: "single-bookmark",
+		el: false,
 		
 		serialize: function() {
 			return this.model.toJSON();

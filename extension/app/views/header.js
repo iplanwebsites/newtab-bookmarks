@@ -159,12 +159,17 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDrop
 	
 	var SearchBar = Backbone.View.extend({
 		
-		className: "nav pull-left",
 		template: "searchBar",
+		el: false,
 		
 		initialize: function() {
 			// @todo: Should use 2-way data binding instead of events
 			this.model = searchCriterias.keywords;
+		},
+
+		afterRender: function() {
+			// Automatically add focus to the search bar
+			this.$('#search').focus();	
 		},
 		
 		events: {
@@ -185,32 +190,18 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDrop
 	var MainHeader = Backbone.View.extend({
 		
 		template: "header",
+		el: false,
 
 		events: {
 			"click .js-clear-search": "clear"
 		},
 		
 		beforeRender: function() {
-			
-			// @todo: Create modules for all sections here
-			
-			this.insertViews({
-				".navbar-inner": [
-					new SearchBar(),
-					new TypeBar()
-				],
-				".dropdown-section" : [
-					new FoldersDropdown(),
-					new OptionsMenu()
-				]
-			});
-			
+			this.insertView(".navbar-inner", new SearchBar());
 		},
 		
 		afterRender: function() {
-
 			this.$('.tip').tooltip();
-			
 		},
 
 		// Clear all search criterias
