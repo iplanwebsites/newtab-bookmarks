@@ -21,7 +21,7 @@ function( app, $, _, Backbone ) {
 		
 		template: "single-bookmark",
 		
-		data: function() {
+		serialize: function() {
 			return this.model.toJSON();
 		},
 

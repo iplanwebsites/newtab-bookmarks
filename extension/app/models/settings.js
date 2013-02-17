@@ -8,7 +8,7 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"backbone.localStorage"
+	"localStorage"
 ],
 function( app, $, _, Backbone ) {
 	"use strict";

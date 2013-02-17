@@ -12,7 +12,7 @@ define([
 	"instances/settings",
 	"views/single-bookmark",
 	"models/searchCriterias",
-	"jquery.lazyload"
+	"lazyload"
 ],
 function( app, $, _, Backbone, allBookmarks, settings, BookmarkView, searchCriterias ) {
 	"use strict";

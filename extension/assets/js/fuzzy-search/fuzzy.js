@@ -133,3 +133,4 @@ fuzzy.filter = function(pattern, arr, opts) {
 
 
 }());
+

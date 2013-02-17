@@ -10,11 +10,11 @@
 	],
 	"browser_action": {
 		"default_title": "My Bookmarks",
-		"default_icon": "img/icon16.png",
+		"default_icon": "assets/img/icon16.png",
 		"default_popup": "pages/newtab.html"
 	},
 	"icons": {
-		"16": "img/icon16.png"
+		"16": "assets/img/icon16.png"
 	},
 	"content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self' "
 }

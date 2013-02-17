@@ -5,7 +5,7 @@
 
 define([
 	"app",
-	"models/settings",
+	"models/settings"
 ],
 function( app, Settings ) {
 	"use strict";

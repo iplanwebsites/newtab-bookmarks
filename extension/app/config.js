@@ -13,21 +13,22 @@ require.config({
 	
 	paths: {
 		// Libraries.
-		jquery     : "../libs/jquery", // v 1.8.3
-		lodash     : "../libs/lodash.underscore", // v 1.0.0-rc.3
-		backbone   : "../libs/backbone", // v 0.9.9
-		handlebars : "../libs/handlebars", // v 1.0.rc.1
-		fuzzy      : "../libs/fuzzy",
+		jquery     : "../assets/js/jquery/jquery", // v 1.8.3
+		lodash     : "../assets/js/lodash/lodash.underscore", // v 1.0.0-rc.3
+		backbone   : "../assets/js/backbone/backbone", // v 0.9.9
+		handlebars : "../assets/js/handlebars/handlebars", // v 1.0.rc.1
+		fuzzy      : "../assets/js/fuzzy-search/fuzzy",
 		
 		// Backbone plugins
-		layoutmanager: "../libs/backbone.layoutmanager", // v 0.7.5
-		stickit: "../libs/backbone.stickit", // 0.5.2
-		"backbone.localStorage": "../libs/backbone.localStorage",
+		layoutmanager: "../assets/js/layoutmanager/backbone.layoutmanager", // v 0.7.5
+		stickit: "../assets/js/backbone.stickit/backbone.stickit", // 0.5.2
+		localStorage: "../assets/js/backbone.localStorage/backbone.localStorage",
 		
 		// jQuery plugins
-		bootstrap: "../libs/bootstrap",
-		"jquery.lazyload": "../libs/jquery.lazyload"
+		lazyload: "../assets/js/jquery.lazyload/jquery.lazyload",
 		
+		bootstrapTooltip: "../assets/js/bootstrap/bootstrap-tooltip",
+		bootstrapModal: "../assets/js/bootstrap/bootstrap-modal"
 	},
 
 	map: {
@@ -54,10 +55,10 @@ require.config({
 		
 		stickit: ["backbone"],
 		
-		"backbone.localStorage": ["backbone"],
+		localStorage: ["backbone"],
 		
 		bootstrap: ["jquery"],
-		"jquery.lazyload": ["jquery"],
+		lazyload: ["jquery"],
 
 		fuzzy: {
 			exports: "fuzzy"

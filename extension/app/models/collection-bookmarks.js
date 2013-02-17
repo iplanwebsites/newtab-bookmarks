@@ -18,7 +18,7 @@ define([
 	"models/single-bookmark",
 	"fuzzy",
 	"modules/utils",
-	"backbone.localStorage"
+	"localStorage"
 ],
 function( app, $, _, Backbone, settings, Bookmark, fuzzy, utils ) {
 	"use strict";

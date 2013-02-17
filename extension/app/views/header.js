@@ -13,7 +13,7 @@ define([
 	"models/searchCriterias",
 	"views/folders",
 	"views/options-menu",
-	"bootstrap"
+	"bootstrapTooltip"
 ],
 function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDropdown, OptionsMenu ) {
 	"use strict";
@@ -38,7 +38,7 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDrop
 			this.model.on( 'change', this.change, this );
 		},
 
-		data: function() {
+		serialize: function() {
 			var source = {
 				photo: {
 					label: 'Photos',

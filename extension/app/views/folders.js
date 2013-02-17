@@ -22,7 +22,7 @@ function( app, $, _, Backbone, bookmarks, searchCriterias ) {
 
 		template: "folder-item",
 
-		data: function() {
+		serialize: function() {
 			return this.model;
 		},
 
@@ -67,7 +67,7 @@ function( app, $, _, Backbone, bookmarks, searchCriterias ) {
 
 		template: "domain-item",
 
-		data: function() {
+		serialize: function() {
 			return this.model;
 		},
 
@@ -116,7 +116,7 @@ function( app, $, _, Backbone, bookmarks, searchCriterias ) {
 
 		template: "source-item",
 
-		data: function() {
+		serialize: function() {
 			return this.model;
 		},
 

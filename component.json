@@ -1,0 +1,59 @@
+{
+  "name": "Newtab-Bookmarks",
+  "version": "0.0.1",
+  "directory": "bower",
+  "dependencies": {
+    "jquery": "*",
+    "jquery.lazyload": "*",
+    "requirejs": "*",
+    "backbone": "*",
+    "backbone.localStorage": "*",
+    "backbone.stickit": "*",
+    "lodash": "*",
+    "handlebars": "*",
+    "layoutmanager": "*",
+    "bootstrap": "*",
+    "fuzzy-search": "*"
+  },
+  "exportsOverride": {
+    "requirejs": {
+      "js": "require.js"
+    },
+    "jquery": {
+      "js": "jquery.js"
+    },
+    "jquery.lazyload": {
+      "js": "jquery.lazyload.js"
+    },
+    "backbone": {
+      "js": "backbone.js"
+    },
+    "backbone.localStorage": {
+      "js": "backbone.localStorage.js"
+    },
+    "backbone.stickit": {
+      "js": "backbone.stickit.js"
+    },
+    "lodash": {
+      "js": "dist/lodash.underscore.js"
+    },
+    "underscore": {
+      "js": "underscore.js"
+    },
+    "handlebars": {
+      "js": [
+        "handlebars.js",
+        "handlebars.runtime.js"
+      ]
+    },
+    "layoutmanager": {
+      "js": "backbone.layoutmanager.js"
+    },
+    "bootstrap": {
+      "js": "js/*.js"
+    },
+    "fuzzy-search": {
+      "js": "lib/fuzzy.js"
+    }
+  }
+}

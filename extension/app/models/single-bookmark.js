@@ -10,7 +10,7 @@ define([
 	"backbone",
 	"modules/utils",
 	"views/single-bookmark",
-	"backbone.localStorage"
+	"localStorage"
 ],
 function( app, $, _, Backbone, utils, BookmarkView ) {
 	"use strict";

@@ -10,7 +10,7 @@ define([
 	"backbone",
 	"instances/all-bookmarks",
 	"models/searchCriterias",
-	"bootstrap"
+	"bootstrapModal"
 ],
 function( app, $, _, Backbone, bookmarks, searchCriterias ) {
 	"use strict";
@@ -27,12 +27,6 @@ function( app, $, _, Backbone, bookmarks, searchCriterias ) {
 			"click .js-clear-search"       : "clear",
 			"click  .js-add-delicious"     : "addDelicious",
 			"click  .js-remove-deliciouos" : "removeDelicious"
-		},
-		
-		beforeRender: function() {
-			
-			
-			
 		},
 		
 		afterRender: function() {

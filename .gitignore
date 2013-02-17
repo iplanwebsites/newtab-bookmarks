@@ -47,15 +47,8 @@ dwsync.xml
 node_modules
 npm-debug.log
 
-lib-cov
-*.seed
-*.log
-*.csv
-*.dat
-*.out
-*.pid
-*.gz
+# Bower folder to ignore
+components/
 
-pids
-logs
-results
+# Build folder
+build/

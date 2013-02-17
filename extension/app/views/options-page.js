@@ -26,7 +26,7 @@ function( app, $, _, Backbone, settings, bookmarksCollection ) {
 			'click .remove_all' : 'remove_all'
 		},
 		
-		data: function() {
+		serialize: function() {
 			return {
 				total           : bookmarksCollection.length,
 				chromeCount     : bookmarksCollection.where({ type: "chrome" }).length,
