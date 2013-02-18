@@ -70,11 +70,13 @@ function( app, $, _, Backbone, settings, bookmarksCollection, AllBookmarksView, 
 		var url = $(this).attr('href');
 		if( !e.ctrlKey ) {
 			chrome.tabs.update( null, { url: url });
+			window.close();
 		}
 	});
 	$(document).on('click', 'a[href^=javascript]', function( e ) {
 		var script = decodeURIComponent( $(this).attr('href').replace('javascript:','') );
 		chrome.tabs.executeScript( null, { code: script });
+		window.close();
 		e.preventDefault();
 	});
 });

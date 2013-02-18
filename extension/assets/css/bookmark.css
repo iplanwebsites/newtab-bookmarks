@@ -30,43 +30,43 @@ body {
 	padding: 0;
 	margin: 0;
 }
-.single-bookmarks {
+.single-bookmark {
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
-.single-bookmarks-inner {
+.single-bookmark-inner {
 	display: block;
 	color: #000;
 	padding: 10px 5px;
 }
-.single-bookmarks-inner:hover,
-.single-bookmarks-inner:focus,
-.single-bookmarks-inner:active,
-.single-bookmarks-inner.focus {
+.single-bookmark-inner:hover,
+.single-bookmark-inner:focus,
+.single-bookmark-inner:active,
+.js-focus .single-bookmark-inner {
 	color: #000;
 	text-decoration: none;
 	background: rgba(0, 135, 204, 0.2);
 	outline: none;
 }
-.single-bookmarks .icon,
-.single-bookmarks .meta {
+.single-bookmark .icon,
+.single-bookmark .meta {
 	display: table-cell;
 	vertical-align: middle;
 }
-.single-bookmarks .icon {
+.single-bookmark .icon {
 	width: 30px;
 	text-align: center;
 }
-.single-bookmarks .favicon {
+.single-bookmark .favicon {
 	margin-right: 5px;
 }
-.single-bookmarks .bookmark-title {
+.single-bookmark .bookmark-title {
 	margin: 0;
 	font-size: 1.1em;
 	line-height: 1.1;
 }
-.single-bookmarks .bookmark-domain {
+.single-bookmark .bookmark-domain {
 	margin: 0;
 	font-size: 0.9em;
 	font-weight: normal;
