@@ -26,6 +26,7 @@ require.config({
 		
 		// jQuery plugins
 		lazyload: "../assets/js/jquery.lazyload/jquery.lazyload",
+		nanoscroller: "../assets/js/nanoscroller/jquery.nanoscroller",
 		
 		bootstrapTooltip: "../assets/js/bootstrap/bootstrap-tooltip",
 		bootstrapModal: "../assets/js/bootstrap/bootstrap-modal"
@@ -51,14 +52,13 @@ require.config({
 			exports: "Handlebars"
 		},
 		
-		layoutmanager: [ "backbone" ],
-		
-		stickit: ["backbone"],
-		
-		localStorage: ["backbone"],
-		
-		bootstrap: ["jquery"],
-		lazyload: ["jquery"],
+		layoutmanager    : ["backbone"],
+		stickit          : ["backbone"],
+		localStorage     : ["backbone"],
+		lazyload         : ["jquery"],
+		nanoscroller     : ["jquery"],
+		bootstrapTooltip : ["jquery"],
+		bootstrapModal   : ["jquery"],
 
 		fuzzy: {
 			exports: "fuzzy"

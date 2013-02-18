@@ -8,152 +8,13 @@ define([
 	"jquery",
 	"underscore",
 	"backbone",
-	"instances/settings",
 	"instances/all-bookmarks",
-	"models/searchCriterias",
-	"views/folders",
-	"views/options-menu",
-	"bootstrapTooltip"
+	"models/searchCriterias"
 ],
-function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDropdown, OptionsMenu ) {
+function( app, $, _, Backbone, bookmarks, searchCriterias ) {
 	"use strict";
-	
-
-	// ---
-	// Bookmarks content type
-	
-	var TypeBtn = Backbone.View.extend({
-
-		template : "header-typeBtn",
-		isActive : false,
-
-		events: {
-			"click a": "select"
-		},
-
-		initialize: function( opt ) {
-			this.type = opt.type;
-			this.model = searchCriterias.category;
-
-			this.model.on( 'change', this.change, this );
-		},
-
-		serialize: function() {
-			var source = {
-				photo: {
-					label: 'Photos',
-					icon: 'icon-picture'
-				},
-				web: {
-					label: 'Websites',
-					icon: 'icon-globe'
-				},
-				video: {
-					label: 'Videos',
-					icon: 'icon-film'
-				},
-				facebook_like: {
-					label: 'Facebook Pages',
-					icon: 'icon-thumbs-up'
-				},
-				doc: {
-					label: 'Documents (pdf)',
-					icon: 'icon-book'
-				},
-				music: {
-					label: 'Music',
-					icon: 'icon-music'
-				},
-				file: {
-					label: 'Files',
-					icon: 'icon-file'
-				},
-				blog: {
-					label: 'Blogs',
-					icon: 'icon-comment'
-				},
-				person: {
-					label: 'Persons',
-					icon: 'icon-user'
-				},
-				nsfw: {
-					label: 'NSFW',
-					icon: 'icon-eye-open'
-				}
-			};
-
-			return _.extend(
-				source[ this.type ],
-				{
-					count: bookmarks.where({ content_type: this.type }).length
-				}
-			);
-		},
-
-		afterRender: function() {
-			var oldEl = this.$el,
-				newEl = this.$el.children();
-
-			this.setElement( newEl );
-			oldEl.replaceWith( newEl );
-
-			this.$('.tip').tooltip();
-		},
 
 
-		// ---
-		// Model relation
-		
-		change: function( model ) {
-			if ( this.type === model.get('value') && model.get('filterBy') === 'content_type' ) {
-				this.isActive = true;
-				this.$el.addClass('active');
-			} else {
-				this.isActive = false;
-				this.$el.removeClass('active');
-			}
-		},
-
-		// ---
-		// Ui relation
-		
-		select: function( e ) {
-			e && e.preventDefault();
-
-			if ( !this.isActive ) {
-				this.model.set({
-					'filterBy' : 'content_type',
-					'value'    : this.type 
-				});
-			} else {
-				this.model.clear();
-			}
-			
-		}
-
-	});
-
-	var TypeBar = Backbone.View.extend({
-		
-		tagName   : "ul",
-		className : "content_types pull-right",
-
-		beforeRender: function() {
-			var self  = this,
-				types = _.without( bookmarks.all('content_type'), undefined );
-
-			_.each( types, function( type ) {
-				self.insertView( new TypeBtn({ type: type }) );
-			});
-		},
-
-		afterRender: function() {
-			// Initialize tooltips
-			this.$el.find('.tip').tooltip();
-		}
-	});
-
-	
 	// ---
 	// Search Bar
 	
@@ -162,23 +23,29 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDrop
 		template: "searchBar",
 		el: false,
 		
+		events: {
+			"keyup #search": "search"
+		},
+
 		initialize: function() {
 			// @todo: Should use 2-way data binding instead of events
 			this.model = searchCriterias.keywords;
+			this.listenTo( this.model, 'clear', this.clear );
 		},
 
 		afterRender: function() {
 			// Automatically add focus to the search bar
-			this.$('#search').focus();	
+			this.$('#search').focus();
 		},
 		
-		events: {
-			"keyup #search": "search"
-		},
 		
-		search: function( e ) {
+		search: _.debounce(function() {
 			var val = this.$el.find('#search').val();
 			this.model.set( 'value', val );
+		}, 300),
+
+		clear: function() {
+			this.$el.find('#search').val('');
 		}
 		
 	});
@@ -198,10 +65,6 @@ function( app, $, _, Backbone, settings, bookmarks, searchCriterias, FoldersDrop
 		
 		beforeRender: function() {
 			this.insertView(".navbar-inner", new SearchBar());
-		},
-		
-		afterRender: function() {
-			this.$('.tip').tooltip();
 		},
 
 		// Clear all search criterias

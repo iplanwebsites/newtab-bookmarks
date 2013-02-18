@@ -1,17 +1,15 @@
 /**
- * Settings
+ * Settings model instance
  */
-/*global require:true, define:true */
 
 define([
-	"app",
 	"models/settings"
 ],
-function( app, Settings ) {
+function( Settings ) {
 	"use strict";
 	
-	app.Models.settings = new Settings();
+	var settings = new Settings();
 	
-	return app.Models.settings;
+	return settings;
 	
 });

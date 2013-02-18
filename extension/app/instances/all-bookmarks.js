@@ -1,23 +1,15 @@
 /**
- * Nom du module
- *
- * @info: bla bla
- * 
+ * Bookmarks collection instance
  */
-/*global require:true, define:true */
 
 define([
-	"app",
-	"jquery",
-	"underscore",
-	"backbone",
 	"models/collection-bookmarks"
 ],
-function( app, $, _, Backbone, Bookmarks ) {
+function( Bookmarks ) {
 	"use strict";
 	
-	app.Models.allBookmarks = new Bookmarks();
+	var bookmarks = new Bookmarks();
 	
-	return app.Models.allBookmarks;
+	return bookmarks;
 
 });

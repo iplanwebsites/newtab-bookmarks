@@ -1,22 +1,19 @@
 /**
- * Main.js - Bootstrap the application (required from config.js)
- *
- * @todo: Move most of the app initialization code in here when the components dependencies
- *        are made more flexible
- * 
+ * Main - Bootstrap the application (required from config.js)
  */
-/*global require:true, define:true, chrome:true */
 
 define([
 	"app",
 	"jquery",
 	"underscore",
 	"backbone",
-	"router",
 	"instances/settings",
-	"instances/all-bookmarks"
+	"instances/all-bookmarks",
+	"views/all-bookmarks",
+	"views/footer",
+	"views/header"
 ],
-function( app, $, _, Backbone, Router, settings, bookmarksCollection ) {
+function( app, $, _, Backbone, settings, bookmarksCollection, AllBookmarksView, Footer, Header ) {
 	"use strict";
 	
 	// ---
@@ -45,15 +42,24 @@ function( app, $, _, Backbone, Router, settings, bookmarksCollection ) {
 			chromeBookmarks.fetch();
 		});
 
+		// Fetch Delicious bookmarks
 		require([ "modules/bookmarks.delicious" ], function( deliciousBookmarks ) {
 			deliciousBookmarks.fetch();
 		});
 
 	}
 
+
 	// ---
-	// Create router
-	
-	app.router = new Router();
+	// Init Application view
+
+	var mainLayout = new Backbone.Layout({
+		el: 'body'
+	});
+	mainLayout.setViews({
+		"#header" : new Header(),
+		"#footer" : new Footer(),
+		"#stage"  : new AllBookmarksView()
+	}).render();
 	
 });

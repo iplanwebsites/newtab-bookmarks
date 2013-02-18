@@ -4,7 +4,6 @@
  * @info: Collection to hold all search criterias added.
  * 
  */
-/*global require:true, define:true */
 
 define([
 	"app",
@@ -32,14 +31,16 @@ function( app, $, _, Backbone ) {
 				filterBy : '',
 				value    : ''
 			});
+			this.trigger('clear');
 		}
 		
 	});
 	
+
 	// ---
 	// Search Criterias
 	
-	app.Models.searchCriterias = {
+	var searchCriterias = {
 		
 		keywords : new Criteria({ type: "keyword" }),
 		category : new Criteria({ type: "category" }),
@@ -51,6 +52,6 @@ function( app, $, _, Backbone ) {
 	};
 	
 	
-	return app.Models.searchCriterias;
+	return searchCriterias;
 
 });

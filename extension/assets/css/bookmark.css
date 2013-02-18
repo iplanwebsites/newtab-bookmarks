@@ -22,7 +22,9 @@ body {
 /* Application Main */
 .app-stage {
 	height: 460px;
-	overflow-y: scroll;
+}
+.app-stage-inner {
+	height: 460px;
 }
 .app-bookmarks {
 	padding: 0;

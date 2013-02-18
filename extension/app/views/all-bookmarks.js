@@ -9,43 +9,34 @@ define([
 	"underscore",
 	"backbone",
 	"instances/all-bookmarks",
-	"instances/settings",
 	"views/single-bookmark",
 	"models/searchCriterias",
-	"lazyload"
+	"nanoscroller"
 ],
-function( app, $, _, Backbone, allBookmarks, settings, BookmarkView, searchCriterias ) {
+function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 	"use strict";
 	
 	var BookmarksView = Backbone.Layout.extend({
 		
-		id : "bookmarks",
-		className: "app-bookmarks",
-		tagName : "ul",
+		template: "all-bookmarks",
+		el: false,
 
 		initialize: function() {
 			this.collection = allBookmarks;
 
 			// Listen for search
-			searchCriterias.keywords.on('change:value', _.debounce(this.filter, 300), this);
+			searchCriterias.keywords.on('change:value', this.filter, this);
 			searchCriterias.category.on('change', this.filter, this);
 		},
 		
 		beforeRender: function() {
 			this.collection.each(function( model ) {
-				this.insertView( new BookmarkView({ model: model }) );
+				this.insertView( ".app-bookmarks", new BookmarkView({ model: model }) );
 			}, this);
 		},
-		
+
 		afterRender: function() {
-			
-			// Execute plugins
-			// @todo: would look better with fadeIn effect. But images first need to have a set size
-			this.$el.find('img').lazyload({
-				threshold: 500
-			});
-			
-			$(window).trigger('scroll');
+			this.$el.nanoScroller({ scroll: 'top' });
 		},
 		
 		

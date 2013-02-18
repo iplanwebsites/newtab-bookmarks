@@ -1,7 +1,6 @@
 /**
  * Settings
  */
-/*global require:true, define:true */
 
 define([
 	"app",
@@ -20,8 +19,7 @@ function( app, $, _, Backbone ) {
 		id: 1, // Make sure to only keep one canonical settings object
 		
 		defaults: {
-			viewmode : 'grid',
-			zoomVal  : 5
+			
 		},
 		
 		initialize: function() {

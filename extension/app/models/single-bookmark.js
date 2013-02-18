@@ -1,7 +1,6 @@
 /**
  * Single Bookmark model
  */
-/*global require:true, define:true */
 
 define([
 	"app",

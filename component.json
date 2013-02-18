@@ -13,7 +13,8 @@
     "handlebars": "*",
     "layoutmanager": "*",
     "bootstrap": "*",
-    "fuzzy-search": "*"
+    "fuzzy-search": "*",
+    "nanoscroller": "*"
   },
   "exportsOverride": {
     "requirejs": {
@@ -54,6 +55,9 @@
     },
     "fuzzy-search": {
       "js": "lib/fuzzy.js"
+    },
+    "nanoscroller": {
+      "js": "bin/javascripts/jquery.nanoscroller.js"
     }
   }
 }
