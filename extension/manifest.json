@@ -6,7 +6,10 @@
 	"permissions": [
 		"bookmarks",
 		"storage",
-		"chrome://favicon/"
+		"tabs",
+		"chrome://favicon/",
+		"http://*/*",
+		"https://*/*"
 	],
 	"browser_action": {
 		"default_title": "My Bookmarks",

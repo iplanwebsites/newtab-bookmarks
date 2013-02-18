@@ -62,4 +62,19 @@ function( app, $, _, Backbone, settings, bookmarksCollection, AllBookmarksView, 
 		"#stage"  : new AllBookmarksView()
 	}).render();
 	
+
+	// ---
+	// Listen click on a tags and open link in current Tab
+
+	$(document).on('click', 'a[href^=http]', function( e ) {
+		var url = $(this).attr('href');
+		if( !e.ctrlKey ) {
+			chrome.tabs.update( null, { url: url });
+		}
+	});
+	$(document).on('click', 'a[href^=javascript]', function( e ) {
+		var script = decodeURIComponent( $(this).attr('href').replace('javascript:','') );
+		chrome.tabs.executeScript( null, { code: script });
+		e.preventDefault();
+	});
 });
