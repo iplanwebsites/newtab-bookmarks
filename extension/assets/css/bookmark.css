@@ -38,7 +38,7 @@ body {
 .single-bookmark-inner {
 	display: block;
 	color: #000;
-	padding: 10px 5px;
+	padding: 10px 15px 10px 5px;
 }
 .single-bookmark-inner:hover,
 .single-bookmark-inner:focus,
