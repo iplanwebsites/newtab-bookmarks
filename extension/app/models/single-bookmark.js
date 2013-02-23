@@ -16,9 +16,6 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 	
 	var Bookmark = Backbone.Model.extend({
 		
-		// Identify model via their URL as this is their canonical/unique reference
-		idAttribute: "url",
-
 		defaults: {
 			url           : "",
 			title         : "",
@@ -35,13 +32,17 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 		localStorage: new Backbone.LocalStorage('whatever2'),
 		
 		initialize: function() {
+			if( this.isNew() ) {
+				this.parseNew();
+			}
+		},
+
+		parseNew: function() {
 			
+			// Set domain
 			var url = this.get('url');
 			if ( utils.isURL(url) ) {
 				this.set( 'domain', utils.getDomain(url) );
-			} else {
-				//this can be a bookmarklet, a FTP, or special page bookmark...
-				this.set( 'domain', false );
 			}
 			
 			//set the main set_content_type
@@ -54,7 +55,6 @@ function( app, $, _, Backbone, utils, BookmarkView ) {
 			
 			this.set( 'thumbnail_url', this.get_thumb_url() );
 			this.save();
-			
 		},
 
 		save: function(attrs, options) {

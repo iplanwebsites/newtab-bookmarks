@@ -1,6 +1,6 @@
 /**
  * @license
- * Lo-Dash 1.0.0 (Custom Build) <http://lodash.com/>
+ * Lo-Dash 1.0.1 (Custom Build) <http://lodash.com/>
  * Build: `lodash underscore -o ./dist/lodash.underscore.js`
  * Copyright 2012-2013 The Dojo Foundation <http://dojofoundation.org/>
  * Based on Underscore.js 1.4.4 <http://underscorejs.org/>
@@ -11,6 +11,9 @@
 
   /** Detect free variable `exports` */
   var freeExports = typeof exports == 'object' && exports;
+
+  /** Detect free variable `module` */
+  var freeModule = typeof module == 'object' && module && module.exports == freeExports && module;
 
   /** Detect free variable `global` and use it as `window` */
   var freeGlobal = typeof global == 'object' && global;
@@ -53,7 +56,7 @@
    * Used to match ES6 template delimiters
    * http://people.mozilla.org/~jorendorff/es6-draft.html#sec-7.8.6
    */
-  var reEsTemplate = /\$\{((?:(?=\\?)\\?[\s\S])*?)\}/g;
+  var reEsTemplate = /\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g;
 
   /** Used to match "interpolate" template delimiters */
   var reInterpolate = /<%=([\s\S]+?)%>/g;
@@ -3467,6 +3470,10 @@
     var args = slice(arguments, 1);
     return setTimeout(function() { func.apply(undefined, args); }, 1);
   }
+  // use `setImmediate` if it's available in Node.js
+  if (isV8 && freeModule && typeof setImmediate == 'function') {
+    defer = bind(setImmediate, window);
+  }
 
   /**
    * Creates a function that memoizes the result of `func`. If `resolver` is
@@ -4241,7 +4248,7 @@
    * @memberOf _
    * @type String
    */
-  lodash.VERSION = '1.0.0';
+  lodash.VERSION = '1.0.1';
 
   // add functions to `lodash.prototype`
   mixin(lodash);
@@ -4285,8 +4292,8 @@
 
   if (freeExports) {
     // in Node.js or RingoJS v0.8.0+
-    if (typeof module == 'object' && module && module.exports == freeExports) {
-      (module.exports = lodash)._ = lodash;
+    if (freeModule) {
+      (freeModule.exports = lodash)._ = lodash;
     }
     // in Narwhal or RingoJS v0.7.0-
     else {

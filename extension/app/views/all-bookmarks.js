@@ -34,16 +34,21 @@ function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 
 			$(document).on('keydown', _.bind(this.keyAction, this));
 			this.on('change:focus', this.setScroll);
+			this.listenTo(this.collection, 'add', _.throttle(this.render, 500));
 		},
 		
 		beforeRender: function() {
 			this.collection.each(function( model ) {
-				this.insertView( ".app-bookmarks", new BookmarkView({ model: model }) );
+				this.add( model );
 			}, this);
 		},
 
 		afterRender: function() {
 			this.$el.nanoScroller({ scroll: 'top' });
+		},
+
+		add: function( model ) {
+			return this.insertView( ".app-bookmarks", new BookmarkView({ model: model }) );
 		},
 		
 		

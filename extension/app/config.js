@@ -1,15 +1,10 @@
-/*global require:true, define:true, window:true, document:true */
-
 /**
  * AMD loader Configuration
  */
 
 require.config({
-	
-	// Initialize the application with the main application file
-	deps: [
-		"main"
-	],
+
+	deps: window.ENV === 'events' ? [] : ["main"],
 	
 	paths: {
 		// Libraries.

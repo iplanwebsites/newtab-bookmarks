@@ -23,7 +23,6 @@ function( $, _, allBookmarks ) {
 		importChromeBookmarks: function() {
 			var def  = new $.Deferred(),
 				self = this;
-
 			chrome.bookmarks.getTree(function( tree, folder ) {
 				self.parseChromeBookmarkTree( tree, folder, def );
 			});

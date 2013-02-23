@@ -23,31 +23,9 @@ function( app, $, _, Backbone, settings, bookmarksCollection, AllBookmarksView, 
 	
 	
 	// ---
-	// Get Bookmarks
+	// Get Bookmarks (LocalStorage is Synchronous)
 	
-	bookmarksCollection.fetch({
-		success: fetchSources
-	});
-
-	
-	// ---
-	// Check bookmarks sources updates
-	// @info: triggered after bookmarksCollection fetch is done
-	// TODO: Transfer to an event/background page
-
-	function fetchSources() {
-
-		// Fetch Chrome bookmarks
-		require([ "modules/bookmarks.chrome" ], function( chromeBookmarks ) {
-			chromeBookmarks.fetch();
-		});
-
-		// Fetch Delicious bookmarks
-		require([ "modules/bookmarks.delicious" ], function( deliciousBookmarks ) {
-			deliciousBookmarks.fetch();
-		});
-
-	}
+	bookmarksCollection.fetch();
 
 
 	// ---
@@ -61,6 +39,7 @@ function( app, $, _, Backbone, settings, bookmarksCollection, AllBookmarksView, 
 		"#footer" : new Footer(),
 		"#stage"  : new AllBookmarksView()
 	}).render();
+	
 	
 
 	// ---
