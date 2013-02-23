@@ -69,26 +69,23 @@ function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 		},
 
 		keyAction: function( e ) {
+			var ctrlKey = e.ctrlKey;
 			switch( e.keyCode ) {
-				case 38:
-					this.go('prev');
+				case 38: // up arrow
+				case 37: // left arrow
+					this.go('prev', e);
 					break;
-				case 40:
-					this.go('next');
+				case 40: // down arrow
+				case 39: // right arrow
+					this.go('next', e);
 					break;
-				case 37:
-					this.go('prev');
-					break;
-				case 39:
-					this.go('next');
-					break;
-				case 13:
+				case 13: // return|enter key
 					this.enterPress();
 					break;
 			}
 		},
 
-		go: function( dir ) {
+		go: function( dir, e ) {
 			var focus = this.$('.js-focus');
 
 			if( !focus.length ) {
@@ -96,12 +93,17 @@ function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 				return;
 			}
 
-			var next = focus[ dir ]('.single-bookmark');
-			if( !next.length ) { return; }
+			var method = (dir === 'next') ? 'nextAll': 'prevAll';
+			var skip = e.ctrlKey ? 4 : 0;
+			var next = focus[ method ]('.single-bookmark').eq(skip);
+			if( !next.length ) {
+				var def = (dir === 'next') ? 'last' : 'first';
+				next = this.$('.single-bookmark')[def]();
+			}
 
 			focus.removeClass('js-focus');
 			next.addClass('js-focus');
-			this.trigger('change:focus', next);
+			this.trigger('change:focus', dir, next);
 		},
 
 		enterPress: function() {
@@ -109,13 +111,18 @@ function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 
 			if( !focus.length ) { return; }
 
-			focus.find('a').trigger('click');
+			focus.find('a').trigger(new $.Event('click', { ctrlKey: true }));
 		},
 
-		setScroll: function( focused ) {
+		setScroll: function( dir, focused ) {
 			var index = focused.index();
 
-			if( index <= 3 ) { return; }
+			if( index <= 3 ) {
+				if( dir === 'prev' ) {
+					this.$el.nanoScroller({ scroll: this.$('.single-bookmark').first() });
+				}
+				return;
+			}
 
 			var scrollTo = this.$('.single-bookmark').eq( index - 3 );
 			this.$el.nanoScroller({ scroll: scrollTo });

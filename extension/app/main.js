@@ -67,10 +67,13 @@ function( app, $, _, Backbone, settings, bookmarksCollection, AllBookmarksView, 
 	// Listen click on a tags and open link in current Tab
 
 	$(document).on('click', 'a[href^=http]', function( e ) {
+		e.preventDefault();
 		var url = $(this).attr('href');
 		if( !e.ctrlKey ) {
 			chrome.tabs.update( null, { url: url });
 			window.close();
+		} else {
+			chrome.tabs.create({ url: url });
 		}
 	});
 	$(document).on('click', 'a[href^=javascript]', function( e ) {
