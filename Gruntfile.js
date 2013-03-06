@@ -88,7 +88,7 @@ module.exports = function( grunt ) {
 				},
 				options: {
 					sourceMap: 'extension/app/source-map.js',
-					sourceMappingURL: 'app/source-map.js',
+					sourceMappingURL: 'source-map.js',
 					sourceMapPrefix: 1
 				}
 			}
@@ -156,16 +156,10 @@ module.exports = function( grunt ) {
 	
 	grunt.loadNpmTasks('grunt-contrib');
 	grunt.loadNpmTasks('grunt-smushit');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-handlebars');
 	grunt.loadNpmTasks('grunt-bower-task');
 	
 	grunt.registerTask("scripts", [
-			"clean:all", /*"jshint",*/ "handlebars", "requirejs", "concat", "clean:build", "uglify" ]);
+			"clean:all", "jshint", "handlebars", "requirejs", "concat", "clean:build", "uglify" ]);
 	grunt.registerTask("install", [ "clean:bower", "bower:install" ]);
 	grunt.registerTask("build", [ "scripts", "smushit" ]);
 	
