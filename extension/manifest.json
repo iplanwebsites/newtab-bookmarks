@@ -7,6 +7,7 @@
 		"bookmarks",
 		"storage",
 		"tabs",
+		"alarms",
 		"chrome://favicon/",
 		"http://*/*",
 		"https://*/*"

@@ -1,5 +1,9 @@
+// global "environnement" settings
+window.ENV = "Events";
+require.config({ baseUrl: '/app/' });
+
 function fetch() {
-	window.ENV = "Events";
+	
 	require(['config'], function( conf ) {
 
 		// Fetch Chrome bookmarks
@@ -17,8 +21,8 @@ function fetch() {
 
 if( chrome.alarms ) {
 	chrome.alarms.create('fetch', { periodInMinutes : 30 });
-	chrome.alarms.onAlarm.addListener(fetch);
+	chrome.alarms.onAlarm.addListener( fetch );
 } else {
 	setInterval( fetch, 1800000 );
 }
-chrome.runtime.onInstalled.addListener(fetch);
+chrome.runtime.onInstalled.addListener( fetch );
