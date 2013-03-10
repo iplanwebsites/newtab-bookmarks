@@ -35,7 +35,7 @@ function( $, _, allBookmarks, settings ) {
 
 			$.getJSON( fetchUrl ).done(function( data ) {
 				_.each( data, self.parseBookmark, self );
-			});
+			}).done( def.resolve );
 
 			return def.promise();
 		},
@@ -71,9 +71,15 @@ function( $, _, allBookmarks, settings ) {
 
 		},
 		
-		addBookmark: function( bookmark ) {
+		addBookmark: function( data ) {
 			
-			allBookmarks.add( bookmark, { merge: true });
+			var currentEntries = allBookmarks.where({ url : data.url});
+			if( currentEntries.length ) {
+				_.invoke( currentEntries, 'set', data );
+				_.invoke( currentEntries, 'parseNew' );
+			} else {
+				allBookmarks.add( data );
+			}
 			
 		}
 	};

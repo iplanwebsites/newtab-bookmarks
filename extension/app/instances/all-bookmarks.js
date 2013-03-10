@@ -8,8 +8,6 @@ define([
 function( Bookmarks ) {
 	"use strict";
 	
-	var bookmarks = new Bookmarks();
-	
-	return bookmarks;
+	return new Bookmarks();
 
 });

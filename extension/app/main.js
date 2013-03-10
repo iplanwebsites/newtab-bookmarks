@@ -18,12 +18,16 @@ function( app, $, _, Backbone, settings, bookmarksCollection, AllBookmarksView, 
 	
 	// ---
 	// Get settings
+	// @note: LocalStorage is synchronous, if storage method changes, we'll need to wait
+	//        for fetch success to continue
 	
 	settings.fetch();
 	
 	
 	// ---
 	// Get Bookmarks (LocalStorage is Synchronous)
+	// @note: LocalStorage is synchronous, if storage method changes, we'll need to wait
+	//        for fetch success to continue
 	
 	bookmarksCollection.fetch();
 

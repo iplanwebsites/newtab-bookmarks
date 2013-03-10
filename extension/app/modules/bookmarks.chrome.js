@@ -59,8 +59,10 @@ function( $, _, allBookmarks ) {
 					// Recurse over the subtree
 					self.parseChromeBookmarkTree( node.children, path );
 				} else {
-					//it's a URL
-					self.addChromeBookmark( node, folder );
+					// it's a URL
+					if( node.url && node.url.length > 0 ) {
+						self.addChromeBookmark( node, folder );
+					}
 				}
 			});
 
@@ -68,7 +70,7 @@ function( $, _, allBookmarks ) {
 		},
 		
 		addChromeBookmark: function( bookmark, folder ) {
-			var data   = {
+			var data = {
 					title     : bookmark.title,
 					url       : bookmark.url,
 					type      : 'chrome',
@@ -77,8 +79,16 @@ function( $, _, allBookmarks ) {
 					keep      : true // mark this model to be kept
 				};
 
-			allBookmarks.add( data, { merge: true });
-			
+			var currentEntries = allBookmarks.where({ url : data.url });
+			if( currentEntries.length ) {
+				console.log( 'set' );
+				_.invoke( currentEntries, 'set', data );
+				_.invoke( currentEntries, 'parseNew' );
+			} else {
+				console.log( 'add' );
+				allBookmarks.add( data );
+			}
+
 		}
 	};
 

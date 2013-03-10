@@ -4,7 +4,7 @@
 
 require.config({
 
-	deps: (window.ENV === 'Events') ? [] : [ "main" ],
+	deps: (window.ENV === 'Events') ? [ "background" ] : [ "main" ],
 	
 	paths: {
 		// Libraries.
