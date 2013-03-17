@@ -24,7 +24,8 @@ function( app, $, _, Backbone, bookmarks, searchCriterias ) {
 		el: false,
 		
 		events: {
-			"keyup #search": "search"
+			"keydown #search": "keypress",
+			"keyup #search": "keypress"
 		},
 
 		initialize: function() {
@@ -38,6 +39,21 @@ function( app, $, _, Backbone, bookmarks, searchCriterias ) {
 			this.$('#search').focus();
 		},
 		
+		keypress: function( e ) {
+
+			// Prevent default up arrow action
+			if( e.keyCode === 38 ) {
+				e.preventDefault();
+				return; // no need to continue, it's an arrow
+			}
+
+			// Only keyup events trigger search
+			if( e.type === "keydown" ) {
+				return;
+			}
+
+			this.search();
+		},
 		
 		search: _.debounce(function() {
 			var val = this.$el.find('#search').val();
