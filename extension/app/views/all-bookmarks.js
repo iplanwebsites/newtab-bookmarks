@@ -20,6 +20,7 @@ function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 		
 		template: "all-bookmarks",
 		el: false,
+		lastArrowPress: 0,
 
 		events: {
 			"mouseenter .single-bookmark": "hoverAction"
@@ -64,6 +65,14 @@ function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 		// Key UI
 
 		hoverAction: function( e ) {
+
+			// Don't consider mouseenter action if an arrow been pressed in the last 300ms
+			var timeDiff = (new Date()) - this.lastArrowPress;
+			if( timeDiff < 300 ) {
+				return;
+			}
+
+			// Update focused element
 			var focus = this.$('.js-focus');
 
 			if( focus.length ) {
@@ -107,6 +116,8 @@ function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 			focus.removeClass('js-focus');
 			next.addClass('js-focus');
 			this.trigger('change:focus', dir, next);
+
+			this.lastArrowPress = new Date();
 		},
 
 		enterPress: function() {
