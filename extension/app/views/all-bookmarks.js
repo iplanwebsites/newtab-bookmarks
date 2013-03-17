@@ -77,11 +77,9 @@ function( app, $, _, Backbone, allBookmarks, BookmarkView, searchCriterias ) {
 			var ctrlKey = e.ctrlKey;
 			switch( e.keyCode ) {
 				case 38: // up arrow
-				case 37: // left arrow
 					this.go('prev', e);
 					break;
 				case 40: // down arrow
-				case 39: // right arrow
 					this.go('next', e);
 					break;
 				case 13: // return|enter key
